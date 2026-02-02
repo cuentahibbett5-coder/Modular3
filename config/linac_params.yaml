@@ -1,0 +1,149 @@
+# Configuración de parámetros del acelerador lineal de 6 MV
+# Basado en Elekta Precise / Varian Clinac
+
+# ==================================================
+# Parámetros del Haz de Electrones Primario
+# ==================================================
+electron_beam:
+  energy:
+    mean_MeV: 5.8  # Energía media del haz de electrones
+    fwhm_percent: 3.0  # FWHM como porcentaje de la energía media
+    min_MeV: 5.6
+    max_MeV: 6.0
+  
+  spatial_distribution:
+    type: "gaussian"  # gaussian, uniform, custom
+    spot_size_fwhm_mm: 3.0  # Tamaño de la mancha focal (FWHM)
+    sigma_mm: 1.27  # sigma = FWHM / 2.355
+  
+  angular_distribution:
+    type: "isotropic"  # isotropic, directed, cone
+    divergence_degrees: 0.5
+
+# ==================================================
+# Geometría del Cabezal (Head) del Acelerador
+# ==================================================
+linac_head:
+  # Blanco de tungsteno (Target)
+  target:
+    material: "G4_W"  # Tungsteno
+    diameter_mm: 5.0
+    thickness_mm: 1.5
+    position_z_mm: 0.0
+  
+  # Colimador primario
+  primary_collimator:
+    material: "G4_W"
+    opening_angle_degrees: 15.0
+    thickness_mm: 80.0
+    position_z_mm: 20.0
+  
+  # Filtro aplanador (Flattening Filter)
+  flattening_filter:
+    material: "G4_Fe"  # Hierro o aleación
+    cone_angle_degrees: 20.0
+    max_thickness_mm: 8.0
+    min_thickness_mm: 2.0
+    position_z_mm: 100.0
+  
+  # Cámara de monitoreo (Monitor Chamber)
+  monitor_chamber:
+    material: "G4_KAPTON"
+    thickness_mm: 0.1
+    active_diameter_mm: 100.0
+    position_z_mm: 150.0
+  
+  # Colimadores secundarios (Jaws - Mordazas)
+  secondary_collimators:
+    material: "G4_W"
+    thickness_mm: 70.0
+    position_z_mm: 400.0
+    # Apertura del campo (field size)
+    field_size:
+      x_mm: 100.0  # -50 a +50 mm
+      y_mm: 100.0  # -50 a +50 mm
+
+# ==================================================
+# Distancias Características
+# ==================================================
+geometry:
+  source_to_target_distance_mm: -100.0  # Fuente virtual antes del blanco
+  source_axis_distance_mm: 1000.0  # SAD (Source-Axis Distance)
+  target_to_isocenter_mm: 1000.0
+  
+  # Plano de espacio de fase
+  phase_space_plane:
+    position_z_mm: 350.0  # Justo antes de las mordazas
+    radius_mm: 150.0
+
+# ==================================================
+# Configuración del Phantom de Agua
+# ==================================================
+water_phantom:
+  material: "G4_WATER"
+  dimensions:
+    x_mm: 400.0
+    y_mm: 400.0
+    z_mm: 400.0
+  position:
+    x_mm: 0.0
+    y_mm: 0.0
+    z_mm: 1000.0  # En el isocentro (SAD)
+  
+  # Voxelización para DoseActor
+  voxelization:
+    nx: 80  # 5 mm de resolución
+    ny: 80
+    nz: 80
+
+# ==================================================
+# Campos de Tratamiento Predefinidos
+# ==================================================
+treatment_fields:
+  standard_10x10:
+    field_size_mm: [100, 100]
+    gantry_angle_degrees: 0.0
+    collimator_angle_degrees: 0.0
+    description: "Campo estándar 10x10 cm²"
+  
+  small_5x5:
+    field_size_mm: [50, 50]
+    gantry_angle_degrees: 0.0
+    collimator_angle_degrees: 0.0
+    description: "Campo pequeño 5x5 cm²"
+  
+  large_20x20:
+    field_size_mm: [200, 200]
+    gantry_angle_degrees: 0.0
+    collimator_angle_degrees: 0.0
+    description: "Campo grande 20x20 cm²"
+
+# ==================================================
+# Parámetros de Simulación
+# ==================================================
+simulation:
+  number_of_particles: 1e9  # 1 billón de partículas para estadística completa
+  number_of_particles_debug: 1e6  # Para pruebas rápidas
+  
+  # Tiempos estimados (dependen del hardware)
+  estimated_time:
+    phase_space_generation_hours: 4.0
+    dose_calculation_hours: 8.0
+
+# ==================================================
+# Notas de Calibración
+# ==================================================
+calibration:
+  notes: |
+    Parámetros ajustados mediante comparación con mediciones experimentales:
+    - Curvas de dosis en profundidad (PDD) en phantom de agua
+    - Perfiles de dosis lateral a diferentes profundidades
+    - Factores de campo (output factors) para diferentes tamaños de campo
+    
+    Protocolo de referencia: TG-51 (AAPM)
+    Datos experimentales: Cámara de ionización PTW 30013
+  
+  validation_criteria:
+    pdd_rms_error_percent: 2.0
+    profile_penumbra_error_mm: 1.0
+    output_factor_error_percent: 1.5

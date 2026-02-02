@@ -1,0 +1,1904 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define/>
+
+  <materials>
+    <isotope N="180" Z="74" name="W1800x2b916f10">
+      <atom unit="g/mole" value="179.947"/>
+    </isotope>
+    <isotope N="182" Z="74" name="W1820x2b916ec0">
+      <atom unit="g/mole" value="181.948"/>
+    </isotope>
+    <isotope N="183" Z="74" name="W1830x2b916e70">
+      <atom unit="g/mole" value="182.95"/>
+    </isotope>
+    <isotope N="184" Z="74" name="W1840x2b916e20">
+      <atom unit="g/mole" value="183.951"/>
+    </isotope>
+    <isotope N="186" Z="74" name="W1860x2b914f90">
+      <atom unit="g/mole" value="185.954"/>
+    </isotope>
+    <element name="Tungsten0x2b917f10">
+      <fraction n="0.0012" ref="W1800x2b916f10"/>
+      <fraction n="0.265" ref="W1820x2b916ec0"/>
+      <fraction n="0.1431" ref="W1830x2b916e70"/>
+      <fraction n="0.3064" ref="W1840x2b916e20"/>
+      <fraction n="0.2843" ref="W1860x2b914f90"/>
+    </element>
+    <isotope N="185" Z="75" name="Re1850x2b9183b0">
+      <atom unit="g/mole" value="184.953"/>
+    </isotope>
+    <isotope N="187" Z="75" name="Re1870x2b926440">
+      <atom unit="g/mole" value="186.956"/>
+    </isotope>
+    <element name="Rhenium0x2b918240">
+      <fraction n="0.374" ref="Re1850x2b9183b0"/>
+      <fraction n="0.626" ref="Re1870x2b926440"/>
+    </element>
+    <material name="target_tungsten0x2b917db0" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="727.895533025404"/>
+      <D unit="g/cm3" value="19.49"/>
+      <fraction n="0.9" ref="Tungsten0x2b917f10"/>
+      <fraction n="0.1" ref="Rhenium0x2b918240"/>
+    </material>
+    <isotope N="63" Z="29" name="Cu630x2b927650">
+      <atom unit="g/mole" value="62.9296"/>
+    </isotope>
+    <isotope N="65" Z="29" name="Cu650x2b927600">
+      <atom unit="g/mole" value="64.9278"/>
+    </isotope>
+    <element name="Copper0x2b927930">
+      <fraction n="0.6917" ref="Cu630x2b927650"/>
+      <fraction n="0.3083" ref="Cu650x2b927600"/>
+    </element>
+    <material name="target_copper0x2b9277c0" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="322"/>
+      <D unit="g/cm3" value="8.93"/>
+      <fraction n="1" ref="Copper0x2b927930"/>
+    </material>
+    <isotope N="12" Z="6" name="C120x2b90e230">
+      <atom unit="g/mole" value="12"/>
+    </isotope>
+    <isotope N="13" Z="6" name="C130x2b90e280">
+      <atom unit="g/mole" value="13.0034"/>
+    </isotope>
+    <element name="C0x2b79afd0">
+      <fraction n="0.9893" ref="C120x2b90e230"/>
+      <fraction n="0.0107" ref="C130x2b90e280"/>
+    </element>
+    <isotope N="14" Z="7" name="N140x2b90e390">
+      <atom unit="g/mole" value="14.0031"/>
+    </isotope>
+    <isotope N="15" Z="7" name="N150x2b90e410">
+      <atom unit="g/mole" value="15.0001"/>
+    </isotope>
+    <element name="N0x2b90e480">
+      <fraction n="0.99632" ref="N140x2b90e390"/>
+      <fraction n="0.00368" ref="N150x2b90e410"/>
+    </element>
+    <isotope N="16" Z="8" name="O160x2b90e670">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O170x2b90e710">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O180x2b90e780">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="O0x2b90e7d0">
+      <fraction n="0.99757" ref="O160x2b90e670"/>
+      <fraction n="0.00038" ref="O170x2b90e710"/>
+      <fraction n="0.00205" ref="O180x2b90e780"/>
+    </element>
+    <isotope N="36" Z="18" name="Ar360x2b90e9e0">
+      <atom unit="g/mole" value="35.9675"/>
+    </isotope>
+    <isotope N="38" Z="18" name="Ar380x2b90ea30">
+      <atom unit="g/mole" value="37.9627"/>
+    </isotope>
+    <isotope N="40" Z="18" name="Ar400x2b90e6c0">
+      <atom unit="g/mole" value="39.9624"/>
+    </isotope>
+    <element name="Ar0x2b90eb40">
+      <fraction n="0.003365" ref="Ar360x2b90e9e0"/>
+      <fraction n="0.000632" ref="Ar380x2b90ea30"/>
+      <fraction n="0.996003" ref="Ar400x2b90e6c0"/>
+    </element>
+    <material name="G4_AIR0x2b90e0f0" state="gas">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="85.7"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="0.000124000124000124" ref="C0x2b79afd0"/>
+      <fraction n="0.755267755267755" ref="N0x2b90e480"/>
+      <fraction n="0.231781231781232" ref="O0x2b90e7d0"/>
+      <fraction n="0.0128270128270128" ref="Ar0x2b90eb40"/>
+    </material>
+    <isotope N="58" Z="28" name="Ni580x2b926a00">
+      <atom unit="g/mole" value="57.9353"/>
+    </isotope>
+    <isotope N="60" Z="28" name="Ni600x2b92d550">
+      <atom unit="g/mole" value="59.9308"/>
+    </isotope>
+    <isotope N="61" Z="28" name="Ni610x2b92d5c0">
+      <atom unit="g/mole" value="60.9311"/>
+    </isotope>
+    <isotope N="62" Z="28" name="Ni620x2b718dd0">
+      <atom unit="g/mole" value="61.9283"/>
+    </isotope>
+    <isotope N="64" Z="28" name="Ni640x2b719950">
+      <atom unit="g/mole" value="63.928"/>
+    </isotope>
+    <element name="Nickel0x2b719800">
+      <fraction n="0.680769" ref="Ni580x2b926a00"/>
+      <fraction n="0.262231" ref="Ni600x2b92d550"/>
+      <fraction n="0.011399" ref="Ni610x2b92d5c0"/>
+      <fraction n="0.036345" ref="Ni620x2b718dd0"/>
+      <fraction n="0.009256" ref="Ni640x2b719950"/>
+    </element>
+    <isotope N="54" Z="26" name="Fe540x2b719c20">
+      <atom unit="g/mole" value="53.9396"/>
+    </isotope>
+    <isotope N="56" Z="26" name="Fe560x2b719c70">
+      <atom unit="g/mole" value="55.9349"/>
+    </isotope>
+    <isotope N="57" Z="26" name="Fe570x2b719cc0">
+      <atom unit="g/mole" value="56.9354"/>
+    </isotope>
+    <isotope N="58" Z="26" name="Fe580x2b92a6a0">
+      <atom unit="g/mole" value="57.9333"/>
+    </isotope>
+    <element name="Iron0x2b719a80">
+      <fraction n="0.05845" ref="Fe540x2b719c20"/>
+      <fraction n="0.91754" ref="Fe560x2b719c70"/>
+      <fraction n="0.02119" ref="Fe570x2b719cc0"/>
+      <fraction n="0.00282" ref="Fe580x2b92a6a0"/>
+    </element>
+    <material name="mat_leaf0x2b719660" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="691.007994234027"/>
+      <D unit="g/cm3" value="18"/>
+      <fraction n="0.95" ref="Tungsten0x2b917f10"/>
+      <fraction n="0.0375" ref="Nickel0x2b719800"/>
+      <fraction n="0.0125" ref="Iron0x2b719a80"/>
+    </material>
+    <isotope N="12" Z="6" name="C120x2b92b700">
+      <atom unit="g/mole" value="12"/>
+    </isotope>
+    <isotope N="13" Z="6" name="C130x2b92b7b0">
+      <atom unit="g/mole" value="13.0034"/>
+    </isotope>
+    <element name="Carbon0x2b92c200">
+      <fraction n="0.9893" ref="C120x2b92b700"/>
+      <fraction n="0.0107" ref="C130x2b92b7b0"/>
+    </element>
+    <isotope N="50" Z="24" name="Cr500x2b92c5d0">
+      <atom unit="g/mole" value="49.946"/>
+    </isotope>
+    <isotope N="52" Z="24" name="Cr520x2b92c620">
+      <atom unit="g/mole" value="51.9405"/>
+    </isotope>
+    <isotope N="53" Z="24" name="Cr530x2b92c670">
+      <atom unit="g/mole" value="52.9407"/>
+    </isotope>
+    <isotope N="54" Z="24" name="Cr540x2b92c6c0">
+      <atom unit="g/mole" value="53.9389"/>
+    </isotope>
+    <element name="Chromium0x2b92c480">
+      <fraction n="0.04345" ref="Cr500x2b92c5d0"/>
+      <fraction n="0.83789" ref="Cr520x2b92c620"/>
+      <fraction n="0.09501" ref="Cr530x2b92c670"/>
+      <fraction n="0.02365" ref="Cr540x2b92c6c0"/>
+    </element>
+    <isotope N="55" Z="25" name="Mn550x2b92c950">
+      <atom unit="g/mole" value="54.938"/>
+    </isotope>
+    <element name="Manganese0x2b92c810">
+      <fraction n="1" ref="Mn550x2b92c950"/>
+    </element>
+    <isotope N="14" Z="7" name="N140x2b92cbd0">
+      <atom unit="g/mole" value="14.0031"/>
+    </isotope>
+    <isotope N="15" Z="7" name="N150x2b92cc20">
+      <atom unit="g/mole" value="15.0001"/>
+    </isotope>
+    <element name="Nitrogen0x2b92cac0">
+      <fraction n="0.99632" ref="N140x2b92cbd0"/>
+      <fraction n="0.00368" ref="N150x2b92cc20"/>
+    </element>
+    <isotope N="31" Z="15" name="P310x2b92cf10">
+      <atom unit="g/mole" value="30.9738"/>
+    </isotope>
+    <element name="Phosphorus0x2b92ce30">
+      <fraction n="1" ref="P310x2b92cf10"/>
+    </element>
+    <isotope N="32" Z="16" name="S320x2b92d180">
+      <atom unit="g/mole" value="31.9721"/>
+    </isotope>
+    <isotope N="33" Z="16" name="S330x2b92d1d0">
+      <atom unit="g/mole" value="32.9715"/>
+    </isotope>
+    <isotope N="34" Z="16" name="S340x2b92d220">
+      <atom unit="g/mole" value="33.9679"/>
+    </isotope>
+    <isotope N="36" Z="16" name="S360x2b92d270">
+      <atom unit="g/mole" value="35.9671"/>
+    </isotope>
+    <element name="Sulfur0x2b92d080">
+      <fraction n="0.9493" ref="S320x2b92d180"/>
+      <fraction n="0.0076" ref="S330x2b92d1d0"/>
+      <fraction n="0.0429" ref="S340x2b92d220"/>
+      <fraction n="0.0002" ref="S360x2b92d270"/>
+    </element>
+    <isotope N="28" Z="14" name="Si280x2b92d4e0">
+      <atom unit="g/mole" value="27.9769"/>
+    </isotope>
+    <isotope N="29" Z="14" name="Si290x2b92d610">
+      <atom unit="g/mole" value="28.9765"/>
+    </isotope>
+    <isotope N="30" Z="14" name="Si300x2b92d660">
+      <atom unit="g/mole" value="29.9738"/>
+    </isotope>
+    <element name="Silicon0x2b92d3c0">
+      <fraction n="0.922296077703922" ref="Si280x2b92d4e0"/>
+      <fraction n="0.0468319531680468" ref="Si290x2b92d610"/>
+      <fraction n="0.0308719691280309" ref="Si300x2b92d660"/>
+    </element>
+    <material name="flattening_filter_material_stain_steel0x2b92c0c0" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="279.660725267846"/>
+      <D unit="g/cm3" value="7.9"/>
+      <fraction n="0.005" ref="Carbon0x2b92c200"/>
+      <fraction n="0.18" ref="Chromium0x2b92c480"/>
+      <fraction n="0.005" ref="Copper0x2b927930"/>
+      <fraction n="0.01" ref="Manganese0x2b92c810"/>
+      <fraction n="0.00055" ref="Nitrogen0x2b92cac0"/>
+      <fraction n="0.09" ref="Nickel0x2b719800"/>
+      <fraction n="0.000225" ref="Phosphorus0x2b92ce30"/>
+      <fraction n="0.00175" ref="Sulfur0x2b92d080"/>
+      <fraction n="0.005" ref="Silicon0x2b92d3c0"/>
+      <fraction n="0.702475" ref="Iron0x2b719a80"/>
+    </material>
+    <material name="flattening_filter_material_mild_steel0x2b931810" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="285.132240454955"/>
+      <D unit="g/cm3" value="7.9"/>
+      <fraction n="0.0015" ref="Carbon0x2b92c200"/>
+      <fraction n="0.0075" ref="Manganese0x2b92c810"/>
+      <fraction n="0.00075" ref="Phosphorus0x2b92ce30"/>
+      <fraction n="0.0005" ref="Sulfur0x2b92d080"/>
+      <fraction n="0.98975" ref="Iron0x2b719a80"/>
+    </material>
+    <isotope N="1" Z="1" name="H10x2b92cd10">
+      <atom unit="g/mole" value="1.00782503081372"/>
+    </isotope>
+    <isotope N="2" Z="1" name="H20x2b92cd60">
+      <atom unit="g/mole" value="2.01410199966617"/>
+    </isotope>
+    <element name="Hydrogen0x2b9356f0">
+      <fraction n="0.999885" ref="H10x2b92cd10"/>
+      <fraction n="0.000115" ref="H20x2b92cd60"/>
+    </element>
+    <isotope N="16" Z="8" name="O160x2b92f940">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O170x2b92f8f0">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O180x2b9316c0">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="Oxygen0x2b935b40">
+      <fraction n="0.99757" ref="O160x2b92f940"/>
+      <fraction n="0.00038" ref="O170x2b92f8f0"/>
+      <fraction n="0.00205" ref="O180x2b9316c0"/>
+    </element>
+    <material name="linac_mylar0x2b9355b0" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="75.9844081280054"/>
+      <D unit="g/cm3" value="1.38"/>
+      <fraction n="0.04196" ref="Hydrogen0x2b9356f0"/>
+      <fraction n="0.625016" ref="Carbon0x2b92c200"/>
+      <fraction n="0.333024" ref="Oxygen0x2b935b40"/>
+    </material>
+    <material name="linac_carbon0x2b936e40" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="81"/>
+      <D unit="g/cm3" value="2.27"/>
+      <fraction n="1" ref="Carbon0x2b92c200"/>
+    </material>
+    <material Z="13" name="linac_aluminium0x2b93c050" state="solid">
+      <T unit="K" value="293.15"/>
+      <MEE unit="eV" value="166"/>
+      <D unit="g/cm3" value="2.7"/>
+      <atom unit="g/mole" value="26.98"/>
+    </material>
+  </materials>
+
+  <solids>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_target0x2b927100" rmax="2.7" rmin="0" startphi="0" z="1"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_target_support_top0x2b9280a0" rmax="15" rmin="2.7" startphi="0" z="3.5"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_target_support_bottom0x2b718fe0" rmax="15" rmin="0" startphi="0" z="10"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_target_support0x2b916100" rmax="15" rmin="0" startphi="0" z="13.5"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_primary_collimator0x2b92b220" rmax1="82" rmax2="82" rmin1="31.45" rmin2="6.45" startphi="0" z="101"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cyl_base0x2b9148c0" rmax="46.5" rmin="0" startphi="0" z="8"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="versa_linac_flattening_filter_trap_base0x294e60e0" phi="0" theta="0" x1="4" x2="4" x3="4" x4="4" y1="171.39" y2="36.26" z="93"/>
+    <intersection name="versa_linac_flattening_filter_base0x2b92f360">
+      <first ref="versa_linac_flattening_filter_cyl_base0x2b9148c0"/>
+      <second ref="versa_linac_flattening_filter_trap_base0x294e60e0"/>
+      <rotation name="versa_linac_flattening_filter_base0x2b92f360_rot" unit="deg" x="0" y="90" z="0"/>
+    </intersection>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cons_10x2b92fae0" rmax1="46.5" rmax2="46.5" rmin1="38.5" rmin2="38.5" startphi="0" z="3.5"/>
+    <intersection name="versa_linac_flattening_filter_cons_10x2b92fcd0">
+      <first ref="versa_linac_flattening_filter_cons_10x2b92fae0"/>
+      <second ref="versa_linac_flattening_filter_trap_base0x294e60e0"/>
+      <rotation name="versa_linac_flattening_filter_cons_10x2b92fcd0_rot" unit="deg" x="0" y="90" z="0"/>
+    </intersection>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cons_20x2b930310" rmax1="39.995" rmax2="39.995" rmin1="38.5" rmin2="38.5" startphi="0" z="3.5"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cons_30x2b930b30" rmax1="38.5" rmax2="38.5" rmin1="36.5" rmin2="36.5" startphi="0" z="22.1"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cons_40x2b931160" rmax1="39.5" rmax2="39.5" rmin1="38.5" rmin2="38.5" startphi="0" z="15.1"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cons_50x2b9328c0" rmax1="53" rmax2="53" rmin1="39.995" rmin2="39.995" startphi="0" z="5"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cone_00x2b932f90" rmax1="2.6" rmax2="0.001" rmin1="0" rmin2="0" startphi="0" z="1.2"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cone_10x2b9335e0" rmax1="9" rmax2="2.6" rmin1="0" rmin2="0" startphi="0" z="4.9"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cone_20x2b933c30" rmax1="14.5" rmax2="9" rmin1="0" rmin2="0" startphi="0" z="4.9"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cone_30x2b934280" rmax1="22.5" rmax2="14.5" rmin1="0" rmin2="0" startphi="0" z="5.5"/>
+    <cone aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter_cone_40x2b9348d0" rmax1="32.5" rmax2="22.5" rmin1="0" rmin2="0" startphi="0" z="5.6"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_flattening_filter0x2b92ba40" rmax="54" rmin="0" startphi="0" z="26.1"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_mylar_layer_10x2b9366c0" rmax="45" rmin="0" startphi="0" z="0.012"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_carbon_layer_10x2b937680" rmax="45" rmin="0" startphi="0" z="0.00015"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_mylar_layer_20x2b937d30" rmax="45" rmin="0" startphi="0" z="0.012"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_carbon_layer_20x2b9383e0" rmax="45" rmin="0" startphi="0" z="0.00015"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_mylar_layer_30x2b938aa0" rmax="45" rmin="0" startphi="0" z="0.012"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_carbon_layer_30x2b9391a0" rmax="45" rmin="0" startphi="0" z="0.00015"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_mylar_layer_40x2b939820" rmax="45" rmin="0" startphi="0" z="0.012"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_carbon_layer_40x2b939ed0" rmax="45" rmin="0" startphi="0" z="0.00015"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_mylar_layer_50x2b93a580" rmax="45" rmin="0" startphi="0" z="0.012"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_carbon_layer_50x2b93acc0" rmax="45" rmin="0" startphi="0" z="0.00015"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_mylar_layer_60x2b93b370" rmax="45" rmin="0" startphi="0" z="0.012"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber_carbon_layer_60x2b93ba20" rmax="45" rmin="0" startphi="0" z="0.00015"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_ionizing_chamber0x2b934f60" rmax="45" rmin="0" startphi="0" z="9.28"/>
+    <box lunit="mm" name="versa_linac_back_scatter_plate0x2b93c990" x="116" y="84" z="3"/>
+    <box lunit="mm" name="versa_linac_mirror_mylar_layer0x2b93d570" x="110" y="110" z="0.0012"/>
+    <box lunit="mm" name="versa_linac_mirror_alu_layer0x2b93dbf0" x="110" y="110" z="0.0003"/>
+    <box lunit="mm" name="versa_linac_mirror0x2b93cfa0" x="137" y="137" z="1.5"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="target_kill_volume10x2b93e1e0" rmax="15" rmin="0" startphi="0" z="1e-06"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="target_kill_volume20x2b93e6f0" rmax="15.100001" rmin="15.1" startphi="0" z="13.5"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="middle_trap_left0x294af080" phi="0" theta="0" x1="32" x2="32" x3="32" x4="32" y1="73.2" y2="73.2" z="45"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="trap_left_10x28e4a7c0" phi="0" theta="0" x1="32" x2="200" x3="32" x4="200" y1="87.964" y2="87.964" z="29"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="trap_left_20x28ca0980" phi="0" theta="0" x1="32" x2="210" x3="32" x4="210" y1="93.2" y2="93.2" z="16"/>
+    <box lunit="mm" name="Box_to_complete_traps_y_left_00x2b940020" x="194" y="24.678" z="10"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_cyl_leaf_left0x2b940160" rmax="135" rmin="0" startphi="0" z="420"/>
+    <intersection name="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b940340">
+      <first ref="Box_to_complete_traps_y_left_00x2b940020"/>
+      <second ref="versa_linac_cyl_leaf_left0x2b940160"/>
+      <position name="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b940340_pos" unit="mm" x="0" y="-122.661" z="-8"/>
+      <rotation name="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b940340_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="Box_to_complete_traps_y_left_10x2b940ba0" x="200" y="21.536" z="29"/>
+    <intersection name="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b940d00">
+      <first ref="Box_to_complete_traps_y_left_10x2b940ba0"/>
+      <second ref="versa_linac_cyl_leaf_left0x2b940160"/>
+      <position name="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b940d00_pos" unit="mm" x="0" y="-124.232" z="11.5"/>
+      <rotation name="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b940d00_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="Box_to_complete_traps_y_left_20x2b941610" x="210" y="16.3" z="16"/>
+    <intersection name="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b941770">
+      <first ref="Box_to_complete_traps_y_left_20x2b941610"/>
+      <second ref="versa_linac_cyl_leaf_left0x2b940160"/>
+      <position name="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b941770_pos" unit="mm" x="0" y="-126.85" z="34"/>
+      <rotation name="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b941770_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="top_jaw_box_left0x2b942180" x="194" y="220" z="22"/>
+    <intersection name="(top_jaw_box_left_times_versa_linac_cyl_leaf_left)0x2b942300">
+      <first ref="top_jaw_box_left0x2b942180"/>
+      <second ref="versa_linac_cyl_leaf_left0x2b940160"/>
+      <position name="(top_jaw_box_left_times_versa_linac_cyl_leaf_left)0x2b942300_pos" unit="mm" x="0" y="-25" z="-24"/>
+      <rotation name="(top_jaw_box_left_times_versa_linac_cyl_leaf_left)0x2b942300_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="corner_to_remove_left_00x2b942510" x="23.0566693171412" y="7.23140992219428" z="22.01"/>
+    <subtraction name="((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)0x2b9426f0">
+      <first ref="(top_jaw_box_left_times_versa_linac_cyl_leaf_left)0x2b942300"/>
+      <second ref="corner_to_remove_left_00x2b942510"/>
+      <position name="((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)0x2b9426f0_pos" unit="mm" x="87.0820454545455" y="-110.331409922194" z="0"/>
+      <rotation name="((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)0x2b9426f0_rot" unit="deg" x="0" y="0" z="17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="corner_to_remove_left_10x2b942950" x="23.0566693171412" y="7.23140992219428" z="22.01"/>
+    <subtraction name="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b942b10">
+      <first ref="((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)0x2b9426f0"/>
+      <second ref="corner_to_remove_left_10x2b942950"/>
+      <position name="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b942b10_pos" unit="mm" x="-87.0820454545455" y="-110.331409922194" z="0"/>
+      <rotation name="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b942b10_rot" unit="deg" x="0" y="0" z="-17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="below_top_jaw_box_left0x2b943480" x="154" y="195.322" z="10"/>
+    <box lunit="mm" name="corner_to_remove_left_20x2b943830" x="23.0566693171412" y="7.23140992219428" z="10.01"/>
+    <subtraction name="(below_top_jaw_box_left_minus_corner_to_remove_left_2)0x2b943990">
+      <first ref="below_top_jaw_box_left0x2b943480"/>
+      <second ref="corner_to_remove_left_20x2b943830"/>
+      <position name="(below_top_jaw_box_left_minus_corner_to_remove_left_2)0x2b943990_pos" unit="mm" x="87.0820454545455" y="-97.9924099221943" z="0"/>
+      <rotation name="(below_top_jaw_box_left_minus_corner_to_remove_left_2)0x2b943990_rot" unit="deg" x="0" y="0" z="17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="corner_to_remove_left_30x2b943ba0" x="23.0566693171412" y="7.23140992219428" z="10.01"/>
+    <subtraction name="((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)0x2b943d80">
+      <first ref="(below_top_jaw_box_left_minus_corner_to_remove_left_2)0x2b943990"/>
+      <second ref="corner_to_remove_left_30x2b943ba0"/>
+      <position name="((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)0x2b943d80_pos" unit="mm" x="-87.0820454545455" y="-97.9924099221943" z="0"/>
+      <rotation name="((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)0x2b943d80_rot" unit="deg" x="0" y="0" z="-17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="left_edge_box_to_remove_left0x2b943fc0" x="12.05" y="59" z="10.01"/>
+    <subtraction name="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944150">
+      <first ref="((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)0x2b943d80"/>
+      <second ref="left_edge_box_to_remove_left0x2b943fc0"/>
+      <position name="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944150_pos" unit="mm" x="-70.975" y="11.839" z="0"/>
+    </subtraction>
+    <trap alpha1="25.5937009757148" alpha2="25.5937009757148" aunit="deg" lunit="mm" name="trap_to_complete_jaw_left_00x2887e470" phi="0" theta="0" x1="1e-06" x2="20" x3="1e-06" x4="20" y1="20.8775" y2="20.8775" z="10"/>
+    <trap alpha1="-25.5937009757148" alpha2="-25.5937009757148" aunit="deg" lunit="mm" name="trap_to_complete_jaw_left_10x289e47a0" phi="0" theta="0" x1="1e-06" x2="20" x3="1e-06" x4="20" y1="20.8775" y2="20.8775" z="10"/>
+    <trap alpha1="-16.5509200580228" alpha2="-16.5509200580228" aunit="deg" lunit="mm" name="traps_edge_jaw_left_00x2b945770" phi="0" theta="0" x1="1e-06" x2="57.5" x3="1e-06" x4="57.5" y1="21.28" y2="21.28" z="15"/>
+    <trap alpha1="16.5509200580228" alpha2="16.5509200580228" aunit="deg" lunit="mm" name="traps_edge_jaw_left_10x2b945ce0" phi="0" theta="0" x1="1e-06" x2="57.5" x3="1e-06" x4="57.5" y1="21.28" y2="21.28" z="15"/>
+    <box lunit="mm" name="band_box_to_add_left_side_left0x2b9463f0" x="20" y="10" z="10"/>
+    <box lunit="mm" name="jaw_box_left0x2b93ecb0" x="210" y="220" z="77"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="middle_trap_right0x2b946e40" phi="0" theta="0" x1="32" x2="32" x3="32" x4="32" y1="73.2" y2="73.2" z="45"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="trap_right_10x2b9474c0" phi="0" theta="0" x1="32" x2="200" x3="32" x4="200" y1="87.964" y2="87.964" z="29"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="trap_right_20x2b947a50" phi="0" theta="0" x1="32" x2="210" x3="32" x4="210" y1="93.2" y2="93.2" z="16"/>
+    <box lunit="mm" name="Box_to_complete_traps_y_right_00x2b9480d0" x="194" y="24.678" z="10"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_cyl_leaf_right0x2b948210" rmax="135" rmin="0" startphi="0" z="420"/>
+    <intersection name="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b9483f0">
+      <first ref="Box_to_complete_traps_y_right_00x2b9480d0"/>
+      <second ref="versa_linac_cyl_leaf_right0x2b948210"/>
+      <position name="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b9483f0_pos" unit="mm" x="0" y="-122.661" z="-8"/>
+      <rotation name="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b9483f0_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="Box_to_complete_traps_y_right_10x2b948d00" x="200" y="21.536" z="29"/>
+    <intersection name="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b948e60">
+      <first ref="Box_to_complete_traps_y_right_10x2b948d00"/>
+      <second ref="versa_linac_cyl_leaf_right0x2b948210"/>
+      <position name="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b948e60_pos" unit="mm" x="0" y="-124.232" z="11.5"/>
+      <rotation name="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b948e60_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="Box_to_complete_traps_y_right_20x2b9498f0" x="210" y="16.3" z="16"/>
+    <intersection name="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949a50">
+      <first ref="Box_to_complete_traps_y_right_20x2b9498f0"/>
+      <second ref="versa_linac_cyl_leaf_right0x2b948210"/>
+      <position name="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949a50_pos" unit="mm" x="0" y="-126.85" z="34"/>
+      <rotation name="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949a50_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="top_jaw_box_right0x2b94a410" x="194" y="220" z="22"/>
+    <intersection name="(top_jaw_box_right_times_versa_linac_cyl_leaf_right)0x2b94a590">
+      <first ref="top_jaw_box_right0x2b94a410"/>
+      <second ref="versa_linac_cyl_leaf_right0x2b948210"/>
+      <position name="(top_jaw_box_right_times_versa_linac_cyl_leaf_right)0x2b94a590_pos" unit="mm" x="0" y="-25" z="-24"/>
+      <rotation name="(top_jaw_box_right_times_versa_linac_cyl_leaf_right)0x2b94a590_rot" unit="deg" x="0" y="-90" z="0"/>
+    </intersection>
+    <box lunit="mm" name="corner_to_remove_right_00x2b94a7b0" x="23.0566693171412" y="7.23140992219428" z="22.01"/>
+    <subtraction name="((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)0x2b94a9d0">
+      <first ref="(top_jaw_box_right_times_versa_linac_cyl_leaf_right)0x2b94a590"/>
+      <second ref="corner_to_remove_right_00x2b94a7b0"/>
+      <position name="((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)0x2b94a9d0_pos" unit="mm" x="87.0820454545455" y="-110.331409922194" z="0"/>
+      <rotation name="((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)0x2b94a9d0_rot" unit="deg" x="0" y="0" z="17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="corner_to_remove_right_10x2b94b260" x="23.0566693171412" y="7.23140992219428" z="22.01"/>
+    <subtraction name="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94b460">
+      <first ref="((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)0x2b94a9d0"/>
+      <second ref="corner_to_remove_right_10x2b94b260"/>
+      <position name="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94b460_pos" unit="mm" x="-87.0820454545455" y="-110.331409922194" z="0"/>
+      <rotation name="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94b460_rot" unit="deg" x="0" y="0" z="-17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="below_top_jaw_box_right0x2b94bdf0" x="154" y="195.322" z="10"/>
+    <box lunit="mm" name="corner_to_remove_right_20x2b94c190" x="23.0566693171412" y="7.23140992219428" z="10.01"/>
+    <subtraction name="(below_top_jaw_box_right_minus_corner_to_remove_right_2)0x2b94c310">
+      <first ref="below_top_jaw_box_right0x2b94bdf0"/>
+      <second ref="corner_to_remove_right_20x2b94c190"/>
+      <position name="(below_top_jaw_box_right_minus_corner_to_remove_right_2)0x2b94c310_pos" unit="mm" x="87.0820454545455" y="-97.9924099221943" z="0"/>
+      <rotation name="(below_top_jaw_box_right_minus_corner_to_remove_right_2)0x2b94c310_rot" unit="deg" x="0" y="0" z="17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="corner_to_remove_right_30x2b94c520" x="23.0566693171412" y="7.23140992219428" z="10.01"/>
+    <subtraction name="((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)0x2b94c6f0">
+      <first ref="(below_top_jaw_box_right_minus_corner_to_remove_right_2)0x2b94c310"/>
+      <second ref="corner_to_remove_right_30x2b94c520"/>
+      <position name="((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)0x2b94c6f0_pos" unit="mm" x="-87.0820454545455" y="-97.9924099221943" z="0"/>
+      <rotation name="((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)0x2b94c6f0_rot" unit="deg" x="0" y="0" z="-17.4133216702143"/>
+    </subtraction>
+    <box lunit="mm" name="left_edge_box_to_remove_right0x2b94c9b0" x="12.05" y="59" z="10.01"/>
+    <subtraction name="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94cb10">
+      <first ref="((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)0x2b94c6f0"/>
+      <second ref="left_edge_box_to_remove_right0x2b94c9b0"/>
+      <position name="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94cb10_pos" unit="mm" x="-70.975" y="11.839" z="0"/>
+    </subtraction>
+    <trap alpha1="25.5937009757148" alpha2="25.5937009757148" aunit="deg" lunit="mm" name="trap_to_complete_jaw_right_00x2b94d5a0" phi="0" theta="0" x1="1e-06" x2="20" x3="1e-06" x4="20" y1="20.8775" y2="20.8775" z="10"/>
+    <trap alpha1="-25.5937009757148" alpha2="-25.5937009757148" aunit="deg" lunit="mm" name="trap_to_complete_jaw_right_10x2b94dbc0" phi="0" theta="0" x1="1e-06" x2="20" x3="1e-06" x4="20" y1="20.8775" y2="20.8775" z="10"/>
+    <trap alpha1="-16.5509200580228" alpha2="-16.5509200580228" aunit="deg" lunit="mm" name="traps_edge_jaw_right_00x2b94e270" phi="0" theta="0" x1="1e-06" x2="57.5" x3="1e-06" x4="57.5" y1="21.28" y2="21.28" z="15"/>
+    <trap alpha1="16.5509200580228" alpha2="16.5509200580228" aunit="deg" lunit="mm" name="traps_edge_jaw_right_10x2b94e8a0" phi="0" theta="0" x1="1e-06" x2="57.5" x3="1e-06" x4="57.5" y1="21.28" y2="21.28" z="15"/>
+    <box lunit="mm" name="band_box_to_add_left_side_right0x2b94ef60" x="20" y="10" z="10"/>
+    <box lunit="mm" name="jaw_box_right0x2b946a40" x="210" y="220" z="77"/>
+    <box lunit="mm" name="versa_linac_Box_leaf0x2b94faf0" x="200" y="155" z="90"/>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="versa_linac_trap_leaf0x2b94fbf0" phi="0" theta="0" x1="1.94" x2="1.94" x3="1.58" x4="1.58" y1="155" y2="155" z="90"/>
+    <intersection name="(versa_linac_Box_leaf_times_versa_linac_trap_leaf)0x2b94fec0">
+      <first ref="versa_linac_Box_leaf0x2b94faf0"/>
+      <second ref="versa_linac_trap_leaf0x2b94fbf0"/>
+      <rotation name="(versa_linac_Box_leaf_times_versa_linac_trap_leaf)0x2b94fec0_rot" unit="deg" x="0" y="0" z="90"/>
+    </intersection>
+    <trap alpha1="0" alpha2="0" aunit="deg" lunit="mm" name="versa_linac_trap_tongue0x2b950190" phi="-180" theta="0.114591406237786" x1="0.0878" x2="0.0878" x3="0.0878" x4="0.0878" y1="155" y2="155" z="0.8"/>
+    <intersection name="(versa_linac_Box_leaf_times_versa_linac_trap_tongue)0x2b950340">
+      <first ref="versa_linac_Box_leaf0x2b94faf0"/>
+      <second ref="versa_linac_trap_tongue0x2b950190"/>
+      <rotation name="(versa_linac_Box_leaf_times_versa_linac_trap_tongue)0x2b950340_rot" unit="deg" x="0" y="0" z="90"/>
+    </intersection>
+    <union name="((versa_linac_Box_leaf_times_versa_linac_trap_leaf)_plus_(versa_linac_Box_leaf_times_versa_linac_trap_tongue))0x2b94bc50">
+      <first ref="(versa_linac_Box_leaf_times_versa_linac_trap_leaf)0x2b94fec0"/>
+      <second ref="(versa_linac_Box_leaf_times_versa_linac_trap_tongue)0x2b950340"/>
+      <position name="((versa_linac_Box_leaf_times_versa_linac_trap_leaf)_plus_(versa_linac_Box_leaf_times_versa_linac_trap_tongue))0x2b94bc50_pos" unit="mm" x="0" y="0.925" z="0"/>
+    </union>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="versa_linac_cylinder_leaf0x2b950a50" rmax="170" rmin="0" startphi="0" z="80"/>
+    <intersection name="versa_linac_leaf0x2b950c60">
+      <first ref="((versa_linac_Box_leaf_times_versa_linac_trap_leaf)_plus_(versa_linac_Box_leaf_times_versa_linac_trap_tongue))0x2b94bc50"/>
+      <second ref="versa_linac_cylinder_leaf0x2b950a50"/>
+      <position name="versa_linac_leaf0x2b950c60_pos" unit="mm" x="92.5" y="0" z="7.5"/>
+      <rotation name="versa_linac_leaf0x2b950c60_rot" unit="deg" x="-90" y="0" z="0"/>
+    </intersection>
+    <box lunit="mm" name="versa_linac_mlc0x2b94f4f0" x="980" y="980" z="100"/>
+    <box lunit="mm" name="versa_linac0x2b9011c0" x="1000" y="1000" z="520"/>
+    <box lunit="mm" name="world0x2b916980" x="3000" y="3000" z="3000"/>
+  </solids>
+
+  <structure>
+    <volume name="versa_linac_target0x2b926780">
+      <materialref ref="target_tungsten0x2b917db0"/>
+      <solidref ref="versa_linac_target0x2b927100"/>
+    </volume>
+    <volume name="versa_linac_target_support_top0x2b9266d0">
+      <materialref ref="target_copper0x2b9277c0"/>
+      <solidref ref="versa_linac_target_support_top0x2b9280a0"/>
+    </volume>
+    <volume name="versa_linac_target_support_bottom0x2b719180">
+      <materialref ref="target_copper0x2b9277c0"/>
+      <solidref ref="versa_linac_target_support_bottom0x2b718fe0"/>
+    </volume>
+    <volume name="versa_linac_target_support0x2b9178a0">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="versa_linac_target_support0x2b916100"/>
+      <physvol name="versa_linac_target0x2b927430">
+        <volumeref ref="versa_linac_target0x2b926780"/>
+        <position name="versa_linac_target0x2b927430_pos" unit="mm" x="0" y="0" z="3.75"/>
+      </physvol>
+      <physvol name="versa_linac_target_support_top0x2b718c80">
+        <volumeref ref="versa_linac_target_support_top0x2b9266d0"/>
+        <position name="versa_linac_target_support_top0x2b718c80_pos" unit="mm" x="0" y="0" z="5"/>
+      </physvol>
+      <physvol name="versa_linac_target_support_bottom0x2b7192e0">
+        <volumeref ref="versa_linac_target_support_bottom0x2b719180"/>
+        <position name="versa_linac_target_support_bottom0x2b7192e0_pos" unit="mm" x="0" y="0" z="-1.75"/>
+      </physvol>
+    </volume>
+    <volume name="versa_linac_primary_collimator0x2b92b460">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="versa_linac_primary_collimator0x2b92b220"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_base0x2b92f5c0">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_base0x2b92f360"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cons_10x2b92fe40">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cons_10x2b92fcd0"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cons_20x2b930510">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cons_20x2b930310"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cons_30x2b930cd0">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cons_30x2b930b30"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cons_40x2b931300">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cons_40x2b931160"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cons_50x2b932aa0">
+      <materialref ref="flattening_filter_material_mild_steel0x2b931810"/>
+      <solidref ref="versa_linac_flattening_filter_cons_50x2b9328c0"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cone_00x2b933130">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cone_00x2b932f90"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cone_10x2b933780">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cone_10x2b9335e0"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cone_20x2b933dd0">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cone_20x2b933c30"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cone_30x2b934420">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cone_30x2b934280"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter_cone_40x2b934a70">
+      <materialref ref="flattening_filter_material_stain_steel0x2b92c0c0"/>
+      <solidref ref="versa_linac_flattening_filter_cone_40x2b9348d0"/>
+    </volume>
+    <volume name="versa_linac_flattening_filter0x2b92bbe0">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="versa_linac_flattening_filter0x2b92ba40"/>
+      <physvol name="versa_linac_flattening_filter_base0x2b92f7a0">
+        <volumeref ref="versa_linac_flattening_filter_base0x2b92f5c0"/>
+        <position name="versa_linac_flattening_filter_base0x2b92f7a0_pos" unit="mm" x="0" y="0" z="-11.05"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cons_10x2b930000">
+        <volumeref ref="versa_linac_flattening_filter_cons_10x2b92fe40"/>
+        <position name="versa_linac_flattening_filter_cons_10x2b930000_pos" unit="mm" x="0" y="0" z="-7.3"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cons_20x2b930710">
+        <volumeref ref="versa_linac_flattening_filter_cons_20x2b930510"/>
+        <position name="versa_linac_flattening_filter_cons_20x2b930710_pos" unit="mm" x="0" y="0" z="-3.8"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cons_30x2b930e70">
+        <volumeref ref="versa_linac_flattening_filter_cons_30x2b930cd0"/>
+        <position name="versa_linac_flattening_filter_cons_30x2b930e70_pos" unit="mm" x="0" y="0" z="2"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cons_40x2b9314a0">
+        <volumeref ref="versa_linac_flattening_filter_cons_40x2b931300"/>
+        <position name="versa_linac_flattening_filter_cons_40x2b9314a0_pos" unit="mm" x="0" y="0" z="5.5"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cons_50x2b932c80">
+        <volumeref ref="versa_linac_flattening_filter_cons_50x2b932aa0"/>
+        <position name="versa_linac_flattening_filter_cons_50x2b932c80_pos" unit="mm" x="0" y="0" z="-3.05"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cone_00x2b9332d0">
+        <volumeref ref="versa_linac_flattening_filter_cone_00x2b933130"/>
+        <position name="versa_linac_flattening_filter_cone_00x2b9332d0_pos" unit="mm" x="0" y="0" z="12.45"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cone_10x2b933920">
+        <volumeref ref="versa_linac_flattening_filter_cone_10x2b933780"/>
+        <position name="versa_linac_flattening_filter_cone_10x2b933920_pos" unit="mm" x="0" y="0" z="9.4"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cone_20x2b933f70">
+        <volumeref ref="versa_linac_flattening_filter_cone_20x2b933dd0"/>
+        <position name="versa_linac_flattening_filter_cone_20x2b933f70_pos" unit="mm" x="0" y="0" z="4.5"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cone_30x2b9345c0">
+        <volumeref ref="versa_linac_flattening_filter_cone_30x2b934420"/>
+        <position name="versa_linac_flattening_filter_cone_30x2b9345c0_pos" unit="mm" x="0" y="0" z="-0.699999999999999"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter_cone_40x2b934c10">
+        <volumeref ref="versa_linac_flattening_filter_cone_40x2b934a70"/>
+        <position name="versa_linac_flattening_filter_cone_40x2b934c10_pos" unit="mm" x="0" y="0" z="-6.25"/>
+      </physvol>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_mylar_layer_10x2b9368c0">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_ionizing_chamber_mylar_layer_10x2b9366c0"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_carbon_layer_10x2b937880">
+      <materialref ref="linac_carbon0x2b936e40"/>
+      <solidref ref="versa_linac_ionizing_chamber_carbon_layer_10x2b937680"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_mylar_layer_20x2b937f20">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_ionizing_chamber_mylar_layer_20x2b937d30"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_carbon_layer_20x2b9385d0">
+      <materialref ref="linac_carbon0x2b936e40"/>
+      <solidref ref="versa_linac_ionizing_chamber_carbon_layer_20x2b9383e0"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_mylar_layer_30x2b938c90">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_ionizing_chamber_mylar_layer_30x2b938aa0"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_carbon_layer_30x2b939390">
+      <materialref ref="linac_carbon0x2b936e40"/>
+      <solidref ref="versa_linac_ionizing_chamber_carbon_layer_30x2b9391a0"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_mylar_layer_40x2b939a10">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_ionizing_chamber_mylar_layer_40x2b939820"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_carbon_layer_40x2b93a0c0">
+      <materialref ref="linac_carbon0x2b936e40"/>
+      <solidref ref="versa_linac_ionizing_chamber_carbon_layer_40x2b939ed0"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_mylar_layer_50x2b93a770">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_ionizing_chamber_mylar_layer_50x2b93a580"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_carbon_layer_50x2b93aeb0">
+      <materialref ref="linac_carbon0x2b936e40"/>
+      <solidref ref="versa_linac_ionizing_chamber_carbon_layer_50x2b93acc0"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_mylar_layer_60x2b93b560">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_ionizing_chamber_mylar_layer_60x2b93b370"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber_carbon_layer_60x2b93bc10">
+      <materialref ref="linac_carbon0x2b936e40"/>
+      <solidref ref="versa_linac_ionizing_chamber_carbon_layer_60x2b93ba20"/>
+    </volume>
+    <volume name="versa_linac_ionizing_chamber0x2b935100">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="versa_linac_ionizing_chamber0x2b934f60"/>
+      <physvol name="versa_linac_ionizing_chamber_mylar_layer_10x2b936ab0">
+        <volumeref ref="versa_linac_ionizing_chamber_mylar_layer_10x2b9368c0"/>
+        <position name="versa_linac_ionizing_chamber_mylar_layer_10x2b936ab0_pos" unit="mm" x="0" y="0" z="-2.634"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_carbon_layer_10x2b937a10">
+        <volumeref ref="versa_linac_ionizing_chamber_carbon_layer_10x2b937880"/>
+        <position name="versa_linac_ionizing_chamber_carbon_layer_10x2b937a10_pos" unit="mm" x="0" y="0" z="-2.627925"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_mylar_layer_20x2b9380f0">
+        <volumeref ref="versa_linac_ionizing_chamber_mylar_layer_20x2b937f20"/>
+        <position name="versa_linac_ionizing_chamber_mylar_layer_20x2b9380f0_pos" unit="mm" x="0" y="0" z="-0.434"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_carbon_layer_20x2b9387a0">
+        <volumeref ref="versa_linac_ionizing_chamber_carbon_layer_20x2b9385d0"/>
+        <position name="versa_linac_ionizing_chamber_carbon_layer_20x2b9387a0_pos" unit="mm" x="0" y="0" z="-0.427925"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_mylar_layer_30x2b938e60">
+        <volumeref ref="versa_linac_ionizing_chamber_mylar_layer_30x2b938c90"/>
+        <position name="versa_linac_ionizing_chamber_mylar_layer_30x2b938e60_pos" unit="mm" x="0" y="0" z="0.566"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_carbon_layer_30x2b939560">
+        <volumeref ref="versa_linac_ionizing_chamber_carbon_layer_30x2b939390"/>
+        <position name="versa_linac_ionizing_chamber_carbon_layer_30x2b939560_pos" unit="mm" x="0" y="0" z="0.572075"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_mylar_layer_40x2b939be0">
+        <volumeref ref="versa_linac_ionizing_chamber_mylar_layer_40x2b939a10"/>
+        <position name="versa_linac_ionizing_chamber_mylar_layer_40x2b939be0_pos" unit="mm" x="0" y="0" z="1.566"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_carbon_layer_40x2b93a290">
+        <volumeref ref="versa_linac_ionizing_chamber_carbon_layer_40x2b93a0c0"/>
+        <position name="versa_linac_ionizing_chamber_carbon_layer_40x2b93a290_pos" unit="mm" x="0" y="0" z="1.572075"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_mylar_layer_50x2b93a940">
+        <volumeref ref="versa_linac_ionizing_chamber_mylar_layer_50x2b93a770"/>
+        <position name="versa_linac_ionizing_chamber_mylar_layer_50x2b93a940_pos" unit="mm" x="0" y="0" z="2.566"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_carbon_layer_50x2b93b080">
+        <volumeref ref="versa_linac_ionizing_chamber_carbon_layer_50x2b93aeb0"/>
+        <position name="versa_linac_ionizing_chamber_carbon_layer_50x2b93b080_pos" unit="mm" x="0" y="0" z="2.572075"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_mylar_layer_60x2b93b730">
+        <volumeref ref="versa_linac_ionizing_chamber_mylar_layer_60x2b93b560"/>
+        <position name="versa_linac_ionizing_chamber_mylar_layer_60x2b93b730_pos" unit="mm" x="0" y="0" z="3.566"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber_carbon_layer_60x2b93bde0">
+        <volumeref ref="versa_linac_ionizing_chamber_carbon_layer_60x2b93bc10"/>
+        <position name="versa_linac_ionizing_chamber_carbon_layer_60x2b93bde0_pos" unit="mm" x="0" y="0" z="3.572075"/>
+      </physvol>
+    </volume>
+    <volume name="versa_linac_back_scatter_plate0x2b93cb10">
+      <materialref ref="linac_aluminium0x2b93c050"/>
+      <solidref ref="versa_linac_back_scatter_plate0x2b93c990"/>
+    </volume>
+    <volume name="versa_linac_mirror_mylar_layer0x2b93d6b0">
+      <materialref ref="linac_mylar0x2b9355b0"/>
+      <solidref ref="versa_linac_mirror_mylar_layer0x2b93d570"/>
+    </volume>
+    <volume name="versa_linac_mirror_alu_layer0x2b93dcd0">
+      <materialref ref="linac_aluminium0x2b93c050"/>
+      <solidref ref="versa_linac_mirror_alu_layer0x2b93dbf0"/>
+    </volume>
+    <volume name="versa_linac_mirror0x2b93d080">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="versa_linac_mirror0x2b93cfa0"/>
+      <physvol name="versa_linac_mirror_mylar_layer0x2b93d8b0">
+        <volumeref ref="versa_linac_mirror_mylar_layer0x2b93d6b0"/>
+        <position name="versa_linac_mirror_mylar_layer0x2b93d8b0_pos" unit="mm" x="0" y="0" z="0.15"/>
+      </physvol>
+      <physvol name="versa_linac_mirror_alu_layer0x2b93de90">
+        <volumeref ref="versa_linac_mirror_alu_layer0x2b93dcd0"/>
+        <position name="versa_linac_mirror_alu_layer0x2b93de90_pos" unit="mm" x="0" y="0" z="-0.6"/>
+      </physvol>
+    </volume>
+    <volume name="target_kill_volume10x2b93e350">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="target_kill_volume10x2b93e1e0"/>
+    </volume>
+    <volume name="target_kill_volume20x2b93e8c0">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="target_kill_volume20x2b93e6f0"/>
+    </volume>
+    <volume name="middle_trap_left0x2b93f2a0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="middle_trap_left0x294af080"/>
+    </volume>
+    <volume name="trap_left_10x2b93f750">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_left_10x28e4a7c0"/>
+    </volume>
+    <volume name="trap_left_20x2b93fb70">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_left_20x28ca0980"/>
+    </volume>
+    <volume name="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b9404b0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b940340"/>
+    </volume>
+    <volume name="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b940e70">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b940d00"/>
+    </volume>
+    <volume name="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b9418e0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b941770"/>
+    </volume>
+    <volume name="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b942fe0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b942b10"/>
+    </volume>
+    <volume name="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944530">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944150"/>
+    </volume>
+    <volume name="trap_to_complete_jaw_left_00x2b944dc0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_to_complete_jaw_left_00x2887e470"/>
+    </volume>
+    <volume name="trap_to_complete_jaw_left_10x2b945300">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_to_complete_jaw_left_10x289e47a0"/>
+    </volume>
+    <volume name="traps_edge_jaw_left_00x2b945940">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="traps_edge_jaw_left_00x2b945770"/>
+    </volume>
+    <volume name="traps_edge_jaw_left_10x2b945f10">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="traps_edge_jaw_left_10x2b945ce0"/>
+    </volume>
+    <volume name="band_box_to_add_left_side_left0x2b946530">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="band_box_to_add_left_side_left0x2b9463f0"/>
+    </volume>
+    <volume name="jaw_box_left0x2b93ed90">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="jaw_box_left0x2b93ecb0"/>
+      <physvol name="middle_trap_left0x2b93f4a0">
+        <volumeref ref="middle_trap_left0x2b93f2a0"/>
+        <position name="middle_trap_left0x2b93f4a0_pos" unit="mm" x="0" y="-36.1" z="-16"/>
+      </physvol>
+      <physvol name="trap_left_10x2b93f920">
+        <volumeref ref="trap_left_10x2b93f750"/>
+        <position name="trap_left_10x2b93f920_pos" unit="mm" x="0" y="44.482" z="-8"/>
+      </physvol>
+      <physvol name="trap_left_20x2b93fd40">
+        <volumeref ref="trap_left_20x2b93fb70"/>
+        <position name="trap_left_20x2b93fd40_pos" unit="mm" x="0" y="47.1" z="-30.5"/>
+      </physvol>
+      <physvol name="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b940640">
+        <volumeref ref="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b9404b0"/>
+        <position name="(Box_to_complete_traps_y_left_0_times_versa_linac_cyl_leaf_left)0x2b940640_pos" unit="mm" x="0" y="97.661" z="11.5"/>
+      </physvol>
+      <physvol name="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b941000">
+        <volumeref ref="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b940e70"/>
+        <position name="(Box_to_complete_traps_y_left_1_times_versa_linac_cyl_leaf_left)0x2b941000_pos" unit="mm" x="0" y="99.232" z="-8"/>
+      </physvol>
+      <physvol name="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b941ac0">
+        <volumeref ref="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b9418e0"/>
+        <position name="(Box_to_complete_traps_y_left_2_times_versa_linac_cyl_leaf_left)0x2b941ac0_pos" unit="mm" x="0" y="101.85" z="-30.5"/>
+      </physvol>
+      <physvol name="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b943170">
+        <volumeref ref="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b942fe0"/>
+        <position name="(((top_jaw_box_left_times_versa_linac_cyl_leaf_left)_minus_corner_to_remove_left_0)_minus_corner_to_remove_left_1)0x2b943170_pos" unit="mm" x="0" y="0" z="27.5"/>
+      </physvol>
+      <physvol name="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944750">
+        <volumeref ref="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944530"/>
+        <position name="(((below_top_jaw_box_left_minus_corner_to_remove_left_2)_minus_corner_to_remove_left_3)_minus_left_edge_box_to_remove_left)0x2b944750_pos" unit="mm" x="0" y="-12.339" z="11.5"/>
+      </physvol>
+      <physvol name="trap_to_complete_jaw_left_00x2b944f80">
+        <volumeref ref="trap_to_complete_jaw_left_00x2b944dc0"/>
+        <position name="trap_to_complete_jaw_left_00x2b944f80_pos" unit="mm" x="82.000001" y="74.88325" z="11.5"/>
+      </physvol>
+      <physvol name="trap_to_complete_jaw_left_10x2b945460">
+        <volumeref ref="trap_to_complete_jaw_left_10x2b945300"/>
+        <position name="trap_to_complete_jaw_left_10x2b945460_pos" unit="mm" x="-82.000001" y="74.88325" z="11.5"/>
+      </physvol>
+      <physvol name="traps_edge_jaw_left_00x2b945ab0">
+        <volumeref ref="traps_edge_jaw_left_00x2b945940"/>
+        <position name="traps_edge_jaw_left_00x2b945ab0_pos" unit="mm" x="67.0555156748855" y="38.5584647654783" z="-1"/>
+        <rotation name="traps_edge_jaw_left_00x2b945ab0_rot" unit="deg" x="0" y="0" z="-46.3205104261465"/>
+      </physvol>
+      <physvol name="traps_edge_jaw_left_10x2b946110">
+        <volumeref ref="traps_edge_jaw_left_10x2b945f10"/>
+        <position name="traps_edge_jaw_left_10x2b946110_pos" unit="mm" x="-67.0555156748855" y="38.5584647654783" z="-1"/>
+        <rotation name="traps_edge_jaw_left_10x2b946110_rot" unit="deg" x="180" y="0" z="133.679489573854"/>
+      </physvol>
+      <physvol name="band_box_to_add_left_side_left0x2b946730">
+        <volumeref ref="band_box_to_add_left_side_left0x2b946530"/>
+        <position name="band_box_to_add_left_side_left0x2b946730_pos" unit="mm" x="-87" y="-35" z="11.5"/>
+      </physvol>
+    </volume>
+    <volume name="middle_trap_right0x2b947070">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="middle_trap_right0x2b946e40"/>
+    </volume>
+    <volume name="trap_right_10x2b947690">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_right_10x2b9474c0"/>
+    </volume>
+    <volume name="trap_right_20x2b947c20">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_right_20x2b947a50"/>
+    </volume>
+    <volume name="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b948560">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b9483f0"/>
+    </volume>
+    <volume name="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b948fd0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b948e60"/>
+    </volume>
+    <volume name="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949bc0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949a50"/>
+    </volume>
+    <volume name="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94b930">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94b460"/>
+    </volume>
+    <volume name="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94cdf0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94cb10"/>
+    </volume>
+    <volume name="trap_to_complete_jaw_right_00x2b94d800">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_to_complete_jaw_right_00x2b94d5a0"/>
+    </volume>
+    <volume name="trap_to_complete_jaw_right_10x2b94ddc0">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="trap_to_complete_jaw_right_10x2b94dbc0"/>
+    </volume>
+    <volume name="traps_edge_jaw_right_00x2b94e440">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="traps_edge_jaw_right_00x2b94e270"/>
+    </volume>
+    <volume name="traps_edge_jaw_right_10x2b94ea70">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="traps_edge_jaw_right_10x2b94e8a0"/>
+    </volume>
+    <volume name="band_box_to_add_left_side_right0x2b94f040">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="band_box_to_add_left_side_right0x2b94ef60"/>
+    </volume>
+    <volume name="jaw_box_right0x2b946ac0">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="jaw_box_right0x2b946a40"/>
+      <physvol name="middle_trap_right0x2b947270">
+        <volumeref ref="middle_trap_right0x2b947070"/>
+        <position name="middle_trap_right0x2b947270_pos" unit="mm" x="0" y="-36.1" z="-16"/>
+      </physvol>
+      <physvol name="trap_right_10x2b947860">
+        <volumeref ref="trap_right_10x2b947690"/>
+        <position name="trap_right_10x2b947860_pos" unit="mm" x="0" y="44.482" z="-8"/>
+      </physvol>
+      <physvol name="trap_right_20x2b947df0">
+        <volumeref ref="trap_right_20x2b947c20"/>
+        <position name="trap_right_20x2b947df0_pos" unit="mm" x="0" y="47.1" z="-30.5"/>
+      </physvol>
+      <physvol name="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b9486f0">
+        <volumeref ref="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b948560"/>
+        <position name="(Box_to_complete_traps_y_right_0_times_versa_linac_cyl_leaf_right)0x2b9486f0_pos" unit="mm" x="0" y="97.661" z="11.5"/>
+      </physvol>
+      <physvol name="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b949160">
+        <volumeref ref="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b948fd0"/>
+        <position name="(Box_to_complete_traps_y_right_1_times_versa_linac_cyl_leaf_right)0x2b949160_pos" unit="mm" x="0" y="99.232" z="-8"/>
+      </physvol>
+      <physvol name="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949d50">
+        <volumeref ref="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949bc0"/>
+        <position name="(Box_to_complete_traps_y_right_2_times_versa_linac_cyl_leaf_right)0x2b949d50_pos" unit="mm" x="0" y="101.85" z="-30.5"/>
+      </physvol>
+      <physvol name="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94bac0">
+        <volumeref ref="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94b930"/>
+        <position name="(((top_jaw_box_right_times_versa_linac_cyl_leaf_right)_minus_corner_to_remove_right_0)_minus_corner_to_remove_right_1)0x2b94bac0_pos" unit="mm" x="0" y="0" z="27.5"/>
+      </physvol>
+      <physvol name="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94d010">
+        <volumeref ref="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94cdf0"/>
+        <position name="(((below_top_jaw_box_right_minus_corner_to_remove_right_2)_minus_corner_to_remove_right_3)_minus_left_edge_box_to_remove_right)0x2b94d010_pos" unit="mm" x="0" y="-12.339" z="11.5"/>
+      </physvol>
+      <physvol name="trap_to_complete_jaw_right_00x2b94d9c0">
+        <volumeref ref="trap_to_complete_jaw_right_00x2b94d800"/>
+        <position name="trap_to_complete_jaw_right_00x2b94d9c0_pos" unit="mm" x="82.000001" y="74.88325" z="11.5"/>
+      </physvol>
+      <physvol name="trap_to_complete_jaw_right_10x2b94df60">
+        <volumeref ref="trap_to_complete_jaw_right_10x2b94ddc0"/>
+        <position name="trap_to_complete_jaw_right_10x2b94df60_pos" unit="mm" x="-82.000001" y="74.88325" z="11.5"/>
+      </physvol>
+      <physvol name="traps_edge_jaw_right_00x2b94e5b0">
+        <volumeref ref="traps_edge_jaw_right_00x2b94e440"/>
+        <position name="traps_edge_jaw_right_00x2b94e5b0_pos" unit="mm" x="67.0555156748855" y="38.5584647654783" z="-1"/>
+        <rotation name="traps_edge_jaw_right_00x2b94e5b0_rot" unit="deg" x="0" y="0" z="-46.3205104261465"/>
+      </physvol>
+      <physvol name="traps_edge_jaw_right_10x2b94ec10">
+        <volumeref ref="traps_edge_jaw_right_10x2b94ea70"/>
+        <position name="traps_edge_jaw_right_10x2b94ec10_pos" unit="mm" x="-67.0555156748855" y="38.5584647654783" z="-1"/>
+        <rotation name="traps_edge_jaw_right_10x2b94ec10_rot" unit="deg" x="180" y="0" z="133.679489573854"/>
+      </physvol>
+      <physvol name="band_box_to_add_left_side_right0x2b94f1e0">
+        <volumeref ref="band_box_to_add_left_side_right0x2b94f040"/>
+        <position name="band_box_to_add_left_side_right0x2b94f1e0_pos" unit="mm" x="-87" y="-35" z="11.5"/>
+      </physvol>
+    </volume>
+    <volume name="versa_linac_leaf0x2b950e60">
+      <materialref ref="mat_leaf0x2b719660"/>
+      <solidref ref="versa_linac_leaf0x2b950c60"/>
+    </volume>
+    <volume name="versa_linac_mlc0x2b94f570">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="versa_linac_mlc0x2b94f4f0"/>
+      <physvol name="versa_linac_leaf_rep_00x2b953d40">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_00x2b953d40_pos" unit="mm" x="-77.5" y="-73.3658802192026" z="0"/>
+        <rotation name="versa_linac_leaf_rep_00x2b953d40_rot" unit="deg" x="9.05272109278509" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="1" name="versa_linac_leaf_rep_10x2b94f8f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_10x2b94f8f0_pos" unit="mm" x="-77.5" y="-71.4942488352294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_10x2b94f8f0_rot" unit="deg" x="8.82353828030952" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="2" name="versa_linac_leaf_rep_20x2b95c110">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_20x2b95c110_pos" unit="mm" x="-77.5" y="-69.623723350441" z="0"/>
+        <rotation name="versa_linac_leaf_rep_20x2b95c110_rot" unit="deg" x="8.59435546783394" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="3" name="versa_linac_leaf_rep_30x2b95c1d0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_30x2b95c1d0_pos" unit="mm" x="-77.5" y="-67.7542739393604" z="0"/>
+        <rotation name="versa_linac_leaf_rep_30x2b95c1d0_rot" unit="deg" x="8.36517265535837" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="4" name="versa_linac_leaf_rep_40x2b953a80">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_40x2b953a80_pos" unit="mm" x="-77.5" y="-65.885870864958" z="0"/>
+        <rotation name="versa_linac_leaf_rep_40x2b953a80_rot" unit="deg" x="8.1359898428828" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="5" name="versa_linac_leaf_rep_50x2b953bd0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_50x2b953bd0_pos" unit="mm" x="-77.5" y="-64.0184844760844" z="0"/>
+        <rotation name="versa_linac_leaf_rep_50x2b953bd0_rot" unit="deg" x="7.90680703040723" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="6" name="versa_linac_leaf_rep_60x2b952560">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_60x2b952560_pos" unit="mm" x="-77.5" y="-62.1520852049217" z="0"/>
+        <rotation name="versa_linac_leaf_rep_60x2b952560_rot" unit="deg" x="7.67762421793166" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="7" name="versa_linac_leaf_rep_70x2b9526a0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_70x2b9526a0_pos" unit="mm" x="-77.5" y="-60.2866435644507" z="0"/>
+        <rotation name="versa_linac_leaf_rep_70x2b9526a0_rot" unit="deg" x="7.44844140545608" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="8" name="versa_linac_leaf_rep_80x2b952860">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_80x2b952860_pos" unit="mm" x="-77.5" y="-58.422130145935" z="0"/>
+        <rotation name="versa_linac_leaf_rep_80x2b952860_rot" unit="deg" x="7.21925859298051" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="9" name="versa_linac_leaf_rep_90x2b9285b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_90x2b9285b0_pos" unit="mm" x="-77.5" y="-56.5585156164202" z="0"/>
+        <rotation name="versa_linac_leaf_rep_90x2b9285b0_rot" unit="deg" x="6.99007578050494" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="10" name="versa_linac_leaf_rep_100x2b928720">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_100x2b928720_pos" unit="mm" x="-77.5" y="-54.6957707162493" z="0"/>
+        <rotation name="versa_linac_leaf_rep_100x2b928720_rot" unit="deg" x="6.76089296802937" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="11" name="versa_linac_leaf_rep_110x2b9569d0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_110x2b9569d0_pos" unit="mm" x="-77.5" y="-52.8338662565918" z="0"/>
+        <rotation name="versa_linac_leaf_rep_110x2b9569d0_rot" unit="deg" x="6.5317101555538" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="12" name="versa_linac_leaf_rep_120x2b956b90">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_120x2b956b90_pos" unit="mm" x="-77.5" y="-50.9727731169878" z="0"/>
+        <rotation name="versa_linac_leaf_rep_120x2b956b90_rot" unit="deg" x="6.30252734307822" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="13" name="versa_linac_leaf_rep_130x2b956d50">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_130x2b956d50_pos" unit="mm" x="-77.5" y="-49.1124622429053" z="0"/>
+        <rotation name="versa_linac_leaf_rep_130x2b956d50_rot" unit="deg" x="6.07334453060265" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="14" name="versa_linac_leaf_rep_140x2b956f10">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_140x2b956f10_pos" unit="mm" x="-77.5" y="-47.2529046433107" z="0"/>
+        <rotation name="versa_linac_leaf_rep_140x2b956f10_rot" unit="deg" x="5.84416171812708" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="15" name="versa_linac_leaf_rep_150x2b9532d0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_150x2b9532d0_pos" unit="mm" x="-77.5" y="-45.3940713882522" z="0"/>
+        <rotation name="versa_linac_leaf_rep_150x2b9532d0_rot" unit="deg" x="5.61497890565151" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="16" name="versa_linac_leaf_rep_160x2b953490">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_160x2b953490_pos" unit="mm" x="-77.5" y="-43.5359336064553" z="0"/>
+        <rotation name="versa_linac_leaf_rep_160x2b953490_rot" unit="deg" x="5.38579609317594" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="17" name="versa_linac_leaf_rep_170x2b953760">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_170x2b953760_pos" unit="mm" x="-77.5" y="-41.6784624829294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_170x2b953760_rot" unit="deg" x="5.15661328070037" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="18" name="versa_linac_leaf_rep_180x2b928cb0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_180x2b928cb0_pos" unit="mm" x="-77.5" y="-39.8216292565869" z="0"/>
+        <rotation name="versa_linac_leaf_rep_180x2b928cb0_rot" unit="deg" x="4.92743046822479" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="19" name="versa_linac_leaf_rep_190x2b928e70">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_190x2b928e70_pos" unit="mm" x="-77.5" y="-37.9654052178714" z="0"/>
+        <rotation name="versa_linac_leaf_rep_190x2b928e70_rot" unit="deg" x="4.69824765574922" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="20" name="versa_linac_leaf_rep_200x2b929030">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_200x2b929030_pos" unit="mm" x="-77.5" y="-36.1097617063969" z="0"/>
+        <rotation name="versa_linac_leaf_rep_200x2b929030_rot" unit="deg" x="4.46906484327365" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="21" name="versa_linac_leaf_rep_210x2b9291f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_210x2b9291f0_pos" unit="mm" x="-77.5" y="-34.2546701085974" z="0"/>
+        <rotation name="versa_linac_leaf_rep_210x2b9291f0_rot" unit="deg" x="4.23988203079808" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="22" name="versa_linac_leaf_rep_220x2b9293b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_220x2b9293b0_pos" unit="mm" x="-77.5" y="-32.4001018553839" z="0"/>
+        <rotation name="versa_linac_leaf_rep_220x2b9293b0_rot" unit="deg" x="4.01069921832251" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="23" name="versa_linac_leaf_rep_230x2b953fa0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_230x2b953fa0_pos" unit="mm" x="-77.5" y="-30.5460284198124" z="0"/>
+        <rotation name="versa_linac_leaf_rep_230x2b953fa0_rot" unit="deg" x="3.78151640584694" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="24" name="versa_linac_leaf_rep_240x2b954140">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_240x2b954140_pos" unit="mm" x="-77.5" y="-28.6924213147581" z="0"/>
+        <rotation name="versa_linac_leaf_rep_240x2b954140_rot" unit="deg" x="3.55233359337136" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="25" name="versa_linac_leaf_rep_250x2b954300">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_250x2b954300_pos" unit="mm" x="-77.5" y="-26.8392520905993" z="0"/>
+        <rotation name="versa_linac_leaf_rep_250x2b954300_rot" unit="deg" x="3.32315078089579" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="26" name="versa_linac_leaf_rep_260x2b9544c0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_260x2b9544c0_pos" unit="mm" x="-77.5" y="-24.9864923329072" z="0"/>
+        <rotation name="versa_linac_leaf_rep_260x2b9544c0_rot" unit="deg" x="3.09396796842022" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="27" name="versa_linac_leaf_rep_270x2b954680">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_270x2b954680_pos" unit="mm" x="-77.5" y="-23.1341136601436" z="0"/>
+        <rotation name="versa_linac_leaf_rep_270x2b954680_rot" unit="deg" x="2.86478515594465" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="28" name="versa_linac_leaf_rep_280x2b9299b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_280x2b9299b0_pos" unit="mm" x="-77.5" y="-21.2820877213644" z="0"/>
+        <rotation name="versa_linac_leaf_rep_280x2b9299b0_rot" unit="deg" x="2.63560234346908" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="29" name="versa_linac_leaf_rep_290x2b929b40">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_290x2b929b40_pos" unit="mm" x="-77.5" y="-19.4303861939297" z="0"/>
+        <rotation name="versa_linac_leaf_rep_290x2b929b40_rot" unit="deg" x="2.4064195309935" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="30" name="versa_linac_leaf_rep_300x2b929d00">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_300x2b929d00_pos" unit="mm" x="-77.5" y="-17.5789807812189" z="0"/>
+        <rotation name="versa_linac_leaf_rep_300x2b929d00_rot" unit="deg" x="2.17723671851793" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="31" name="versa_linac_leaf_rep_310x2b929ec0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_310x2b929ec0_pos" unit="mm" x="-77.5" y="-15.7278432103511" z="0"/>
+        <rotation name="versa_linac_leaf_rep_310x2b929ec0_rot" unit="deg" x="1.94805390604236" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="32" name="versa_linac_leaf_rep_320x2b92a080">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_320x2b92a080_pos" unit="mm" x="-77.5" y="-13.8769452299105" z="0"/>
+        <rotation name="versa_linac_leaf_rep_320x2b92a080_rot" unit="deg" x="1.71887109356679" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="33" name="versa_linac_leaf_rep_330x2b92a450">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_330x2b92a450_pos" unit="mm" x="-77.5" y="-12.0262586076755" z="0"/>
+        <rotation name="versa_linac_leaf_rep_330x2b92a450_rot" unit="deg" x="1.48968828109122" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="34" name="versa_linac_leaf_rep_340x2b9516f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_340x2b9516f0_pos" unit="mm" x="-77.5" y="-10.1757551283516" z="0"/>
+        <rotation name="versa_linac_leaf_rep_340x2b9516f0_rot" unit="deg" x="1.26050546861564" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="35" name="versa_linac_leaf_rep_350x2b951880">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_350x2b951880_pos" unit="mm" x="-77.5" y="-8.32540659130787" z="0"/>
+        <rotation name="versa_linac_leaf_rep_350x2b951880_rot" unit="deg" x="1.03132265614007" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="36" name="versa_linac_leaf_rep_360x2b951a40">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_360x2b951a40_pos" unit="mm" x="-77.5" y="-6.47518480831642" z="0"/>
+        <rotation name="versa_linac_leaf_rep_360x2b951a40_rot" unit="deg" x="0.802139843664502" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="37" name="versa_linac_leaf_rep_370x2b951c00">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_370x2b951c00_pos" unit="mm" x="-77.5" y="-4.62506160129363" z="0"/>
+        <rotation name="versa_linac_leaf_rep_370x2b951c00_rot" unit="deg" x="0.57295703118893" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="38" name="versa_linac_leaf_rep_380x2b951dc0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_380x2b951dc0_pos" unit="mm" x="-77.5" y="-2.77500880004401" z="0"/>
+        <rotation name="versa_linac_leaf_rep_380x2b951dc0_rot" unit="deg" x="0.343774218713358" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="39" name="versa_linac_leaf_rep_390x2b951f80">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_390x2b951f80_pos" unit="mm" x="-77.5" y="-0.924998240005277" z="0"/>
+        <rotation name="versa_linac_leaf_rep_390x2b951f80_rot" unit="deg" x="0.114591406237786" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="40" name="versa_linac_leaf_rep_400x2b952140">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_400x2b952140_pos" unit="mm" x="-77.5" y="0.924998240005277" z="0"/>
+        <rotation name="versa_linac_leaf_rep_400x2b952140_rot" unit="deg" x="-0.114591406237786" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="41" name="versa_linac_leaf_rep_410x2b952300">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_410x2b952300_pos" unit="mm" x="-77.5" y="2.77500880004401" z="0"/>
+        <rotation name="versa_linac_leaf_rep_410x2b952300_rot" unit="deg" x="-0.343774218713358" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="42" name="versa_linac_leaf_rep_420x2b954930">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_420x2b954930_pos" unit="mm" x="-77.5" y="4.62506160129363" z="0"/>
+        <rotation name="versa_linac_leaf_rep_420x2b954930_rot" unit="deg" x="-0.57295703118893" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="43" name="versa_linac_leaf_rep_430x2b954ac0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_430x2b954ac0_pos" unit="mm" x="-77.5" y="6.47518480831642" z="0"/>
+        <rotation name="versa_linac_leaf_rep_430x2b954ac0_rot" unit="deg" x="-0.802139843664502" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="44" name="versa_linac_leaf_rep_440x2b954c80">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_440x2b954c80_pos" unit="mm" x="-77.5" y="8.32540659130787" z="0"/>
+        <rotation name="versa_linac_leaf_rep_440x2b954c80_rot" unit="deg" x="-1.03132265614007" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="45" name="versa_linac_leaf_rep_450x2b954e40">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_450x2b954e40_pos" unit="mm" x="-77.5" y="10.1757551283516" z="0"/>
+        <rotation name="versa_linac_leaf_rep_450x2b954e40_rot" unit="deg" x="-1.26050546861564" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="46" name="versa_linac_leaf_rep_460x2b955000">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_460x2b955000_pos" unit="mm" x="-77.5" y="12.0262586076755" z="0"/>
+        <rotation name="versa_linac_leaf_rep_460x2b955000_rot" unit="deg" x="-1.48968828109122" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="47" name="versa_linac_leaf_rep_470x2b9551c0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_470x2b9551c0_pos" unit="mm" x="-77.5" y="13.8769452299105" z="0"/>
+        <rotation name="versa_linac_leaf_rep_470x2b9551c0_rot" unit="deg" x="-1.71887109356679" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="48" name="versa_linac_leaf_rep_480x2b955380">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_480x2b955380_pos" unit="mm" x="-77.5" y="15.7278432103511" z="0"/>
+        <rotation name="versa_linac_leaf_rep_480x2b955380_rot" unit="deg" x="-1.94805390604236" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="49" name="versa_linac_leaf_rep_490x2b955540">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_490x2b955540_pos" unit="mm" x="-77.5" y="17.5789807812189" z="0"/>
+        <rotation name="versa_linac_leaf_rep_490x2b955540_rot" unit="deg" x="-2.17723671851793" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="50" name="versa_linac_leaf_rep_500x2b955700">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_500x2b955700_pos" unit="mm" x="-77.5" y="19.4303861939297" z="0"/>
+        <rotation name="versa_linac_leaf_rep_500x2b955700_rot" unit="deg" x="-2.4064195309935" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="51" name="versa_linac_leaf_rep_510x2b9558c0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_510x2b9558c0_pos" unit="mm" x="-77.5" y="21.2820877213644" z="0"/>
+        <rotation name="versa_linac_leaf_rep_510x2b9558c0_rot" unit="deg" x="-2.63560234346908" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="52" name="versa_linac_leaf_rep_520x2b955a80">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_520x2b955a80_pos" unit="mm" x="-77.5" y="23.1341136601436" z="0"/>
+        <rotation name="versa_linac_leaf_rep_520x2b955a80_rot" unit="deg" x="-2.86478515594465" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="53" name="versa_linac_leaf_rep_530x2b955c40">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_530x2b955c40_pos" unit="mm" x="-77.5" y="24.9864923329072" z="0"/>
+        <rotation name="versa_linac_leaf_rep_530x2b955c40_rot" unit="deg" x="-3.09396796842022" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="54" name="versa_linac_leaf_rep_540x2b955e00">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_540x2b955e00_pos" unit="mm" x="-77.5" y="26.8392520905993" z="0"/>
+        <rotation name="versa_linac_leaf_rep_540x2b955e00_rot" unit="deg" x="-3.32315078089579" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="55" name="versa_linac_leaf_rep_550x2b955fc0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_550x2b955fc0_pos" unit="mm" x="-77.5" y="28.6924213147581" z="0"/>
+        <rotation name="versa_linac_leaf_rep_550x2b955fc0_rot" unit="deg" x="-3.55233359337136" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="56" name="versa_linac_leaf_rep_560x2b956180">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_560x2b956180_pos" unit="mm" x="-77.5" y="30.5460284198124" z="0"/>
+        <rotation name="versa_linac_leaf_rep_560x2b956180_rot" unit="deg" x="-3.78151640584694" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="57" name="versa_linac_leaf_rep_570x2b956340">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_570x2b956340_pos" unit="mm" x="-77.5" y="32.4001018553839" z="0"/>
+        <rotation name="versa_linac_leaf_rep_570x2b956340_rot" unit="deg" x="-4.01069921832251" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="58" name="versa_linac_leaf_rep_580x2b956500">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_580x2b956500_pos" unit="mm" x="-77.5" y="34.2546701085974" z="0"/>
+        <rotation name="versa_linac_leaf_rep_580x2b956500_rot" unit="deg" x="-4.23988203079808" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="59" name="versa_linac_leaf_rep_590x2b9566c0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_590x2b9566c0_pos" unit="mm" x="-77.5" y="36.1097617063969" z="0"/>
+        <rotation name="versa_linac_leaf_rep_590x2b9566c0_rot" unit="deg" x="-4.46906484327365" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="60" name="versa_linac_leaf_rep_600x2b9682c0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_600x2b9682c0_pos" unit="mm" x="-77.5" y="37.9654052178714" z="0"/>
+        <rotation name="versa_linac_leaf_rep_600x2b9682c0_rot" unit="deg" x="-4.69824765574922" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="61" name="versa_linac_leaf_rep_610x2b9625f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_610x2b9625f0_pos" unit="mm" x="-77.5" y="39.8216292565869" z="0"/>
+        <rotation name="versa_linac_leaf_rep_610x2b9625f0_rot" unit="deg" x="-4.92743046822479" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="62" name="versa_linac_leaf_rep_620x2b9627b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_620x2b9627b0_pos" unit="mm" x="-77.5" y="41.6784624829294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_620x2b9627b0_rot" unit="deg" x="-5.15661328070037" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="63" name="versa_linac_leaf_rep_630x2b962970">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_630x2b962970_pos" unit="mm" x="-77.5" y="43.5359336064553" z="0"/>
+        <rotation name="versa_linac_leaf_rep_630x2b962970_rot" unit="deg" x="-5.38579609317594" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="64" name="versa_linac_leaf_rep_640x2b962b30">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_640x2b962b30_pos" unit="mm" x="-77.5" y="45.3940713882522" z="0"/>
+        <rotation name="versa_linac_leaf_rep_640x2b962b30_rot" unit="deg" x="-5.61497890565151" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="65" name="versa_linac_leaf_rep_650x2b962cf0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_650x2b962cf0_pos" unit="mm" x="-77.5" y="47.2529046433107" z="0"/>
+        <rotation name="versa_linac_leaf_rep_650x2b962cf0_rot" unit="deg" x="-5.84416171812708" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="66" name="versa_linac_leaf_rep_660x2b962eb0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_660x2b962eb0_pos" unit="mm" x="-77.5" y="49.1124622429053" z="0"/>
+        <rotation name="versa_linac_leaf_rep_660x2b962eb0_rot" unit="deg" x="-6.07334453060265" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="67" name="versa_linac_leaf_rep_670x2b963070">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_670x2b963070_pos" unit="mm" x="-77.5" y="50.9727731169878" z="0"/>
+        <rotation name="versa_linac_leaf_rep_670x2b963070_rot" unit="deg" x="-6.30252734307822" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="68" name="versa_linac_leaf_rep_680x2b963230">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_680x2b963230_pos" unit="mm" x="-77.5" y="52.8338662565918" z="0"/>
+        <rotation name="versa_linac_leaf_rep_680x2b963230_rot" unit="deg" x="-6.5317101555538" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="69" name="versa_linac_leaf_rep_690x2b9633f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_690x2b9633f0_pos" unit="mm" x="-77.5" y="54.6957707162493" z="0"/>
+        <rotation name="versa_linac_leaf_rep_690x2b9633f0_rot" unit="deg" x="-6.76089296802937" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="70" name="versa_linac_leaf_rep_700x2b9635b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_700x2b9635b0_pos" unit="mm" x="-77.5" y="56.5585156164202" z="0"/>
+        <rotation name="versa_linac_leaf_rep_700x2b9635b0_rot" unit="deg" x="-6.99007578050494" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="71" name="versa_linac_leaf_rep_710x2b963770">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_710x2b963770_pos" unit="mm" x="-77.5" y="58.422130145935" z="0"/>
+        <rotation name="versa_linac_leaf_rep_710x2b963770_rot" unit="deg" x="-7.21925859298051" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="72" name="versa_linac_leaf_rep_720x2b963930">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_720x2b963930_pos" unit="mm" x="-77.5" y="60.2866435644507" z="0"/>
+        <rotation name="versa_linac_leaf_rep_720x2b963930_rot" unit="deg" x="-7.44844140545608" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="73" name="versa_linac_leaf_rep_730x2b963af0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_730x2b963af0_pos" unit="mm" x="-77.5" y="62.1520852049217" z="0"/>
+        <rotation name="versa_linac_leaf_rep_730x2b963af0_rot" unit="deg" x="-7.67762421793166" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="74" name="versa_linac_leaf_rep_740x2b963cb0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_740x2b963cb0_pos" unit="mm" x="-77.5" y="64.0184844760844" z="0"/>
+        <rotation name="versa_linac_leaf_rep_740x2b963cb0_rot" unit="deg" x="-7.90680703040723" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="75" name="versa_linac_leaf_rep_750x2b963e70">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_750x2b963e70_pos" unit="mm" x="-77.5" y="65.885870864958" z="0"/>
+        <rotation name="versa_linac_leaf_rep_750x2b963e70_rot" unit="deg" x="-8.1359898428828" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="76" name="versa_linac_leaf_rep_760x2b964030">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_760x2b964030_pos" unit="mm" x="-77.5" y="67.7542739393604" z="0"/>
+        <rotation name="versa_linac_leaf_rep_760x2b964030_rot" unit="deg" x="-8.36517265535837" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="77" name="versa_linac_leaf_rep_770x2b9641f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_770x2b9641f0_pos" unit="mm" x="-77.5" y="69.623723350441" z="0"/>
+        <rotation name="versa_linac_leaf_rep_770x2b9641f0_rot" unit="deg" x="-8.59435546783394" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="78" name="versa_linac_leaf_rep_780x2b9646a0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_780x2b9646a0_pos" unit="mm" x="-77.5" y="71.4942488352294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_780x2b9646a0_rot" unit="deg" x="-8.82353828030952" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="79" name="versa_linac_leaf_rep_790x2b964860">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_790x2b964860_pos" unit="mm" x="-77.5" y="73.3658802192026" z="0"/>
+        <rotation name="versa_linac_leaf_rep_790x2b964860_rot" unit="deg" x="-9.05272109278509" y="0" z="-180"/>
+      </physvol>
+      <physvol copynumber="80" name="versa_linac_leaf_rep_800x2b964a20">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_800x2b964a20_pos" unit="mm" x="77.5" y="-73.3658802192026" z="0"/>
+        <rotation name="versa_linac_leaf_rep_800x2b964a20_rot" unit="deg" x="9.05272109278509" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="81" name="versa_linac_leaf_rep_810x2b964be0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_810x2b964be0_pos" unit="mm" x="77.5" y="-71.4942488352294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_810x2b964be0_rot" unit="deg" x="8.82353828030952" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="82" name="versa_linac_leaf_rep_820x2b964da0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_820x2b964da0_pos" unit="mm" x="77.5" y="-69.623723350441" z="0"/>
+        <rotation name="versa_linac_leaf_rep_820x2b964da0_rot" unit="deg" x="8.59435546783394" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="83" name="versa_linac_leaf_rep_830x2b964f60">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_830x2b964f60_pos" unit="mm" x="77.5" y="-67.7542739393604" z="0"/>
+        <rotation name="versa_linac_leaf_rep_830x2b964f60_rot" unit="deg" x="8.36517265535837" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="84" name="versa_linac_leaf_rep_840x2b965120">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_840x2b965120_pos" unit="mm" x="77.5" y="-65.885870864958" z="0"/>
+        <rotation name="versa_linac_leaf_rep_840x2b965120_rot" unit="deg" x="8.1359898428828" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="85" name="versa_linac_leaf_rep_850x2b9652e0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_850x2b9652e0_pos" unit="mm" x="77.5" y="-64.0184844760844" z="0"/>
+        <rotation name="versa_linac_leaf_rep_850x2b9652e0_rot" unit="deg" x="7.90680703040723" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="86" name="versa_linac_leaf_rep_860x2b9654a0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_860x2b9654a0_pos" unit="mm" x="77.5" y="-62.1520852049217" z="0"/>
+        <rotation name="versa_linac_leaf_rep_860x2b9654a0_rot" unit="deg" x="7.67762421793166" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="87" name="versa_linac_leaf_rep_870x2b965660">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_870x2b965660_pos" unit="mm" x="77.5" y="-60.2866435644507" z="0"/>
+        <rotation name="versa_linac_leaf_rep_870x2b965660_rot" unit="deg" x="7.44844140545608" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="88" name="versa_linac_leaf_rep_880x2b965820">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_880x2b965820_pos" unit="mm" x="77.5" y="-58.422130145935" z="0"/>
+        <rotation name="versa_linac_leaf_rep_880x2b965820_rot" unit="deg" x="7.21925859298051" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="89" name="versa_linac_leaf_rep_890x2b9659e0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_890x2b9659e0_pos" unit="mm" x="77.5" y="-56.5585156164202" z="0"/>
+        <rotation name="versa_linac_leaf_rep_890x2b9659e0_rot" unit="deg" x="6.99007578050494" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="90" name="versa_linac_leaf_rep_900x2b965ba0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_900x2b965ba0_pos" unit="mm" x="77.5" y="-54.6957707162493" z="0"/>
+        <rotation name="versa_linac_leaf_rep_900x2b965ba0_rot" unit="deg" x="6.76089296802937" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="91" name="versa_linac_leaf_rep_910x2b965d60">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_910x2b965d60_pos" unit="mm" x="77.5" y="-52.8338662565918" z="0"/>
+        <rotation name="versa_linac_leaf_rep_910x2b965d60_rot" unit="deg" x="6.5317101555538" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="92" name="versa_linac_leaf_rep_920x2b965f20">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_920x2b965f20_pos" unit="mm" x="77.5" y="-50.9727731169878" z="0"/>
+        <rotation name="versa_linac_leaf_rep_920x2b965f20_rot" unit="deg" x="6.30252734307822" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="93" name="versa_linac_leaf_rep_930x2b9660e0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_930x2b9660e0_pos" unit="mm" x="77.5" y="-49.1124622429053" z="0"/>
+        <rotation name="versa_linac_leaf_rep_930x2b9660e0_rot" unit="deg" x="6.07334453060265" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="94" name="versa_linac_leaf_rep_940x2b9643b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_940x2b9643b0_pos" unit="mm" x="77.5" y="-47.2529046433107" z="0"/>
+        <rotation name="versa_linac_leaf_rep_940x2b9643b0_rot" unit="deg" x="5.84416171812708" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="95" name="versa_linac_leaf_rep_950x2b964570">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_950x2b964570_pos" unit="mm" x="77.5" y="-45.3940713882522" z="0"/>
+        <rotation name="versa_linac_leaf_rep_950x2b964570_rot" unit="deg" x="5.61497890565151" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="96" name="versa_linac_leaf_rep_960x2b9666a0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_960x2b9666a0_pos" unit="mm" x="77.5" y="-43.5359336064553" z="0"/>
+        <rotation name="versa_linac_leaf_rep_960x2b9666a0_rot" unit="deg" x="5.38579609317594" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="97" name="versa_linac_leaf_rep_970x2b966860">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_970x2b966860_pos" unit="mm" x="77.5" y="-41.6784624829294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_970x2b966860_rot" unit="deg" x="5.15661328070037" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="98" name="versa_linac_leaf_rep_980x2b966a20">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_980x2b966a20_pos" unit="mm" x="77.5" y="-39.8216292565869" z="0"/>
+        <rotation name="versa_linac_leaf_rep_980x2b966a20_rot" unit="deg" x="4.92743046822479" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="99" name="versa_linac_leaf_rep_990x2b966be0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_990x2b966be0_pos" unit="mm" x="77.5" y="-37.9654052178714" z="0"/>
+        <rotation name="versa_linac_leaf_rep_990x2b966be0_rot" unit="deg" x="4.69824765574922" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="100" name="versa_linac_leaf_rep_1000x2b966da0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1000x2b966da0_pos" unit="mm" x="77.5" y="-36.1097617063969" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1000x2b966da0_rot" unit="deg" x="4.46906484327365" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="101" name="versa_linac_leaf_rep_1010x2b967020">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1010x2b967020_pos" unit="mm" x="77.5" y="-34.2546701085974" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1010x2b967020_rot" unit="deg" x="4.23988203079808" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="102" name="versa_linac_leaf_rep_1020x2b967200">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1020x2b967200_pos" unit="mm" x="77.5" y="-32.4001018553839" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1020x2b967200_rot" unit="deg" x="4.01069921832251" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="103" name="versa_linac_leaf_rep_1030x2b9673e0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1030x2b9673e0_pos" unit="mm" x="77.5" y="-30.5460284198124" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1030x2b9673e0_rot" unit="deg" x="3.78151640584694" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="104" name="versa_linac_leaf_rep_1040x2b9675c0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1040x2b9675c0_pos" unit="mm" x="77.5" y="-28.6924213147581" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1040x2b9675c0_rot" unit="deg" x="3.55233359337136" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="105" name="versa_linac_leaf_rep_1050x2b9677a0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1050x2b9677a0_pos" unit="mm" x="77.5" y="-26.8392520905993" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1050x2b9677a0_rot" unit="deg" x="3.32315078089579" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="106" name="versa_linac_leaf_rep_1060x2b967980">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1060x2b967980_pos" unit="mm" x="77.5" y="-24.9864923329072" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1060x2b967980_rot" unit="deg" x="3.09396796842022" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="107" name="versa_linac_leaf_rep_1070x2b967b60">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1070x2b967b60_pos" unit="mm" x="77.5" y="-23.1341136601436" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1070x2b967b60_rot" unit="deg" x="2.86478515594465" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="108" name="versa_linac_leaf_rep_1080x2b967d40">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1080x2b967d40_pos" unit="mm" x="77.5" y="-21.2820877213644" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1080x2b967d40_rot" unit="deg" x="2.63560234346908" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="109" name="versa_linac_leaf_rep_1090x2b967f20">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1090x2b967f20_pos" unit="mm" x="77.5" y="-19.4303861939297" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1090x2b967f20_rot" unit="deg" x="2.4064195309935" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="110" name="versa_linac_leaf_rep_1100x2b968100">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1100x2b968100_pos" unit="mm" x="77.5" y="-17.5789807812189" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1100x2b968100_rot" unit="deg" x="2.17723671851793" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="111" name="versa_linac_leaf_rep_1110x2b968750">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1110x2b968750_pos" unit="mm" x="77.5" y="-15.7278432103511" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1110x2b968750_rot" unit="deg" x="1.94805390604236" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="112" name="versa_linac_leaf_rep_1120x2b968930">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1120x2b968930_pos" unit="mm" x="77.5" y="-13.8769452299105" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1120x2b968930_rot" unit="deg" x="1.71887109356679" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="113" name="versa_linac_leaf_rep_1130x2b968b10">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1130x2b968b10_pos" unit="mm" x="77.5" y="-12.0262586076755" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1130x2b968b10_rot" unit="deg" x="1.48968828109122" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="114" name="versa_linac_leaf_rep_1140x2b968cf0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1140x2b968cf0_pos" unit="mm" x="77.5" y="-10.1757551283516" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1140x2b968cf0_rot" unit="deg" x="1.26050546861564" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="115" name="versa_linac_leaf_rep_1150x2b968ed0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1150x2b968ed0_pos" unit="mm" x="77.5" y="-8.32540659130787" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1150x2b968ed0_rot" unit="deg" x="1.03132265614007" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="116" name="versa_linac_leaf_rep_1160x2b9690b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1160x2b9690b0_pos" unit="mm" x="77.5" y="-6.47518480831642" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1160x2b9690b0_rot" unit="deg" x="0.802139843664502" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="117" name="versa_linac_leaf_rep_1170x2b969290">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1170x2b969290_pos" unit="mm" x="77.5" y="-4.62506160129363" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1170x2b969290_rot" unit="deg" x="0.57295703118893" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="118" name="versa_linac_leaf_rep_1180x2b969470">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1180x2b969470_pos" unit="mm" x="77.5" y="-2.77500880004401" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1180x2b969470_rot" unit="deg" x="0.343774218713358" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="119" name="versa_linac_leaf_rep_1190x2b969650">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1190x2b969650_pos" unit="mm" x="77.5" y="-0.924998240005277" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1190x2b969650_rot" unit="deg" x="0.114591406237786" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="120" name="versa_linac_leaf_rep_1200x2b969830">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1200x2b969830_pos" unit="mm" x="77.5" y="0.924998240005277" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1200x2b969830_rot" unit="deg" x="-0.114591406237786" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="121" name="versa_linac_leaf_rep_1210x2b969a10">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1210x2b969a10_pos" unit="mm" x="77.5" y="2.77500880004401" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1210x2b969a10_rot" unit="deg" x="-0.343774218713358" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="122" name="versa_linac_leaf_rep_1220x2b969bf0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1220x2b969bf0_pos" unit="mm" x="77.5" y="4.62506160129363" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1220x2b969bf0_rot" unit="deg" x="-0.57295703118893" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="123" name="versa_linac_leaf_rep_1230x2b969dd0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1230x2b969dd0_pos" unit="mm" x="77.5" y="6.47518480831642" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1230x2b969dd0_rot" unit="deg" x="-0.802139843664502" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="124" name="versa_linac_leaf_rep_1240x2b969fb0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1240x2b969fb0_pos" unit="mm" x="77.5" y="8.32540659130787" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1240x2b969fb0_rot" unit="deg" x="-1.03132265614007" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="125" name="versa_linac_leaf_rep_1250x2b96a190">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1250x2b96a190_pos" unit="mm" x="77.5" y="10.1757551283516" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1250x2b96a190_rot" unit="deg" x="-1.26050546861564" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="126" name="versa_linac_leaf_rep_1260x2b96a370">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1260x2b96a370_pos" unit="mm" x="77.5" y="12.0262586076755" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1260x2b96a370_rot" unit="deg" x="-1.48968828109122" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="127" name="versa_linac_leaf_rep_1270x2b96a550">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1270x2b96a550_pos" unit="mm" x="77.5" y="13.8769452299105" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1270x2b96a550_rot" unit="deg" x="-1.71887109356679" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="128" name="versa_linac_leaf_rep_1280x2b96a730">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1280x2b96a730_pos" unit="mm" x="77.5" y="15.7278432103511" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1280x2b96a730_rot" unit="deg" x="-1.94805390604236" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="129" name="versa_linac_leaf_rep_1290x2b96b5d0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1290x2b96b5d0_pos" unit="mm" x="77.5" y="17.5789807812189" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1290x2b96b5d0_rot" unit="deg" x="-2.17723671851793" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="130" name="versa_linac_leaf_rep_1300x2b96b7b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1300x2b96b7b0_pos" unit="mm" x="77.5" y="19.4303861939297" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1300x2b96b7b0_rot" unit="deg" x="-2.4064195309935" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="131" name="versa_linac_leaf_rep_1310x2b96b990">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1310x2b96b990_pos" unit="mm" x="77.5" y="21.2820877213644" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1310x2b96b990_rot" unit="deg" x="-2.63560234346908" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="132" name="versa_linac_leaf_rep_1320x2b96bb70">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1320x2b96bb70_pos" unit="mm" x="77.5" y="23.1341136601436" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1320x2b96bb70_rot" unit="deg" x="-2.86478515594465" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="133" name="versa_linac_leaf_rep_1330x2b96bd50">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1330x2b96bd50_pos" unit="mm" x="77.5" y="24.9864923329072" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1330x2b96bd50_rot" unit="deg" x="-3.09396796842022" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="134" name="versa_linac_leaf_rep_1340x2b9511a0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1340x2b9511a0_pos" unit="mm" x="77.5" y="26.8392520905993" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1340x2b9511a0_rot" unit="deg" x="-3.32315078089579" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="135" name="versa_linac_leaf_rep_1350x2b951380">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1350x2b951380_pos" unit="mm" x="77.5" y="28.6924213147581" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1350x2b951380_rot" unit="deg" x="-3.55233359337136" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="136" name="versa_linac_leaf_rep_1360x2b951560">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1360x2b951560_pos" unit="mm" x="77.5" y="30.5460284198124" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1360x2b951560_rot" unit="deg" x="-3.78151640584694" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="137" name="versa_linac_leaf_rep_1370x2b96cb10">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1370x2b96cb10_pos" unit="mm" x="77.5" y="32.4001018553839" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1370x2b96cb10_rot" unit="deg" x="-4.01069921832251" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="138" name="versa_linac_leaf_rep_1380x2b96ccf0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1380x2b96ccf0_pos" unit="mm" x="77.5" y="34.2546701085974" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1380x2b96ccf0_rot" unit="deg" x="-4.23988203079808" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="139" name="versa_linac_leaf_rep_1390x2b96ced0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1390x2b96ced0_pos" unit="mm" x="77.5" y="36.1097617063969" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1390x2b96ced0_rot" unit="deg" x="-4.46906484327365" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="140" name="versa_linac_leaf_rep_1400x2b96d0b0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1400x2b96d0b0_pos" unit="mm" x="77.5" y="37.9654052178714" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1400x2b96d0b0_rot" unit="deg" x="-4.69824765574922" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="141" name="versa_linac_leaf_rep_1410x2b96d290">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1410x2b96d290_pos" unit="mm" x="77.5" y="39.8216292565869" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1410x2b96d290_rot" unit="deg" x="-4.92743046822479" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="142" name="versa_linac_leaf_rep_1420x2b96d470">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1420x2b96d470_pos" unit="mm" x="77.5" y="41.6784624829294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1420x2b96d470_rot" unit="deg" x="-5.15661328070037" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="143" name="versa_linac_leaf_rep_1430x2b96d650">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1430x2b96d650_pos" unit="mm" x="77.5" y="43.5359336064553" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1430x2b96d650_rot" unit="deg" x="-5.38579609317594" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="144" name="versa_linac_leaf_rep_1440x2b96d830">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1440x2b96d830_pos" unit="mm" x="77.5" y="45.3940713882522" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1440x2b96d830_rot" unit="deg" x="-5.61497890565151" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="145" name="versa_linac_leaf_rep_1450x2b96da10">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1450x2b96da10_pos" unit="mm" x="77.5" y="47.2529046433107" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1450x2b96da10_rot" unit="deg" x="-5.84416171812708" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="146" name="versa_linac_leaf_rep_1460x2b96dbf0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1460x2b96dbf0_pos" unit="mm" x="77.5" y="49.1124622429053" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1460x2b96dbf0_rot" unit="deg" x="-6.07334453060265" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="147" name="versa_linac_leaf_rep_1470x2b96ddd0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1470x2b96ddd0_pos" unit="mm" x="77.5" y="50.9727731169878" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1470x2b96ddd0_rot" unit="deg" x="-6.30252734307822" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="148" name="versa_linac_leaf_rep_1480x2b96dfb0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1480x2b96dfb0_pos" unit="mm" x="77.5" y="52.8338662565918" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1480x2b96dfb0_rot" unit="deg" x="-6.5317101555538" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="149" name="versa_linac_leaf_rep_1490x2b96e190">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1490x2b96e190_pos" unit="mm" x="77.5" y="54.6957707162493" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1490x2b96e190_rot" unit="deg" x="-6.76089296802937" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="150" name="versa_linac_leaf_rep_1500x2b96e370">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1500x2b96e370_pos" unit="mm" x="77.5" y="56.5585156164202" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1500x2b96e370_rot" unit="deg" x="-6.99007578050494" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="151" name="versa_linac_leaf_rep_1510x2b96b130">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1510x2b96b130_pos" unit="mm" x="77.5" y="58.422130145935" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1510x2b96b130_rot" unit="deg" x="-7.21925859298051" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="152" name="versa_linac_leaf_rep_1520x2b96b310">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1520x2b96b310_pos" unit="mm" x="77.5" y="60.2866435644507" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1520x2b96b310_rot" unit="deg" x="-7.44844140545608" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="153" name="versa_linac_leaf_rep_1530x2b96b4f0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1530x2b96b4f0_pos" unit="mm" x="77.5" y="62.1520852049217" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1530x2b96b4f0_rot" unit="deg" x="-7.67762421793166" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="154" name="versa_linac_leaf_rep_1540x2b96ebc0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1540x2b96ebc0_pos" unit="mm" x="77.5" y="64.0184844760844" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1540x2b96ebc0_rot" unit="deg" x="-7.90680703040723" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="155" name="versa_linac_leaf_rep_1550x2b96eda0">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1550x2b96eda0_pos" unit="mm" x="77.5" y="65.885870864958" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1550x2b96eda0_rot" unit="deg" x="-8.1359898428828" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="156" name="versa_linac_leaf_rep_1560x2b96ef80">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1560x2b96ef80_pos" unit="mm" x="77.5" y="67.7542739393604" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1560x2b96ef80_rot" unit="deg" x="-8.36517265535837" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="157" name="versa_linac_leaf_rep_1570x2b96f160">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1570x2b96f160_pos" unit="mm" x="77.5" y="69.623723350441" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1570x2b96f160_rot" unit="deg" x="-8.59435546783394" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="158" name="versa_linac_leaf_rep_1580x2b96f340">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1580x2b96f340_pos" unit="mm" x="77.5" y="71.4942488352294" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1580x2b96f340_rot" unit="deg" x="-8.82353828030952" y="0" z="0"/>
+      </physvol>
+      <physvol copynumber="159" name="versa_linac_leaf_rep_1590x2b96f520">
+        <volumeref ref="versa_linac_leaf0x2b950e60"/>
+        <position name="versa_linac_leaf_rep_1590x2b96f520_pos" unit="mm" x="77.5" y="73.3658802192026" z="0"/>
+        <rotation name="versa_linac_leaf_rep_1590x2b96f520_rot" unit="deg" x="-9.05272109278509" y="0" z="0"/>
+      </physvol>
+    </volume>
+    <volume name="versa_linac0x2b917400">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="versa_linac0x2b9011c0"/>
+      <physvol name="versa_linac_target_support0x2b917a60">
+        <volumeref ref="versa_linac_target_support0x2b9178a0"/>
+        <position name="versa_linac_target_support0x2b917a60_pos" unit="mm" x="0" y="0" z="253.249999"/>
+      </physvol>
+      <physvol name="versa_linac_primary_collimator0x2b92b640">
+        <volumeref ref="versa_linac_primary_collimator0x2b92b460"/>
+        <position name="versa_linac_primary_collimator0x2b92b640_pos" unit="mm" x="0" y="0" z="189.4"/>
+      </physvol>
+      <physvol name="versa_linac_flattening_filter0x2b92bd40">
+        <volumeref ref="versa_linac_flattening_filter0x2b92bbe0"/>
+        <position name="versa_linac_flattening_filter0x2b92bd40_pos" unit="mm" x="0" y="0" z="110.45"/>
+      </physvol>
+      <physvol name="versa_linac_ionizing_chamber0x2b935260">
+        <volumeref ref="versa_linac_ionizing_chamber0x2b935100"/>
+        <position name="versa_linac_ionizing_chamber0x2b935260_pos" unit="mm" x="0" y="0" z="87.5"/>
+      </physvol>
+      <physvol name="versa_linac_back_scatter_plate0x2b93cd30">
+        <volumeref ref="versa_linac_back_scatter_plate0x2b93cb10"/>
+        <position name="versa_linac_back_scatter_plate0x2b93cd30_pos" unit="mm" x="0" y="0" z="72.5"/>
+      </physvol>
+      <physvol name="versa_linac_mirror0x2b93d1f0">
+        <volumeref ref="versa_linac_mirror0x2b93d080"/>
+        <position name="versa_linac_mirror0x2b93d1f0_pos" unit="mm" x="0" y="0" z="32.5"/>
+        <rotation name="versa_linac_mirror0x2b93d1f0_rot" unit="deg" x="-37.5" y="0" z="0"/>
+      </physvol>
+      <physvol name="target_kill_volume10x2b93e480">
+        <volumeref ref="target_kill_volume10x2b93e350"/>
+        <position name="target_kill_volume10x2b93e480_pos" unit="mm" x="0" y="0" z="259.9999995"/>
+      </physvol>
+      <physvol name="target_kill_volume20x2b93ea80">
+        <volumeref ref="target_kill_volume20x2b93e8c0"/>
+        <position name="target_kill_volume20x2b93ea80_pos" unit="mm" x="0" y="0" z="253.249999"/>
+      </physvol>
+      <physvol name="jaw_box_left0x2b93ef60">
+        <volumeref ref="jaw_box_left0x2b93ed90"/>
+        <position name="jaw_box_left0x2b93ef60_pos" unit="mm" x="0" y="-110" z="-214"/>
+      </physvol>
+      <physvol name="jaw_box_right0x2b946c30">
+        <volumeref ref="jaw_box_right0x2b946ac0"/>
+        <position name="jaw_box_right0x2b946c30_pos" unit="mm" x="0" y="110" z="-214"/>
+        <rotation name="jaw_box_right0x2b946c30_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="versa_linac_mlc0x2b94f6e0">
+        <volumeref ref="versa_linac_mlc0x2b94f570"/>
+        <position name="versa_linac_mlc0x2b94f6e0_pos" unit="mm" x="0" y="0" z="-92.8"/>
+        <rotation name="versa_linac_mlc0x2b94f6e0_rot" unit="deg" x="-0.533083052485776" y="0" z="0"/>
+      </physvol>
+    </volume>
+    <volume name="world0x2b900bd0">
+      <materialref ref="G4_AIR0x2b90e0f0"/>
+      <solidref ref="world0x2b916980"/>
+      <physvol name="versa_linac0x2b917590">
+        <volumeref ref="versa_linac0x2b917400"/>
+        <position name="versa_linac0x2b917590_pos" unit="mm" x="0" y="0" z="743.5"/>
+      </physvol>
+    </volume>
+  </structure>
+
+  <userinfo>
+    <auxiliary auxtype="Region" auxvalue="DefaultRegionForTheWorld0x2b6dcb00">
+      <auxiliary auxtype="volume" auxvalue="world0x2b900bd0"/>
+      <auxiliary auxtype="gamcut" auxunit="mm" auxvalue="1"/>
+      <auxiliary auxtype="ecut" auxunit="mm" auxvalue="1"/>
+      <auxiliary auxtype="poscut" auxunit="mm" auxvalue="1"/>
+      <auxiliary auxtype="pcut" auxunit="mm" auxvalue="1"/>
+    </auxiliary>
+  </userinfo>
+
+  <setup name="Default" version="1.0">
+    <world ref="world0x2b900bd0"/>
+  </setup>
+
+</gdml>

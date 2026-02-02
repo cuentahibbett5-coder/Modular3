@@ -1,0 +1,428 @@
+"""
+Cálculo de dosis en phantoms voxelizados con GATE 10
+
+Este módulo maneja el cálculo de distribuciones de dosis en volúmenes
+voxelizados, incluyendo la conversión de imágenes CT y la configuración
+de DoseActor para análisis dosimétrico.
+
+Autor: Proyecto Modular 3 - CUCEI
+Fecha: Enero 2026
+"""
+
+import numpy as np
+import SimpleITK as sitk
+from pathlib import Path
+import yaml
+import opengate as gate
+
+
+class DoseCalculator:
+    """
+    Calcula distribuciones de dosis en geometrías voxelizadas.
+    """
+    
+    def __init__(self, phantom_path=None, phase_space_path=None,
+                 materials_config='config/materials.yaml'):
+        """
+        Inicializa el calculador de dosis.
+        
+        Args:
+            phantom_path: Ruta a imagen CT o phantom (.mhd, .nii, etc.)
+            phase_space_path: Ruta a phase space para usar como fuente
+            materials_config: Configuración de materiales HU
+        """
+        self.phantom_path = phantom_path
+        self.phase_space_path = phase_space_path
+        
+        # Cargar configuración de materiales
+        config_path = Path(materials_config)
+        if not config_path.is_absolute():
+            config_path = Path(__file__).parent.parent / materials_config
+        
+        with open(config_path, 'r') as f:
+            self.materials_config = yaml.safe_load(f)
+        
+        self.sim = gate.Simulation()
+        self.phantom_volume = None
+        self.dose_actor = None
+        
+        print("DoseCalculator inicializado")
+    
+    def setup_world(self):
+        """Configura el mundo de la simulación."""
+        m = gate.g4_units.m
+        self.sim.world.size = [2 * m, 2 * m, 3 * m]
+        self.sim.world.material = "G4_AIR"
+    
+    def load_ct_image(self, ct_path):
+        """
+        Carga una imagen CT y devuelve array de HU.
+        
+        Args:
+            ct_path: Ruta a archivo de imagen
+        
+        Returns:
+            tuple: (image_array, spacing, origin)
+        """
+        print(f"Cargando imagen CT: {ct_path}")
+        
+        image = sitk.ReadImage(str(ct_path))
+        image_array = sitk.GetArrayFromImage(image)
+        spacing = image.GetSpacing()
+        origin = image.GetOrigin()
+        
+        print(f"  Dimensiones: {image_array.shape}")
+        print(f"  Spacing: {spacing} mm")
+        print(f"  Rango HU: [{image_array.min()}, {image_array.max()}]")
+        
+        return image_array, spacing, origin
+    
+    def hu_to_density(self, hu_values):
+        """
+        Convierte Unidades Hounsfield a densidad (g/cm³).
+        
+        Args:
+            hu_values: Array de valores HU
+        
+        Returns:
+            Array de densidades
+        """
+        # Fórmula de conversión estándar
+        density = np.where(
+            hu_values < 0,
+            1.0 + hu_values / 1000.0,  # Menos denso que agua
+            1.0 + hu_values / 1000.0   # Más denso que agua
+        )
+        
+        # Limitar a rango físico razonable
+        density = np.clip(density, 0.001, 5.0)
+        
+        return density
+    
+    def hu_to_material(self, hu_value):
+        """
+        Mapea un valor HU a un material de Geant4.
+        
+        Args:
+            hu_value: Valor de Unidad Hounsfield
+        
+        Returns:
+            str: Nombre del material de Geant4
+        """
+        # Buscar en la tabla de materiales
+        for mat in self.materials_config['materials']:
+            if mat['hu_min'] <= hu_value <= mat['hu_max']:
+                return mat['material']
+        
+        # Default: agua
+        return "G4_WATER"
+    
+    def create_voxelized_phantom(self, image_path=None, image_array=None,
+                                spacing=None, position_mm=[0, 0, 1000]):
+        """
+        Crea un phantom voxelizado desde una imagen.
+        
+        Args:
+            image_path: Ruta a imagen CT
+            image_array: Array numpy con HU (alternativa a image_path)
+            spacing: Spacing de voxels [x, y, z] en mm
+            position_mm: Posición del centro del phantom
+        
+        Returns:
+            Volumen del phantom
+        """
+        mm = gate.g4_units.mm
+        gcm3 = gate.g4_units.g_cm3
+        
+        # Cargar imagen si se proporciona path
+        if image_path is not None:
+            image_array, img_spacing, origin = self.load_ct_image(image_path)
+            if spacing is None:
+                spacing = img_spacing
+        
+        if image_array is None:
+            raise ValueError("Se requiere image_path o image_array")
+        
+        print(f"\nCreando phantom voxelizado...")
+        
+        # Convertir HU a densidad
+        density_array = self.hu_to_density(image_array)
+        
+        # Crear imagen de densidad con SimpleITK
+        density_image = sitk.GetImageFromArray(density_array.astype(np.float32))
+        density_image.SetSpacing(spacing)
+        
+        # Guardar imagen de densidad temporal
+        temp_density_path = Path('temp_density.mhd')
+        sitk.WriteImage(density_image, str(temp_density_path))
+        
+        # Crear volumen voxelizado en GATE
+        self.phantom_volume = self.sim.add_volume('Image', 'ct_phantom')
+        self.phantom_volume.image = str(temp_density_path)
+        self.phantom_volume.material = "G4_WATER"  # Material base
+        self.phantom_volume.voxel_materials = self._create_material_table(image_array)
+        self.phantom_volume.translation = [p * mm for p in position_mm]
+        
+        # Configurar tolerancia de densidad para optimización
+        density_tol = self.materials_config.get('density_tolerance', {}).get('gcm3', 0.01)
+        self.phantom_volume.dump_label_image = False
+        
+        print(f"  Phantom voxelizado creado: {image_array.shape}")
+        print(f"  Spacing: {spacing} mm")
+        print(f"  Tolerancia de densidad: {density_tol} g/cm³")
+        
+        return self.phantom_volume
+    
+    def _create_material_table(self, hu_array):
+        """
+        Crea tabla de materiales para el phantom voxelizado.
+        
+        Args:
+            hu_array: Array de Unidades Hounsfield
+        
+        Returns:
+            Lista de materiales indexados
+        """
+        # Crear índices únicos basados en rangos HU
+        material_indices = np.zeros_like(hu_array, dtype=np.int32)
+        materials_list = []
+        
+        for idx, mat_config in enumerate(self.materials_config['materials']):
+            mask = (hu_array >= mat_config['hu_min']) & (hu_array <= mat_config['hu_max'])
+            material_indices[mask] = idx
+            materials_list.append(mat_config['material'])
+        
+        return materials_list
+    
+    def create_water_phantom(self, size_mm=[400, 400, 400], position_mm=[0, 0, 1000]):
+        """
+        Crea un phantom simple de agua.
+        
+        Args:
+            size_mm: Dimensiones [x, y, z] en mm
+            position_mm: Posición del centro
+        
+        Returns:
+            Volumen del phantom
+        """
+        mm = gate.g4_units.mm
+        
+        self.phantom_volume = self.sim.add_volume('Box', 'water_phantom')
+        self.phantom_volume.size = [s * mm for s in size_mm]
+        self.phantom_volume.material = "G4_WATER"
+        self.phantom_volume.translation = [p * mm for p in position_mm]
+        self.phantom_volume.color = [0, 0.5, 1, 0.3]
+        
+        print(f"Phantom de agua creado: {size_mm} mm en {position_mm}")
+        
+        return self.phantom_volume
+    
+    def add_dose_actor(self, resolution=[80, 80, 80], output_path='dose.mhd'):
+        """
+        Añade un DoseActor al phantom.
+        
+        Args:
+            resolution: Número de voxels [nx, ny, nz]
+            output_path: Archivo de salida
+        
+        Returns:
+            DoseActor configurado
+        """
+        if self.phantom_volume is None:
+            raise ValueError("Debe crear un phantom primero")
+        
+        mm = gate.g4_units.mm
+        
+        # Obtener tamaño del phantom
+        if hasattr(self.phantom_volume, 'size'):
+            phantom_size = self.phantom_volume.size
+        else:
+            # Para volúmenes tipo Image, inferir del archivo
+            phantom_size = [400 * mm, 400 * mm, 400 * mm]  # Default
+        
+        # Crear DoseActor
+        self.dose_actor = self.sim.add_actor('DoseActor', 'dose')
+        self.dose_actor.attached_to = self.phantom_volume.name
+        self.dose_actor.size = resolution
+        
+        # Calcular spacing
+        spacing = [phantom_size[i] / resolution[i] for i in range(3)]
+        self.dose_actor.spacing = spacing
+        
+        # Configurar salidas
+        self.dose_actor.output = output_path
+        self.dose_actor.dose = True  # Dosis en Gy
+        self.dose_actor.dose_uncertainty = True  # Incertidumbre estadística
+        self.dose_actor.edep = True  # Energía depositada en MeV
+        self.dose_actor.square = True  # Para cálculo de incertidumbre
+        self.dose_actor.counts = True  # Número de hits por voxel
+        
+        print(f"DoseActor añadido:")
+        print(f"  Resolución: {resolution}")
+        print(f"  Spacing: {[s/mm for s in spacing]} mm")
+        print(f"  Salida: {output_path}")
+        
+        return self.dose_actor
+    
+    def setup_physics(self, physics_config='config/physics.yaml'):
+        """Configura la física de la simulación."""
+        config_path = Path(physics_config)
+        if not config_path.is_absolute():
+            config_path = Path(__file__).parent.parent / physics_config
+        
+        with open(config_path, 'r') as f:
+            config = yaml.safe_load(f)
+        
+        # Physics list
+        self.sim.physics_manager.physics_list_name = config['physics_list']['name']
+        
+        # Cortes de producción
+        mm = gate.g4_units.mm
+        cuts = config['production_cuts']['phantom']
+        
+        self.sim.physics_manager.global_production_cuts.gamma = cuts['gamma'] * mm
+        self.sim.physics_manager.global_production_cuts.electron = cuts['electron'] * mm
+        self.sim.physics_manager.global_production_cuts.positron = cuts['positron'] * mm
+        
+        print(f"Física configurada: {config['physics_list']['name']}")
+    
+    def setup_source_from_phase_space(self, phase_space_path, num_particles=1e8):
+        """
+        Configura fuente desde espacio de fase.
+        
+        Args:
+            phase_space_path: Ruta al archivo de phase space
+            num_particles: Número de partículas a usar
+        """
+        source = self.sim.add_source('PhaseSpaceSource', 'phsp_source')
+        source.phsp_file = str(phase_space_path)
+        source.n = int(num_particles)
+        source.position.translation = [0, 0, 0]
+        
+        print(f"Fuente configurada desde Phase Space: {phase_space_path}")
+        print(f"  Partículas: {num_particles:.2e}")
+        
+        return source
+    
+    def calculate_dose(self, num_particles=None):
+        """
+        Ejecuta el cálculo de dosis.
+        
+        Args:
+            num_particles: Número de partículas (None = usar default)
+        
+        Returns:
+            dict: Resultados de la simulación
+        """
+        print(f"\n{'='*60}")
+        print("INICIANDO CÁLCULO DE DOSIS")
+        print(f"{'='*60}\n")
+        
+        # Ejecutar simulación
+        self.sim.run()
+        
+        # Obtener estadísticas
+        stats = self.sim.get_actor('SimulationStatisticsActor')
+        print("\n" + "="*60)
+        print("ESTADÍSTICAS DE LA SIMULACIÓN")
+        print("="*60)
+        print(stats)
+        print("="*60)
+        
+        # Acceder a los datos de dosis en memoria (NumPy)
+        if self.dose_actor is not None:
+            dose_array = self.dose_actor.dose.get_data()
+            uncertainty_array = self.dose_actor.dose_uncertainty.get_data()
+            
+            print(f"\nDatos de dosis:")
+            print(f"  Shape: {dose_array.shape}")
+            print(f"  Dosis máxima: {np.max(dose_array):.3f} Gy")
+            print(f"  Dosis media: {np.mean(dose_array):.3f} Gy")
+            print(f"  Incertidumbre media: {np.mean(uncertainty_array):.2f}%")
+            
+            results = {
+                'dose': dose_array,
+                'uncertainty': uncertainty_array,
+                'max_dose_Gy': np.max(dose_array),
+                'mean_dose_Gy': np.mean(dose_array),
+                'mean_uncertainty_percent': np.mean(uncertainty_array)
+            }
+            
+            return results
+        
+        return {}
+    
+    def save_dose(self, output_path, dose_array=None):
+        """
+        Guarda el mapa de dosis en formato de imagen.
+        
+        Args:
+            output_path: Ruta de salida (.mhd, .nii, etc.)
+            dose_array: Array de dosis (None = usar último cálculo)
+        """
+        if dose_array is None and self.dose_actor is not None:
+            dose_array = self.dose_actor.dose.get_data()
+        
+        if dose_array is None:
+            raise ValueError("No hay datos de dosis disponibles")
+        
+        # Crear imagen SimpleITK
+        dose_image = sitk.GetImageFromArray(dose_array.astype(np.float32))
+        
+        # Escribir archivo
+        output_path = Path(output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        sitk.WriteImage(dose_image, str(output_path))
+        
+        print(f"\n✓ Dosis guardada en: {output_path}")
+
+
+def main():
+    """Script de ejemplo para cálculo de dosis."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Cálculo de dosis con GATE 10')
+    parser.add_argument('--phantom', choices=['water', 'ct'], default='water',
+                       help='Tipo de phantom')
+    parser.add_argument('--ct-image', type=str, help='Ruta a imagen CT')
+    parser.add_argument('--phase-space', type=str, required=True,
+                       help='Ruta a archivo de phase space')
+    parser.add_argument('--particles', type=float, default=1e8,
+                       help='Número de partículas')
+    parser.add_argument('--resolution', type=int, nargs=3, default=[80, 80, 80],
+                       help='Resolución del DoseActor [nx ny nz]')
+    parser.add_argument('--output', type=str, default='data/dose_maps/dose_calc.mhd',
+                       help='Archivo de salida')
+    
+    args = parser.parse_args()
+    
+    # Crear calculador
+    calc = DoseCalculator()
+    calc.setup_world()
+    calc.setup_physics()
+    
+    # Configurar phantom
+    if args.phantom == 'water':
+        calc.create_water_phantom()
+    elif args.phantom == 'ct':
+        if not args.ct_image:
+            print("Error: --ct-image requerido para phantom tipo 'ct'")
+            return
+        calc.create_voxelized_phantom(image_path=args.ct_image)
+    
+    # Añadir DoseActor
+    calc.add_dose_actor(resolution=args.resolution, output_path=args.output)
+    
+    # Configurar fuente
+    calc.setup_source_from_phase_space(args.phase_space, int(args.particles))
+    
+    # Calcular dosis
+    results = calc.calculate_dose()
+    
+    print(f"\n✓ Cálculo de dosis completado")
+    print(f"  Dosis máxima: {results['max_dose_Gy']:.3f} Gy")
+    print(f"  Incertidumbre media: {results['mean_uncertainty_percent']:.2f}%")
+
+
+if __name__ == '__main__':
+    main()

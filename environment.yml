@@ -1,0 +1,87 @@
+# Proyecto Modular 3 - Ambiente Conda/Mamba
+# Archivo de configuración para entorno reproducible
+
+name: modular3_gate10
+
+channels:
+  - conda-forge
+  - defaults
+  - pytorch
+
+dependencies:
+  # Python base
+  - python=3.11
+  
+  # Herramientas de desarrollo
+  - pip
+  - git
+  
+  # Procesamiento numérico
+  - numpy>=1.24
+  - scipy>=1.10
+  - pandas>=2.0
+  
+  # Visualización
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - vtk>=9.2
+  
+  # Jupyter (opcional)
+  - jupyter
+  - ipykernel
+  - notebook
+  
+  # Testing
+  - pytest>=7.3
+  - pytest-cov>=4.1
+  
+  # Configuración
+  - pyyaml>=6.0
+  - h5py>=3.8
+  
+  # PyTorch (con CUDA)
+  - pytorch>=2.0
+  - torchvision>=0.15
+  - pytorch-cuda=11.8
+  
+  # Utilidades científicas
+  - scikit-learn>=1.2
+  - scikit-image>=0.20
+  - pillow>=9.5
+  - tqdm>=4.65
+  
+  # Dependencias via pip (no disponibles en conda)
+  - pip:
+    - opengate>=10.0.0
+    - SimpleITK>=2.2.0
+    - pydicom>=2.3.0
+    - nibabel>=5.1.0
+    - pymedphys>=0.39.0
+    - onnx>=1.14.0
+    - onnxruntime>=1.15.0
+    - gaga-phsp>=0.9.0
+    - plotly>=5.14.0
+    - sphinx>=6.2.0
+    - sphinx-rtd-theme>=1.2.0
+    - joblib>=1.2.0
+
+# Instrucciones de uso:
+# 
+# Crear el entorno:
+# conda env create -f environment.yml
+# 
+# O usando mamba (más rápido):
+# mamba env create -f environment.yml
+# 
+# Activar el entorno:
+# conda activate modular3_gate10
+# 
+# Actualizar el entorno:
+# conda env update -f environment.yml --prune
+# 
+# Descargar datos de Geant4 después de la instalación:
+# export GIT_SSL_NO_VERIFY=1  # Si hay problemas SSL
+# opengate_info
+# 
+# Verificar instalación:
+# opengate_tests
