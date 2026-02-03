@@ -1,0 +1,122 @@
+$IAEA_INDEX:
+603   // IAEA website: www-nds.iaea.org/phsp/electron/ 
+
+$TITLE:
+Varian Clinac 2100CD, 6MeV, 15x15 
+
+$FILE_TYPE:
+0
+
+$CHECKSUM:
+1088052525 
+
+$RECORD_CONTENTS:
+    1     // X is stored ?
+    1     // Y is stored ?
+    1     // Z is stored ?
+    1     // U is stored ?
+    1     // V is stored ?
+    1     // W is stored ?
+    1     // Weight is stored ?
+    0     // Extra floats stored ?
+    2     // Extra longs stored ?
+    1     // Incremental history number stored in the extralong array [ 0] 
+    3     // ILB PENELOPE variable stored in the extralong array [ 1] 
+
+$RECORD_CONSTANT:
+
+$RECORD_LENGTH:
+37
+
+$BYTE_ORDER:
+1234
+
+$ORIG_HISTORIES:
+243209571
+
+$PARTICLES:
+29406825
+
+$PHOTONS:
+9376710
+
+$ELECTRONS:
+20029056
+
+$POSITRONS:
+1059
+
+$TRANSPORT_PARAMETERS:
+C1 = C2 = 0.1
+WCC = 100 keV and WCR = 20 keV
+
+$MACHINE_TYPE:
+VARIAN CLINAC 2100 C/D
+
+$MONTE_CARLO_CODE_VERSION:
+PENELOPE 2008
+penEasyLinac 2009-12-01
+penEasy 2009-11-04
+
+$GLOBAL_PHOTON_ENERGY_CUTOFF:
+  20 keV
+$GLOBAL_PARTICLE_ENERGY_CUTOFF:
+  100 keV 
+$COORDINATE_SYSTEM_DESCRIPTION:
+Cartesian right-handed
+Origin: z = 0, upstream face of the target, x = y = 0 central position of the target
+z axis parallel to beam direction, pointing downstream
+y along the direction of movement of the upper jaws, pointing towards the accesory holder when seen from its aperture
+x axis along the direction of movement of the lower jaws
+
+//  OPTIONAL INFORMATION
+
+$BEAM_NAME:
+6 MeV ELECTRON BEAM
+
+$FIELD_SIZE:
+15X15 cm2
+
+$NOMINAL_SSD:
+100 cm
+
+$MC_INPUT_FILENAME:
+
+$VARIANCE_REDUCTION_TECHNIQUES:
+Movable skins applied to the primary collimator and the jaws 
+Rotational splitting applied on a plane located below the ionisation chamber and above the secondary collimator 
+
+$INITIAL_SOURCE_DESCRIPTION:
+Electron point source at x = y = z = 0
+Monodirectional beam vx = vy = 0, vz = 1
+Monoenergetic, E = 7.184 MeV
+
+$PUBLISHED_REFERENCE:
+L Brualla, R Palanco-Zamora, A Wittig, J Sempau and W Sauerwein
+Comparison between PENELOPE and electron Monte Carlo simulations of electron fields used in the treatment of the conjunctival lymphoma
+Phys. Med. Biol. 54 (2009) 5469-5481.
+PHSP available online at http://www-nds.iaea.org/phsp/, IAEA, Vienna
+
+$AUTHORS:
+L. Brualla, R. Palanco-Zamora, MA. Duch, J. Sempau
+
+$INSTITUTION:
+Universitätsklinikum Essen (Germany), Karolinska University Hospital (Sweden), Universitat Politecnica de Catalunya (Spain)
+
+$LINK_VALIDATION:
+VarianClinac_2100CD-readme.PDF. Available online at http://www-nds.iaea.org/phsp/electron , IAEA, Vienna
+
+$ADDITIONAL_NOTES:
+This is IAEA header as defined in the technical 
+report IAEA(NDS)-0484, Vienna, 2006
+
+$STATISTICAL_INFORMATION_PARTICLES:
+//        Weight        Wmin       Wmax       <E>         Emin         Emax    Particle
+      9.37671E+06          1          1     0.8442          0.02       7.184   PHOTONS
+      2.00291E+07          1          1      6.134           0.1       6.958   ELECTRONS
+             1059          1          1      1.595        0.1072       5.513   POSITRONS
+
+$STATISTICAL_INFORMATION_GEOMETRY:
+ -6.86574  6.86574
+ -6.86574  6.86574
+ 78.45  78.5

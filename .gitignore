@@ -51,6 +51,10 @@ data/validation/*.raw
 data/dose_maps/*.mhd
 data/dose_maps/*.raw
 
+# IAEA phase space files (binarios y NPZ pesados)
+data/IAEA/*.IAEAphsp
+data/IAEA/*.npz
+
 # Resultados
 results/*
 !results/.gitkeep

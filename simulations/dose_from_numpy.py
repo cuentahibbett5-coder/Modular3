@@ -14,26 +14,49 @@ def dose_from_numpy_phsp(npz_file, output_dir, phantom_size_cm=30,
                          dose_resolution_mm=2, n_particles=None, threads=4):
     """
     Calcula dosis leyendo phase space desde numpy y usando GenericSource.
+    Soporta formato OpenGate y formato IAEA.
     """
     
     # Cargar phase space
     print(f"📂 Cargando phase space: {npz_file}")
     phsp = np.load(npz_file)
     
-    n_total = int(phsp['n_particles'])
-    n_use = min(n_total, n_particles) if n_particles else n_total
+    # Detectar formato y extraer datos
+    keys = list(phsp.keys())
+    
+    if 'pos_x' in keys:
+        # Formato IAEA
+        print("   Formato: IAEA")
+        n_total = len(phsp['pos_x'])
+        n_use = min(n_total, n_particles) if n_particles else n_total
+        
+        energy = phsp['energy'][:n_use]  # Ya en MeV
+        pos_x = phsp['pos_x'][:n_use] * 10  # cm → mm
+        pos_y = phsp['pos_y'][:n_use] * 10
+        pos_z = phsp['pos_z'][:n_use] * 10
+        dir_x = phsp['dir_u'][:n_use]
+        dir_y = phsp['dir_v'][:n_use]
+        dir_z = phsp['dir_w'][:n_use]
+        pdg = phsp['pdg'][:n_use]
+        
+    elif 'position_x' in keys:
+        # Formato OpenGate
+        print("   Formato: OpenGate")
+        n_total = int(phsp['n_particles'])
+        n_use = min(n_total, n_particles) if n_particles else n_total
+        
+        energy = phsp['energy'][:n_use]
+        pos_x = phsp['position_x'][:n_use]  # Ya en mm
+        pos_y = phsp['position_y'][:n_use]
+        pos_z = phsp['position_z'][:n_use]
+        dir_x = phsp['direction_x'][:n_use]
+        dir_y = phsp['direction_y'][:n_use]
+        dir_z = phsp['direction_z'][:n_use]
+        pdg = phsp['pdg_code'][:n_use]
+    else:
+        raise ValueError(f"Formato no reconocido. Keys: {keys}")
     
     print(f"📊 Partículas: {n_use:,} de {n_total:,}")
-    
-    # Extraer datos (limitar a n_use)
-    energy = phsp['energy'][:n_use]
-    pos_x = phsp['position_x'][:n_use]
-    pos_y = phsp['position_y'][:n_use]
-    pos_z = phsp['position_z'][:n_use]
-    dir_x = phsp['direction_x'][:n_use]
-    dir_y = phsp['direction_y'][:n_use]
-    dir_z = phsp['direction_z'][:n_use]
-    pdg = phsp['pdg_code'][:n_use]
     
     # Estadísticas
     unique_pdg, counts = np.unique(pdg, return_counts=True)
@@ -68,6 +91,10 @@ def dose_from_numpy_phsp(npz_file, output_dir, phantom_size_cm=30,
     phsp_z_cm = pos_z[0] / 10.0  # mm → cm
     phantom_z_cm = phsp_z_cm - 5.0
     phantom.translation = [0, 0, phantom_z_cm * cm]
+
+    # Radio efectivo del haz (mm) para la fuente
+    r_mm = np.sqrt(pos_x**2 + pos_y**2)
+    beam_radius_mm = float(np.percentile(r_mm, 99))
     
     print(f"\n🎯 Geometría:")
     print(f"   Phase space Z: {phsp_z_cm:.2f} cm")
@@ -107,23 +134,18 @@ def dose_from_numpy_phsp(npz_file, output_dir, phantom_size_cm=30,
         source.energy.histogram_weight = hist.tolist()
         source.energy.histogram_energy = bin_centers.tolist()
         
-        # Posición: usar el promedio (todas en mismo plano)
-        source.position.type = 'sphere'
-        source.position.radius = 0.001 * mm  # Punto
+        # Posición: disco con radio del haz (evita rayo puntual)
+        source.position.type = 'disc'
+        source.position.radius = beam_radius_mm * mm
         source.position.translation = [
-            float(np.mean(pos_x[mask])),
-            float(np.mean(pos_y[mask])),
-            float(np.mean(pos_z[mask]))
+            float(np.mean(pos_x[mask])) * mm,
+            float(np.mean(pos_y[mask])) * mm,
+            float(np.mean(pos_z[mask])) * mm
         ]
         
-        # Dirección: usar distribución promedio
-        # GenericSource no permite lista de direcciones, usamos momentum promedio
-        source.direction.type = 'momentum'
-        source.direction.momentum = [
-            float(np.mean(dir_x[mask])),
-            float(np.mean(dir_y[mask])),
-            float(np.mean(dir_z[mask]))
-        ]
+        # Dirección: enfocar hacia el centro del phantom (cono realista)
+        source.direction.type = 'focused'
+        source.direction.focus_point = [0 * mm, 0 * mm, phantom_z_cm * cm]
         
         print(f"   Fuente {particle_name}: {n_this:,} partículas")
     
