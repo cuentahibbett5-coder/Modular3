@@ -21,8 +21,8 @@ mkdir -p runs 2>/dev/null || true
 # Ruta del dataset en el cluster
 DATA_ROOT="/lustre/home/acastaneda/Fernando/Modular3/dataset_pilot"
 
-# Activar entorno virtual
-source .venv/bin/activate
+# Activar ambiente virtual con ruta absoluta
+source /lustre/home/acastaneda/Fernando/Modular3/.venv/bin/activate
 
 python train.py \
   --data-root "$DATA_ROOT" \
