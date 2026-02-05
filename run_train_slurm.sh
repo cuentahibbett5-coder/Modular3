@@ -12,17 +12,19 @@
 
 set -e
 
-cd "$(dirname "$0")"
+# Cambiar al directorio del proyecto
+WORK_DIR="/lustre/home/acastaneda/Fernando/Modular3"
+cd "$WORK_DIR"
 
 # Crear directorios si no existen y tenemos permisos
 mkdir -p logs 2>/dev/null || true
 mkdir -p runs 2>/dev/null || true
 
 # Ruta del dataset en el cluster
-DATA_ROOT="/lustre/home/acastaneda/Fernando/Modular3/dataset_pilot"
+DATA_ROOT="${WORK_DIR}/dataset_pilot"
 
-# Activar ambiente virtual con ruta absoluta
-source /lustre/home/acastaneda/Fernando/Modular3/.venv/bin/activate
+# Activar ambiente virtual
+source "${WORK_DIR}/.venv/bin/activate"
 
 python train.py \
   --data-root "$DATA_ROOT" \
