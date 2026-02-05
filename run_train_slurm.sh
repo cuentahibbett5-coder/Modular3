@@ -23,8 +23,9 @@ mkdir -p runs 2>/dev/null || true
 # Ruta del dataset en el cluster
 DATA_ROOT="${WORK_DIR}/dataset_pilot"
 
-# Activar ambiente virtual
-source "${WORK_DIR}/.venv/bin/activate"
+# Activar ambiente conda
+eval "$(conda shell.bash hook)"
+conda activate modular3_gate10
 
 python train.py \
   --data-root "$DATA_ROOT" \
