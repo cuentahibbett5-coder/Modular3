@@ -228,6 +228,7 @@ class SimpleDoseDatasetWeighted(Dataset):
         # Buscar pairs y cargar
         pair_dirs = sorted(self.split_dir.glob("pair_*"))
         print(f"✓ Found {len(pair_dirs)} pairs in split '{split}'")
+        print(f"  Loading all data into memory...")
         
         for pair_dir in pair_dirs:
             pair_num = int(pair_dir.name.split("_")[-1])
@@ -236,6 +237,13 @@ class SimpleDoseDatasetWeighted(Dataset):
             
             if not target_mhd.exists():
                 print(f"  ⚠ Target missing for {pair_dir.name}: {target_mhd}")
+                continue
+            
+            # Load target once (shared for all input levels)
+            try:
+                target_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(target_mhd))).astype(np.float32)
+            except Exception as e:
+                print(f"  ⚠ Error loading target {pair_dir.name}: {e}")
                 continue
             
             # Cargar para cada nivel de input
@@ -249,8 +257,7 @@ class SimpleDoseDatasetWeighted(Dataset):
                 
                 # Load volumes
                 try:
-                    input_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(input_mhd)))
-                    target_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(target_mhd)))
+                    input_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(input_mhd))).astype(np.float32)
                 except Exception as e:
                     print(f"  ⚠ Error loading {pair_dir.name}/{level}: {e}")
                     continue
@@ -271,8 +278,8 @@ class SimpleDoseDatasetWeighted(Dataset):
                 sample_weight = core_fraction if core_fraction > 0 else 0.1
                 
                 self.samples.append({
-                    'input': input_vol.astype(np.float32),
-                    'target': target_vol.astype(np.float32),
+                    'input': torch.from_numpy(input_vol).float(),  # Convert to tensor
+                    'target': torch.from_numpy(target_vol).float(),  # Convert to tensor
                     'pdd': pdd,
                     'max_dose': max_dose,
                     'dose_category': dose_category,
@@ -281,7 +288,7 @@ class SimpleDoseDatasetWeighted(Dataset):
                 })
                 self.dose_weights.append(sample_weight)
         
-        print(f"✓ Loaded {len(self.samples)} samples")
+        print(f"✓ Loaded {len(self.samples)} samples into memory")
         
         if len(self.dose_weights) == 0:
             print(f"\n⚠ ERROR: No samples found in {self.split_dir}")
@@ -323,15 +330,10 @@ class SimpleDoseDatasetWeighted(Dataset):
         input_patch = sample['input'][z_start:z_end, y_start:y_end, x_start:x_end]
         target_patch = sample['target'][z_start:z_end, y_start:y_end, x_start:x_end]
         
-        # Normalize by max dose in target
-        max_dose = target_patch.max()
-        if max_dose > 0:
-            input_patch = input_patch / max_dose
-            target_patch = target_patch / max_dose
-        
+        # ⚡ MOVED TO GPU: Normalization happens in train_epoch for speed
         return {
-            'input': torch.from_numpy(input_patch).unsqueeze(0).float(),
-            'target': torch.from_numpy(target_patch).unsqueeze(0).float(),
+            'input': input_patch.unsqueeze(0),  # Already a tensor
+            'target': target_patch.unsqueeze(0),  # Already a tensor
             'max_dose': torch.tensor(sample['max_dose'], dtype=torch.float32)
         }
 
@@ -374,15 +376,20 @@ def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch):
     
     pbar = tqdm(dataloader, desc=f"Epoch {epoch+1} [train]", leave=True)
     for batch_idx, batch in enumerate(pbar):
-        input_data = batch['input'].to(device)
-        target_data = batch['target'].to(device)
-        max_dose = batch['max_dose'].to(device)
+        # ⚡ Non-blocking GPU transfer (async data movement)
+        input_data = batch['input'].to(device, non_blocking=True)
+        target_data = batch['target'].to(device, non_blocking=True)
+        max_dose = batch['max_dose'].to(device, non_blocking=True)
         
-        # Forward pass
-        output = model(input_data)
+        # ⚡ Normalize on GPU (much faster than CPU)
+        max_dose_view = max_dose.view(-1, 1, 1, 1, 1) + 1e-8
+        input_data = input_data / max_dose_view
+        target_data = target_data / max_dose_view
         
-        # Dynamic loss
-        loss, loss_stats = loss_fn(output, target_data, max_dose.max())
+        # ⚡ Mixed Precision (2x faster on MI210)
+        with torch.cuda.amp.autocast():
+            output = model(input_data)
+            loss, loss_stats = loss_fn(output, target_data, max_dose.max())
         
         # Backward pass
         optimizer.zero_grad()
@@ -411,12 +418,20 @@ def validate(model, dataloader, loss_fn, device, epoch):
     pbar = tqdm(dataloader, desc=f"Epoch {epoch+1} [val]", leave=True)
     with torch.no_grad():
         for batch in pbar:
-            input_data = batch['input'].to(device)
-            target_data = batch['target'].to(device)
-            max_dose = batch['max_dose'].to(device)
+            # ⚡ Non-blocking GPU transfer
+            input_data = batch['input'].to(device, non_blocking=True)
+            target_data = batch['target'].to(device, non_blocking=True)
+            max_dose = batch['max_dose'].to(device, non_blocking=True)
             
-            output = model(input_data)
-            loss, _ = loss_fn(output, target_data, max_dose.max())
+            # ⚡ Normalize on GPU
+            max_dose_view = max_dose.view(-1, 1, 1, 1, 1) + 1e-8
+            input_data = input_data / max_dose_view
+            target_data = target_data / max_dose_view
+            
+            # ⚡ Mixed Precision inference
+            with torch.cuda.amp.autocast():
+                output = model(input_data)
+                loss, _ = loss_fn(output, target_data, max_dose.max())
             total_loss += loss.item()
             
             pbar.set_postfix(loss=f'{loss.item():.6f}')
@@ -462,7 +477,7 @@ def main():
         train_dataset,
         batch_size=BATCH_SIZE,
         sampler=train_sampler,
-        num_workers=4,  # Aumentado de 2
+        num_workers=0,  # datos ya están en RAM
         pin_memory=True
     )
     
@@ -470,7 +485,7 @@ def main():
         val_dataset,
         batch_size=BATCH_SIZE,
         shuffle=False,
-        num_workers=4,  # Aumentado de 2
+        num_workers=0,  # datos ya están en RAM
         pin_memory=True
     )
     
