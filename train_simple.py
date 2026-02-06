@@ -36,8 +36,8 @@ OUTPUT_DIR     = Path("runs/denoising_v2")       # Donde se guardan los checkpoi
 INPUT_LEVELS   = ["input_1M", "input_2M", "input_5M", "input_10M"]
 
 # Hiperparámetros
-BATCH_SIZE     = 2                # Tamaño de batch (reducido para evitar errores GPU)
-PATCH_SIZE     = (64, 64, 64)     # Tamaño de los patches 3D
+BATCH_SIZE     = 1                # Tamaño de batch (reducido: 128³ es más grande)
+PATCH_SIZE     = (128, 128, 128)  # Tamaño de los patches 3D (aumentado para ver contexto global)
 NUM_EPOCHS     = 50               # Número de épocas
 LEARNING_RATE  = 1e-3             # Learning rate
 DEVICE         = "auto"           # "auto", "cuda" o "cpu"

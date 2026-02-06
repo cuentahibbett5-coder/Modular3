@@ -21,7 +21,7 @@ torch.backends.cudnn.enabled = False
 MODEL_PATH = Path("runs/denoising_v2/best.pt")
 DATASET_ROOT = Path("dataset_pilot")
 VAL_DIR = DATASET_ROOT / "val"
-PATCH_SIZE = (64, 64, 64)
+PATCH_SIZE = (128, 128, 128)
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 print(f"🔧 Device: {DEVICE}")
