@@ -462,7 +462,7 @@ def main():
         train_dataset,
         batch_size=BATCH_SIZE,
         sampler=train_sampler,
-        num_workers=2,
+        num_workers=4,  # Aumentado de 2
         pin_memory=True
     )
     
@@ -470,7 +470,7 @@ def main():
         val_dataset,
         batch_size=BATCH_SIZE,
         shuffle=False,
-        num_workers=2,
+        num_workers=4,  # Aumentado de 2
         pin_memory=True
     )
     
