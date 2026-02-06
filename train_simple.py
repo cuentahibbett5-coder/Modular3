@@ -6,13 +6,16 @@ SCRIPT DE ENTRENAMIENTO SIMPLE - Denoising Monte Carlo
 Revisa las variables al inicio antes de ejecutar.
 """
 
-# ---- Fix MIOpen/ROCm temp directory (ANTES de importar torch) ----
+# ---- Fix MIOpen/ROCm para AMD GPUs (ANTES de importar torch) ----
 import os
 _tmp = f"/tmp/miopen_{os.environ.get('USER', 'user')}"
 os.makedirs(_tmp, exist_ok=True)
 os.environ.setdefault("MIOPEN_USER_DB_PATH", _tmp)
 os.environ.setdefault("MIOPEN_CACHE_DIR", _tmp)
 os.environ.setdefault("TMPDIR", "/tmp")
+os.environ.setdefault("MIOPEN_FIND_MODE", "NORMAL")           # Evita errores de find_db
+os.environ.setdefault("MIOPEN_DEBUG_DISABLE_FIND_DB", "1")     # Desactiva find_db
+os.environ.setdefault("HSA_FORCE_FINE_GRAIN_PCIE", "1")        # Mejora compatibilidad
 # -----------------------------------------------------------------
 
 import numpy as np
@@ -230,6 +233,24 @@ def main():
     
     total_params = sum(p.numel() for p in model.parameters())
     print(f"\n🧠 Modelo: {total_params:,} parámetros")
+    
+    # ---- Test rápido de GPU: si falla, caer a CPU automáticamente ----
+    if device.type == "cuda":
+        print("\n🔍 Probando GPU con un forward pass...")
+        try:
+            _test = torch.randn(1, 1, 64, 64, 64, device=device)
+            with torch.no_grad():
+                _ = model(_test)
+            del _test
+            torch.cuda.empty_cache()
+            print("   ✅ GPU funciona correctamente")
+        except Exception as e:
+            print(f"   ⚠️  GPU falló: {e}")
+            print("   🔄 Cambiando a CPU...")
+            device = torch.device("cpu")
+            model = model.to(device)
+            optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+            print(f"   ✅ Usando: {device}")
     
     # Training loop
     best_val_loss = float("inf")
