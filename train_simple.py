@@ -10,12 +10,11 @@ Revisa las variables al inicio antes de ejecutar.
 import os
 _tmp = f"/tmp/miopen_{os.environ.get('USER', 'user')}"
 os.makedirs(_tmp, exist_ok=True)
-os.environ.setdefault("MIOPEN_USER_DB_PATH", _tmp)
-os.environ.setdefault("MIOPEN_CACHE_DIR", _tmp)
-os.environ.setdefault("TMPDIR", "/tmp")
-os.environ.setdefault("MIOPEN_FIND_MODE", "NORMAL")           # Evita errores de find_db
-os.environ.setdefault("MIOPEN_DEBUG_DISABLE_FIND_DB", "1")     # Desactiva find_db
-os.environ.setdefault("HSA_FORCE_FINE_GRAIN_PCIE", "1")        # Mejora compatibilidad
+os.environ["MIOPEN_USER_DB_PATH"]        = _tmp
+os.environ["MIOPEN_CACHE_DIR"]           = _tmp
+os.environ["TMPDIR"]                     = "/tmp"
+os.environ["MIOPEN_FIND_ENFORCE"]         = "3"      # IMMEDIATE: usa algoritmo por defecto, sin búsqueda
+os.environ["HSA_FORCE_FINE_GRAIN_PCIE"]   = "1"
 # -----------------------------------------------------------------
 
 import numpy as np
@@ -234,23 +233,22 @@ def main():
     total_params = sum(p.numel() for p in model.parameters())
     print(f"\n🧠 Modelo: {total_params:,} parámetros")
     
-    # ---- Test rápido de GPU: si falla, caer a CPU automáticamente ----
+    # ---- Warmup de GPU (MIOpen necesita compilar kernels la primera vez) ----
     if device.type == "cuda":
-        print("\n🔍 Probando GPU con un forward pass...")
-        try:
-            _test = torch.randn(1, 1, 64, 64, 64, device=device)
-            with torch.no_grad():
-                _ = model(_test)
-            del _test
-            torch.cuda.empty_cache()
-            print("   ✅ GPU funciona correctamente")
-        except Exception as e:
-            print(f"   ⚠️  GPU falló: {e}")
-            print("   🔄 Cambiando a CPU...")
-            device = torch.device("cpu")
-            model = model.to(device)
-            optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
-            print(f"   ✅ Usando: {device}")
+        print("\n🔍 Warmup de GPU (puede tardar ~30s la primera vez)...")
+        # Warmup progresivo: conv3d pequeño → modelo completo
+        _w = torch.randn(1, 1, 16, 16, 16, device=device)
+        _c = nn.Conv3d(1, 8, 3, padding=1).to(device)
+        with torch.no_grad():
+            _ = _c(_w)
+        del _w, _c
+        # Ahora probar modelo completo
+        _test = torch.randn(1, 1, 64, 64, 64, device=device)
+        with torch.no_grad():
+            _ = model(_test)
+        del _test
+        torch.cuda.empty_cache()
+        print("   ✅ GPU lista")
     
     # Training loop
     best_val_loss = float("inf")
