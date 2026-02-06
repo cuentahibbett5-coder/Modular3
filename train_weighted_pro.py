@@ -8,13 +8,14 @@ Advanced Weighted Training with:
 import os
 from pathlib import Path
 
-miopen_cache_dir = Path.home() / ".cache" / "miopen"
+miopen_cache_dir = Path.home() / "miopen_cache_fer"
 miopen_cache_dir.mkdir(parents=True, exist_ok=True)
 
 os.environ["MIOPEN_USER_DB_PATH"]          = str(miopen_cache_dir)
 os.environ["MIOPEN_CUSTOM_CACHE_DIR"]      = str(miopen_cache_dir)
-os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"   # Usar algoritmo default (FIND_DB causa core dump en Yuca)
-os.environ["TMPDIR"]                       = str(miopen_cache_dir)  # Evitar /tmp del sistema
+os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"   # Algoritmo default (FIND_DB causa core dump en Yuca)
+os.environ["TMPDIR"]                       = str(miopen_cache_dir)
+os.environ["HIP_VISIBLE_DEVICES"]          = "0"   # Fija la GPU correcta
 # -----------------------------------------------------------------
 
 import torch
@@ -395,7 +396,7 @@ def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch, scaler=Non
         input_data = input_data / max_dose_view
         target_data = target_data / max_dose_view
         
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
         
         # ⚡ Mixed Precision forward (fp16 compute, fp32 accuracy)
         with torch.cuda.amp.autocast():
