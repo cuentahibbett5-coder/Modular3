@@ -4,18 +4,9 @@ Advanced Weighted Training with:
 1. Weighted Sampling (50% core, 50% periphery)
 2. Dynamic Loss proportional to dose level
 """
-# ---- MIOpen: redirección COMPLETA de caché a espacio de usuario ----
+# ---- Desactivar MIOpen (ANTES de importar torch) ----
 import os
-from pathlib import Path
-
-miopen_cache_dir = Path.home() / "miopen_cache_fer"
-miopen_cache_dir.mkdir(parents=True, exist_ok=True)
-
-os.environ["MIOPEN_USER_DB_PATH"]          = str(miopen_cache_dir)
-os.environ["MIOPEN_CUSTOM_CACHE_DIR"]      = str(miopen_cache_dir)
-os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"   # Algoritmo default (FIND_DB causa core dump en Yuca)
-os.environ["TMPDIR"]                       = str(miopen_cache_dir)
-os.environ["HIP_VISIBLE_DEVICES"]          = "0"   # Fija la GPU correcta
+os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"
 # -----------------------------------------------------------------
 
 import torch
@@ -29,10 +20,8 @@ from datetime import datetime
 import sys
 from tqdm import tqdm
 
-# ⚡ Activar MIOpen (acelera convoluciones 3D en MI210)
-torch.backends.cudnn.enabled = True
-# benchmark = False → usa algoritmo default sin búsqueda exhaustiva (evita core dump)
-torch.backends.cudnn.benchmark = False
+# Desactivar MIOpen (causa core dump en Yuca)
+torch.backends.cudnn.enabled = False
 
 # ============================================================================
 # CONFIGURATION
@@ -379,36 +368,29 @@ class WeightedDoseSampler(torch.utils.data.Sampler):
 # ============================================================================
 # TRAINING LOOP
 # ============================================================================
-def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch, scaler=None):
+def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch):
     model.train()
     total_loss = 0
     stats = {'high': 0, 'mid': 0, 'low': 0}
     
     pbar = tqdm(dataloader, desc=f"Epoch {epoch+1} [train]", leave=True)
     for batch_idx, batch in enumerate(pbar):
-        # ⚡ Non-blocking GPU transfer (async data movement)
         input_data = batch['input'].to(device, non_blocking=True)
         target_data = batch['target'].to(device, non_blocking=True)
         max_dose = batch['max_dose'].to(device, non_blocking=True)
         
-        # ⚡ Normalize on GPU (much faster than CPU)
+        # Normalize on GPU
         max_dose_view = max_dose.view(-1, 1, 1, 1, 1) + 1e-8
         input_data = input_data / max_dose_view
         target_data = target_data / max_dose_view
         
-        optimizer.zero_grad(set_to_none=True)
+        optimizer.zero_grad()
+        output = model(input_data)
+        loss, loss_stats = loss_fn(output, target_data, max_dose.max())
         
-        # ⚡ Mixed Precision forward (fp16 compute, fp32 accuracy)
-        with torch.cuda.amp.autocast():
-            output = model(input_data)
-            loss, loss_stats = loss_fn(output, target_data, max_dose.max())
-        
-        # ⚡ Scaled backward pass (prevents fp16 underflow)
-        scaler.scale(loss).backward()
-        scaler.unscale_(optimizer)
+        loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        scaler.step(optimizer)
-        scaler.update()
+        optimizer.step()
         
         total_loss += loss.item()
         stats['high'] += loss_stats['high_dose_count']
@@ -431,20 +413,17 @@ def validate(model, dataloader, loss_fn, device, epoch):
     pbar = tqdm(dataloader, desc=f"Epoch {epoch+1} [val]", leave=True)
     with torch.no_grad():
         for batch in pbar:
-            # ⚡ Non-blocking GPU transfer
             input_data = batch['input'].to(device, non_blocking=True)
             target_data = batch['target'].to(device, non_blocking=True)
             max_dose = batch['max_dose'].to(device, non_blocking=True)
             
-            # ⚡ Normalize on GPU
+            # Normalize on GPU
             max_dose_view = max_dose.view(-1, 1, 1, 1, 1) + 1e-8
             input_data = input_data / max_dose_view
             target_data = target_data / max_dose_view
             
-            # ⚡ Mixed Precision inference
-            with torch.cuda.amp.autocast():
-                output = model(input_data)
-                loss, _ = loss_fn(output, target_data, max_dose.max())
+            output = model(input_data)
+            loss, _ = loss_fn(output, target_data, max_dose.max())
             total_loss += loss.item()
             
             pbar.set_postfix(loss=f'{loss.item():.6f}')
@@ -517,9 +496,6 @@ def main():
         weight_min=0.1  # Penalize errors in high dose, tolerate in low dose
     )
     
-    # ⚡ GradScaler para AMP completo (escala gradientes en fp16)
-    scaler = torch.cuda.amp.GradScaler()
-    
     # Training loop
     print(f"\n[5/5] Starting training...")
     history = {
@@ -537,7 +513,7 @@ def main():
         print(f"{'='*70}")
         
         # Train
-        train_loss, train_stats = train_epoch(model, train_loader, optimizer, loss_fn, DEVICE, epoch, scaler)
+        train_loss, train_stats = train_epoch(model, train_loader, optimizer, loss_fn, DEVICE, epoch)
         
         # Validate
         val_loss = validate(model, val_loader, loss_fn, DEVICE, epoch)
