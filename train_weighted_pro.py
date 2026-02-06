@@ -396,7 +396,7 @@ def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch):
         stats['low'] += loss_stats['low_dose_count']
         
         # Update progress bar
-        pbar.set_postfix({'loss': loss.item():.6f})
+        pbar.set_postfix(loss=f'{loss.item():.6f}')
     
     avg_loss = total_loss / len(dataloader)
     print(f"✓ Epoch {epoch+1} - Avg Loss: {avg_loss:.6f}")
@@ -419,7 +419,7 @@ def validate(model, dataloader, loss_fn, device, epoch):
             loss, _ = loss_fn(output, target_data, max_dose.max())
             total_loss += loss.item()
             
-            pbar.set_postfix({'loss': loss.item():.6f})
+            pbar.set_postfix(loss=f'{loss.item():.6f}')
     
     avg_loss = total_loss / len(dataloader)
     print(f"✓ Val Loss: {avg_loss:.6f}")
