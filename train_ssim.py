@@ -39,22 +39,22 @@ class SSIMLoss(nn.Module):
         self.register_buffer('window', gauss.unsqueeze(1).unsqueeze(1).unsqueeze(1))
     
     def forward(self, x, y):
-        """SSIM between x and y (both in [0,1])"""
+        """SSIM between x and y (both shape [batch, 1, d, h, w], values in [0,1])"""
         # Constantes
         C1 = 0.01 ** 2
         C2 = 0.03 ** 2
         
-        # Convolucionar con ventana gaussiana
-        mu_x = F.conv3d(x.unsqueeze(1), self.window.to(x.device), padding=self.window_size//2)
-        mu_y = F.conv3d(y.unsqueeze(1), self.window.to(x.device), padding=self.window_size//2)
+        # Convolucionar con ventana gaussiana (x ya es [batch, 1, d, h, w])
+        mu_x = F.conv3d(x, self.window.to(x.device), padding=self.window_size//2)
+        mu_y = F.conv3d(y, self.window.to(x.device), padding=self.window_size//2)
         
         mu_x_sq = mu_x.pow(2)
         mu_y_sq = mu_y.pow(2)
         mu_xy = mu_x * mu_y
         
-        sigma_x_sq = F.conv3d(x.unsqueeze(1) ** 2, self.window.to(x.device), padding=self.window_size//2) - mu_x_sq
-        sigma_y_sq = F.conv3d(y.unsqueeze(1) ** 2, self.window.to(x.device), padding=self.window_size//2) - mu_y_sq
-        sigma_xy = F.conv3d(x.unsqueeze(1) * y.unsqueeze(1), self.window.to(x.device), padding=self.window_size//2) - mu_xy
+        sigma_x_sq = F.conv3d(x ** 2, self.window.to(x.device), padding=self.window_size//2) - mu_x_sq
+        sigma_y_sq = F.conv3d(y ** 2, self.window.to(x.device), padding=self.window_size//2) - mu_y_sq
+        sigma_xy = F.conv3d(x * y, self.window.to(x.device), padding=self.window_size//2) - mu_xy
         
         # SSIM
         ssim_map = ((2*mu_xy + C1)*(2*sigma_xy + C2)) / ((mu_x_sq + mu_y_sq + C1)*(sigma_x_sq + sigma_y_sq + C2))
