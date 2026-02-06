@@ -30,6 +30,9 @@ VAL_DIR = DATASET_ROOT / "val"
 RESULTS_DIR = Path("runs/denoising_weighted_pro")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
+# Input levels
+INPUT_LEVELS = ["input_1M", "input_2M", "input_5M", "input_10M"]
+
 # Threshold definitions
 DOSE_THRESHOLD_CORE = 0.20  # 20% of max = core
 DOSE_THRESHOLD_SIGNIFICANT = 0.01  # 1% of max = significant
@@ -196,8 +199,10 @@ def get_dose_category(pdd, max_dose, threshold_core=0.20, threshold_sig=0.01):
 
 class SimpleDoseDatasetWeighted(Dataset):
     """Dataset with voxel-level dose tracking for sampling"""
-    def __init__(self, split_dir, split='train', patch_size=128):
+    def __init__(self, split_dir, dataset_root, input_levels, split='train', patch_size=128):
         self.split_dir = Path(split_dir)
+        self.dataset_root = Path(dataset_root)
+        self.input_levels = input_levels
         self.split = split
         self.patch_size = patch_size
         self.samples = []
@@ -206,76 +211,73 @@ class SimpleDoseDatasetWeighted(Dataset):
         if not self.split_dir.exists():
             raise FileNotFoundError(f"Split directory not found: {self.split_dir}")
         
-        # Buscar archivos input_*.nii.gz or input_*/*.mhd
-        input_files = sorted(self.split_dir.glob('input_*.nii.gz'))
-        if len(input_files) == 0:
-            input_files = sorted(self.split_dir.glob('*/dose_edep.mhd'))
+        # Contar targets
+        n_targets = len(list(self.dataset_root.glob("target_*")))
+        print(f"✓ Found {n_targets} targets in {self.dataset_root}")
         
-        print(f"✓ Found {len(input_files)} input files for split '{split}'")
+        # Buscar pairs y cargar
+        pair_dirs = sorted(self.split_dir.glob("pair_*"))
+        print(f"✓ Found {len(pair_dirs)} pairs in split '{split}'")
         
-        # Load all samples and calculate dose statistics
-        for i, input_file in enumerate(input_files):
-            # Try to find target
-            if input_file.name == 'dose_edep.mhd':
-                # input_file is like pair_X/dose_edep.mhd
-                pair_name = input_file.parent.name
-                pair_num = int(pair_name.split('_')[-1])
-                target_file = self.split_dir.parent / f"target_{pair_num % 10 + 1}" / "dose_edep.mhd"
-            else:
-                # input_file is like input_*.nii.gz
-                target_file = input_file.parent / input_file.name.replace('input_', 'target_')
+        for pair_dir in pair_dirs:
+            pair_num = int(pair_dir.name.split("_")[-1])
+            target_idx = ((pair_num - 1) % n_targets) + 1
+            target_mhd = self.dataset_root / f"target_{target_idx}" / "dose_edep.mhd"
             
-            if not target_file.exists():
-                # Try alternative naming
-                target_file = self.split_dir / "target.nii.gz"
-            
-            if not target_file.exists():
-                print(f"  ⚠ Target missing for {input_file.name}, skipping")
+            if not target_mhd.exists():
+                print(f"  ⚠ Target missing for {pair_dir.name}: {target_mhd}")
                 continue
             
-            # Load volumes
-            try:
-                input_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(input_file)))
-                target_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(target_file)))
-            except Exception as e:
-                print(f"  ⚠ Error loading {input_file.name}: {e}")
-                continue
-            
-            # Calculate PDD for sampling strategy
-            pdd = calculate_pdd(target_vol)
-            max_dose = pdd.max()
-            if max_dose == 0:
-                print(f"  ⚠ Zero dose in {input_file.name}, skipping")
-                continue
-            
-            dose_category = get_dose_category(pdd, max_dose)
-            
-            # Mean dose in this sample
-            mean_dose = target_vol.mean()
-            
-            # Sampling weight: prefer samples with more core data
-            core_fraction = (dose_category == 2).sum() / len(dose_category)
-            sample_weight = core_fraction if core_fraction > 0 else 0.1
-            
-            self.samples.append({
-                'input': input_vol.astype(np.float32),
-                'target': target_vol.astype(np.float32),
-                'pdd': pdd,
-                'max_dose': max_dose,
-                'dose_category': dose_category,
-                'mean_dose': mean_dose,
-                'core_fraction': core_fraction
-            })
-            self.dose_weights.append(sample_weight)
+            # Cargar para cada nivel de input
+            for level in self.input_levels:
+                input_mhd = pair_dir / f"{level}.mhd"
+                if not input_mhd.exists():
+                    input_mhd = pair_dir / level / "dose_edep.mhd"
+                
+                if not input_mhd.exists():
+                    continue  # Skip this level
+                
+                # Load volumes
+                try:
+                    input_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(input_mhd)))
+                    target_vol = sitk.GetArrayFromImage(sitk.ReadImage(str(target_mhd)))
+                except Exception as e:
+                    print(f"  ⚠ Error loading {pair_dir.name}/{level}: {e}")
+                    continue
+                
+                # Calculate PDD for sampling strategy
+                pdd = calculate_pdd(target_vol)
+                max_dose = pdd.max()
+                if max_dose == 0:
+                    continue  # Skip zero dose
+                
+                dose_category = get_dose_category(pdd, max_dose)
+                
+                # Mean dose in this sample
+                mean_dose = target_vol.mean()
+                
+                # Sampling weight: prefer samples with more core data
+                core_fraction = (dose_category == 2).sum() / len(dose_category)
+                sample_weight = core_fraction if core_fraction > 0 else 0.1
+                
+                self.samples.append({
+                    'input': input_vol.astype(np.float32),
+                    'target': target_vol.astype(np.float32),
+                    'pdd': pdd,
+                    'max_dose': max_dose,
+                    'dose_category': dose_category,
+                    'mean_dose': mean_dose,
+                    'core_fraction': core_fraction
+                })
+                self.dose_weights.append(sample_weight)
         
         print(f"✓ Loaded {len(self.samples)} samples")
         
         if len(self.dose_weights) == 0:
             print(f"\n⚠ ERROR: No samples found in {self.split_dir}")
-            print(f"  Directory exists: {self.split_dir.exists()}")
-            if self.split_dir.exists():
-                contents = list(self.split_dir.iterdir())[:10]
-                print(f"  Contents: {contents}")
+            print(f"  Expected structure:")
+            print(f"    - {self.split_dir}/pair_*/[input_1M.mhd, input_2M.mhd, etc]")
+            print(f"    - {self.dataset_root}/target_*/dose_edep.mhd")
             raise FileNotFoundError(f"No training data found in {self.split_dir}")
         
         print(f"  Core fraction range: {min(self.dose_weights):.3f} - {max(self.dose_weights):.3f}")
@@ -430,8 +432,8 @@ def main():
     
     # Create datasets
     print("\n[1/5] Loading datasets...")
-    train_dataset = SimpleDoseDatasetWeighted(TRAIN_DIR, split='train')
-    val_dataset = SimpleDoseDatasetWeighted(VAL_DIR, split='val')
+    train_dataset = SimpleDoseDatasetWeighted(TRAIN_DIR, DATASET_ROOT, INPUT_LEVELS, split='train')
+    val_dataset = SimpleDoseDatasetWeighted(VAL_DIR, DATASET_ROOT, INPUT_LEVELS, split='val')
     
     # Create weighted sampler
     print(f"\n[2/5] Creating weighted sampler...")
