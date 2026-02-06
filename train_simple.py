@@ -8,13 +8,19 @@ Revisa las variables al inicio antes de ejecutar.
 
 # ---- Fix MIOpen/ROCm para AMD GPUs (ANTES de importar torch) ----
 import os
-_tmp = f"/tmp/miopen_{os.environ.get('USER', 'user')}"
+_home = os.path.expanduser("~")
+_tmp = os.path.join(_home, ".miopen_cache")
 os.makedirs(_tmp, exist_ok=True)
+os.environ["HOME"]                       = _home       # Asegurar que HOME existe
 os.environ["MIOPEN_USER_DB_PATH"]        = _tmp
 os.environ["MIOPEN_CACHE_DIR"]           = _tmp
-os.environ["TMPDIR"]                     = "/tmp"
-os.environ["MIOPEN_FIND_ENFORCE"]         = "3"      # IMMEDIATE: usa algoritmo por defecto, sin búsqueda
-os.environ["HSA_FORCE_FINE_GRAIN_PCIE"]   = "1"
+os.environ["MIOPEN_DISABLE_CACHE"]       = "0"
+os.environ["MIOPEN_FIND_ENFORCE"]        = "3"         # IMMEDIATE mode
+os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"       # Desactivar SQLite find_db
+os.environ["HSA_FORCE_FINE_GRAIN_PCIE"]  = "1"
+os.environ["TMPDIR"]                     = _tmp
+os.environ["TEMP"]                       = _tmp
+os.environ["TMP"]                        = _tmp
 # -----------------------------------------------------------------
 
 import numpy as np
