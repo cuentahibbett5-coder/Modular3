@@ -26,8 +26,8 @@ torch.backends.cudnn.enabled = False
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
-BATCH_SIZE = 4  # Reducido de 16 para caber en memoria
-NUM_EPOCHS = 50  # Reducido para pruebas más rápidas
+BATCH_SIZE = 2  # Reducido: 128^3 patches OOM con batch=4
+NUM_EPOCHS = 50
 LEARNING_RATE = 1e-3
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 BASE_CHANNELS = 16  # Reducido de 32 para menor uso de memoria
@@ -208,7 +208,7 @@ def get_dose_category(pdd, max_dose, threshold_core=0.20, threshold_sig=0.01):
 
 class SimpleDoseDatasetWeighted(Dataset):
     """Dataset with voxel-level dose tracking for sampling"""
-    def __init__(self, split_dir, dataset_root, input_levels, split='train', patch_size=128):
+    def __init__(self, split_dir, dataset_root, input_levels, split='train', patch_size=96):
         self.split_dir = Path(split_dir)
         self.dataset_root = Path(dataset_root)
         self.input_levels = input_levels
