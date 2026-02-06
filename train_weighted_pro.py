@@ -19,6 +19,7 @@ from pathlib import Path
 import json
 from datetime import datetime
 import sys
+from tqdm import tqdm
 
 # Desactivar MIOpen después de importar torch
 torch.backends.cudnn.enabled = False
@@ -371,7 +372,8 @@ def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch):
     total_loss = 0
     stats = {'high': 0, 'mid': 0, 'low': 0}
     
-    for batch_idx, batch in enumerate(dataloader):
+    pbar = tqdm(dataloader, desc=f"Epoch {epoch+1} [train]", leave=True)
+    for batch_idx, batch in enumerate(pbar):
         input_data = batch['input'].to(device)
         target_data = batch['target'].to(device)
         max_dose = batch['max_dose'].to(device)
@@ -393,14 +395,12 @@ def train_epoch(model, dataloader, optimizer, loss_fn, device, epoch):
         stats['mid'] += loss_stats['mid_dose_count']
         stats['low'] += loss_stats['low_dose_count']
         
-        if (batch_idx + 1) % 10 == 0:
-            print(f"  Epoch {epoch+1} [{batch_idx+1}] Loss: {loss.item():.6f}")
+        # Update progress bar
+        pbar.set_postfix({'loss': loss.item():.6f})
     
     avg_loss = total_loss / len(dataloader)
     print(f"✓ Epoch {epoch+1} - Avg Loss: {avg_loss:.6f}")
-    print(f"  High dose voxels seen: {stats['high']:,}")
-    print(f"  Mid dose voxels seen: {stats['mid']:,}")
-    print(f"  Low dose voxels seen: {stats['low']:,}")
+    print(f"  High dose voxels: {stats['high']:,} | Mid dose: {stats['mid']:,} | Low dose: {stats['low']:,}")
     
     return avg_loss, stats
 
@@ -408,8 +408,9 @@ def validate(model, dataloader, loss_fn, device, epoch):
     model.eval()
     total_loss = 0
     
+    pbar = tqdm(dataloader, desc=f"Epoch {epoch+1} [val]", leave=True)
     with torch.no_grad():
-        for batch in dataloader:
+        for batch in pbar:
             input_data = batch['input'].to(device)
             target_data = batch['target'].to(device)
             max_dose = batch['max_dose'].to(device)
@@ -417,6 +418,8 @@ def validate(model, dataloader, loss_fn, device, epoch):
             output = model(input_data)
             loss, _ = loss_fn(output, target_data, max_dose.max())
             total_loss += loss.item()
+            
+            pbar.set_postfix({'loss': loss.item():.6f})
     
     avg_loss = total_loss / len(dataloader)
     print(f"✓ Val Loss: {avg_loss:.6f}")
