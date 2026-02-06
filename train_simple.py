@@ -6,26 +6,17 @@ SCRIPT DE ENTRENAMIENTO SIMPLE - Denoising Monte Carlo
 Revisa las variables al inicio antes de ejecutar.
 """
 
-# ---- Fix MIOpen/ROCm para AMD GPUs (ANTES de importar torch) ----
+# ---- Desactivar MIOpen (roto en este ROCm 5.7) ----
 import os
-_home = os.path.expanduser("~")
-_tmp = os.path.join(_home, ".miopen_cache")
-os.makedirs(_tmp, exist_ok=True)
-os.environ["HOME"]                       = _home       # Asegurar que HOME existe
-os.environ["MIOPEN_USER_DB_PATH"]        = _tmp
-os.environ["MIOPEN_CACHE_DIR"]           = _tmp
-os.environ["MIOPEN_DISABLE_CACHE"]       = "0"
-os.environ["MIOPEN_FIND_ENFORCE"]        = "3"         # IMMEDIATE mode
-os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"       # Desactivar SQLite find_db
-os.environ["HSA_FORCE_FINE_GRAIN_PCIE"]  = "1"
-os.environ["TMPDIR"]                     = _tmp
-os.environ["TEMP"]                       = _tmp
-os.environ["TMP"]                        = _tmp
+os.environ["MIOPEN_DEBUG_DISABLE_FIND_DB"] = "1"
 # -----------------------------------------------------------------
 
 import numpy as np
 import torch
 import torch.nn as nn
+
+# Desactivar MIOpen: PyTorch usará kernels HIP directos (funciona, algo más lento)
+torch.backends.cudnn.enabled = False
 from torch.utils.data import Dataset, DataLoader
 from pathlib import Path
 from tqdm import tqdm
@@ -238,23 +229,6 @@ def main():
     
     total_params = sum(p.numel() for p in model.parameters())
     print(f"\n🧠 Modelo: {total_params:,} parámetros")
-    
-    # ---- Warmup de GPU (MIOpen necesita compilar kernels la primera vez) ----
-    if device.type == "cuda":
-        print("\n🔍 Warmup de GPU (puede tardar ~30s la primera vez)...")
-        # Warmup progresivo: conv3d pequeño → modelo completo
-        _w = torch.randn(1, 1, 16, 16, 16, device=device)
-        _c = nn.Conv3d(1, 8, 3, padding=1).to(device)
-        with torch.no_grad():
-            _ = _c(_w)
-        del _w, _c
-        # Ahora probar modelo completo
-        _test = torch.randn(1, 1, 64, 64, 64, device=device)
-        with torch.no_grad():
-            _ = model(_test)
-        del _test
-        torch.cuda.empty_cache()
-        print("   ✅ GPU lista")
     
     # Training loop
     best_val_loss = float("inf")
