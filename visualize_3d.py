@@ -182,21 +182,41 @@ def plot_3d_isosurface(volume, threshold_pct=0.5, title="Volume", color='red', a
     
     return fig
 
-def plot_3d_comparison(input_vol, pred_vol, target_vol, threshold_pct=0.5):
-    """Genera comparación 3D lado a lado"""
-    fig = plt.figure(figsize=(20, 6))
+def plot_3d_comparison_complete(input_vol, pred_vol, target_vol, threshold_pct=0.5):
+    """Genera comparación 3D con 6 subplots: Input, Pred, GT, Input-GT, Pred-GT, Error%"""
+    fig = plt.figure(figsize=(24, 8))
     
-    # Input
-    ax1 = fig.add_subplot(131, projection='3d')
-    plot_single_isosurface(ax1, input_vol, threshold_pct, "Input", 'red')
+    max_dose = target_vol.max()
+    threshold = threshold_pct * max_dose
     
-    # Predicción
-    ax2 = fig.add_subplot(132, projection='3d')
-    plot_single_isosurface(ax2, pred_vol, threshold_pct, "Predicción", 'blue')
+    # 1. Input
+    ax1 = fig.add_subplot(161, projection='3d')
+    plot_single_isosurface(ax1, input_vol, threshold_pct, "Input (10M)", 'red')
     
-    # Ground Truth
-    ax3 = fig.add_subplot(133, projection='3d')
-    plot_single_isosurface(ax3, target_vol, threshold_pct, "Ground Truth", 'green')
+    # 2. Predicción
+    ax2 = fig.add_subplot(162, projection='3d')
+    plot_single_isosurface(ax2, pred_vol, threshold_pct, "Predicción (U-Net)", 'blue')
+    
+    # 3. Ground Truth
+    ax3 = fig.add_subplot(163, projection='3d')
+    plot_single_isosurface(ax3, target_vol, threshold_pct, "Ground Truth (29.4M)", 'green')
+    
+    # 4. Input - GT (diferencia)
+    diff_input_gt = np.abs(input_vol - target_vol)
+    ax4 = fig.add_subplot(164, projection='3d')
+    plot_single_isosurface(ax4, diff_input_gt, 0.3, "Input - GT", 'orange')
+    
+    # 5. Pred - GT (diferencia)
+    diff_pred_gt = np.abs(pred_vol - target_vol)
+    ax5 = fig.add_subplot(165, projection='3d')
+    plot_single_isosurface(ax5, diff_pred_gt, 0.3, "Pred - GT", 'purple')
+    
+    # 6. Error Relativo (%)
+    error_pct = np.zeros_like(target_vol, dtype=np.float32)
+    mask = target_vol > 0.01 * max_dose
+    error_pct[mask] = 100.0 * np.abs(pred_vol[mask] - target_vol[mask]) / (target_vol[mask] + 1e-8)
+    ax6 = fig.add_subplot(166, projection='3d')
+    plot_single_isosurface(ax6, error_pct, 5.0, "Error % (Pred vs GT)", 'brown')
     
     plt.tight_layout()
     return fig
@@ -238,11 +258,11 @@ def main():
     
     # Generar visualizaciones a diferentes thresholds
     for threshold in [0.3, 0.5, 0.7]:
-        print(f"\n  Generando isosurface @ {threshold*100}% max...")
+        print(f"\n  Generando isosurfaces 3D completas @ {threshold*100}% max...")
         
-        # Comparación lado a lado
-        fig = plot_3d_comparison(input_vol, pred_vol, target_vol, threshold_pct=threshold)
-        output_path = OUTPUT_DIR / f"{PAIR_TO_VISUALIZE}_{INPUT_LEVEL}_3d_comparison_{int(threshold*100)}pct.png"
+        # Comparación completa (6 paneles)
+        fig = plot_3d_comparison_complete(input_vol, pred_vol, target_vol, threshold_pct=threshold)
+        output_path = OUTPUT_DIR / f"{PAIR_TO_VISUALIZE}_{INPUT_LEVEL}_3d_complete_{int(threshold*100)}pct.png"
         fig.savefig(output_path, dpi=150, bbox_inches='tight')
         plt.close(fig)
         print(f"    Guardado: {output_path}")
