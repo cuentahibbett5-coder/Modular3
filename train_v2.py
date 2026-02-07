@@ -50,7 +50,7 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 INPUT_LEVELS = ["input_1M", "input_2M", "input_5M", "input_10M"]
 
 print(f"✓ Device: {DEVICE}")
-print(f"✓ Strategy: RESIDUAL LEARNING + EXPONENTIAL W(Y) LOSS (α=10)")
+print(f"✓ Strategy: RESIDUAL LEARNING + EXPONENTIAL W(Y) LOSS (α=3)")
 
 # ============================================================================
 # 3D U-NET con RESIDUAL (output = input + model(input))
@@ -370,7 +370,7 @@ def main():
 
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=NUM_EPOCHS, eta_min=1e-6)
-    loss_fn = ExponentialWeightedLoss(alpha=10.0)
+    loss_fn = ExponentialWeightedLoss(alpha=3.0)  # Reducido de 10 → 3 para pesos más visibles
 
     history = {'train_loss': [], 'val_loss': [], 'lr': []}
     best_val_loss = float('inf')
