@@ -104,14 +104,49 @@ def load_volumes():
     model.load_state_dict(checkpoint['model_state'])
     model.eval()
     
-    # Inferencia en volumen completo (sin sliding window para simplicidad)
+    # Inferencia con sliding window para no saturar GPU
     max_dose = target_vol.max()
     input_norm = input_vol / (max_dose + 1e-8)
     
-    with torch.no_grad():
-        input_tensor = torch.from_numpy(input_norm).unsqueeze(0).unsqueeze(0).to(DEVICE)
-        pred_norm = model(input_tensor).squeeze().cpu().numpy()
+    # Sliding window inference
+    z, y, x = input_vol.shape
+    patch_size = 96
+    stride = 48
     
+    pred_norm = np.zeros_like(input_norm)
+    count_map = np.zeros_like(input_norm)
+    
+    print(f"  Inferencia con sliding window (patch={patch_size}, stride={stride})...")
+    for z_start in range(0, z, stride):
+        for y_start in range(0, y, stride):
+            for x_start in range(0, x, stride):
+                z_end = min(z_start + patch_size, z)
+                y_end = min(y_start + patch_size, y)
+                x_end = min(x_start + patch_size, x)
+                
+                # Ajustar si está en borde
+                if z_end - z_start < patch_size:
+                    z_start = max(0, z_end - patch_size)
+                if y_end - y_start < patch_size:
+                    y_start = max(0, y_end - patch_size)
+                if x_end - x_start < patch_size:
+                    x_start = max(0, x_end - patch_size)
+                
+                z_end = z_start + patch_size
+                y_end = y_start + patch_size
+                x_end = x_start + patch_size
+                
+                patch = input_norm[z_start:z_end, y_start:y_end, x_start:x_end]
+                patch_tensor = torch.from_numpy(patch).unsqueeze(0).unsqueeze(0).to(DEVICE)
+                
+                with torch.no_grad():
+                    pred_patch = model(patch_tensor).squeeze().cpu().numpy()
+                
+                pred_norm[z_start:z_end, y_start:y_end, x_start:x_end] += pred_patch
+                count_map[z_start:z_end, y_start:y_end, x_start:x_end] += 1
+    
+    # Normalizar por count map
+    pred_norm = pred_norm / (count_map + 1e-8)
     pred_vol = pred_norm * max_dose
     
     return input_vol, pred_vol, target_vol
