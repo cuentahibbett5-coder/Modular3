@@ -226,7 +226,22 @@ def plot_single_isosurface(ax, volume, threshold_pct, title, color):
     max_val = volume.max()
     threshold = threshold_pct * max_val
     
-    verts, faces, _, _ = measure.marching_cubes(volume, level=threshold, spacing=(1, 1, 1))
+    # Validar que threshold esté dentro del rango
+    if max_val <= 0 or threshold > max_val:
+        # Si threshold es inválido, usar 50% del máximo
+        threshold = 0.5 * max_val
+    
+    if threshold <= 0:
+        ax.text(0.5, 0.5, 0.5, 'Sin datos', transform=ax.transAxes, ha='center')
+        ax.set_title(f"{title}\n(sin datos)")
+        return
+    
+    try:
+        verts, faces, _, _ = measure.marching_cubes(volume, level=threshold, spacing=(1, 1, 1))
+    except ValueError:
+        # Si marching_cubes falla, usar percentil 75
+        threshold = np.percentile(volume[volume > 0], 75)
+        verts, faces, _, _ = measure.marching_cubes(volume, level=threshold, spacing=(1, 1, 1))
     
     mesh = Poly3DCollection(verts[faces], alpha=0.3, edgecolor='none')
     mesh.set_facecolor(color)
@@ -239,7 +254,7 @@ def plot_single_isosurface(ax, volume, threshold_pct, title, color):
     ax.set_xlabel('Z')
     ax.set_ylabel('Y')
     ax.set_zlabel('X')
-    ax.set_title(f"{title}\n(iso @ {threshold_pct*100}% = {threshold:.1f})")
+    ax.set_title(f"{title}\n(iso @ {threshold:.1f})")
 
 # ============================================================================
 # MAIN
