@@ -78,20 +78,51 @@ def analyze_prediction(pair_name, level):
     print(f"✓ Plot saved: pred_{prefix}_z{z_mid}.png")
     plt.close()
     
-    # Cortes en z = 0, 5, 10, 15
+    # Cortes en z = 0, 5, 10, 15 - COMPARACIÓN COMPLETA
     z_levels = [0, 5, 10, 15]
-    fig, axes = plt.subplots(1, 4, figsize=(20, 5))
+    fig, axes = plt.subplots(4, 4, figsize=(20, 20))
+    
+    vmax = target_vol.max()
     
     for idx, z in enumerate(z_levels):
-        im = axes[idx].imshow(pred_vol[z], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
-        axes[idx].set_title(f'z = {z}', fontsize=12)
-        axes[idx].axis('off')
-        plt.colorbar(im, ax=axes[idx], fraction=0.046)
+        # Input
+        im0 = axes[idx, 0].imshow(input_vol[z], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
+        axes[idx, 0].set_ylabel(f'z = {z}', fontsize=12, fontweight='bold')
+        if idx == 0:
+            axes[idx, 0].set_title('Input', fontsize=14, fontweight='bold')
+        axes[idx, 0].axis('off')
+        plt.colorbar(im0, ax=axes[idx, 0], fraction=0.046)
+        
+        # Prediction
+        im1 = axes[idx, 1].imshow(pred_vol[z], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
+        if idx == 0:
+            axes[idx, 1].set_title('Prediction', fontsize=14, fontweight='bold')
+        axes[idx, 1].axis('off')
+        plt.colorbar(im1, ax=axes[idx, 1], fraction=0.046)
+        
+        # Target
+        im2 = axes[idx, 2].imshow(target_vol[z], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
+        if idx == 0:
+            axes[idx, 2].set_title('Ground Truth', fontsize=14, fontweight='bold')
+        axes[idx, 2].axis('off')
+        plt.colorbar(im2, ax=axes[idx, 2], fraction=0.046)
+        
+        # Error relativo
+        mask = target_vol[z] > 0.01 * vmax
+        rel_err = np.zeros_like(target_vol[z])
+        if mask.any():
+            rel_err[mask] = np.abs(pred_vol[z][mask] - target_vol[z][mask]) / target_vol[z][mask] * 100
+        
+        im3 = axes[idx, 3].imshow(rel_err, cmap='RdYlGn_r', vmin=0, vmax=50, aspect='auto')
+        if idx == 0:
+            axes[idx, 3].set_title('Error % (Pred vs GT)', fontsize=14, fontweight='bold')
+        axes[idx, 3].axis('off')
+        plt.colorbar(im3, ax=axes[idx, 3], fraction=0.046, label='%')
     
-    fig.suptitle(f'Prediction - {pair_name} {level}', fontsize=14, fontweight='bold')
+    fig.suptitle(f'{pair_name} {level} - Comparison at z=0,5,10,15', fontsize=16, fontweight='bold')
     plt.tight_layout()
-    plt.savefig(EXPORTS_DIR / f"pred_{prefix}_slices.png", dpi=150, bbox_inches='tight')
-    print(f"✓ Plot saved: pred_{prefix}_slices.png")
+    plt.savefig(EXPORTS_DIR / f"comparison_{prefix}.png", dpi=150, bbox_inches='tight')
+    print(f"✓ Plot saved: comparison_{prefix}.png")
     plt.close()
 
 def main():
