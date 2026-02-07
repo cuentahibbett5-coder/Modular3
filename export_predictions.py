@@ -123,9 +123,17 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = UNet3D(base_channels=16).to(device)
     checkpoint = torch.load(MODEL_PATH, map_location=device)
-    model.load_state_dict(checkpoint['model_state_dict'])
+    
+    # Handle both checkpoint formats
+    if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
+        model.load_state_dict(checkpoint['model_state_dict'])
+        epoch = checkpoint.get('epoch', '?')
+        print(f"  ✓ Modelo cargado (época {epoch})")
+    else:
+        model.load_state_dict(checkpoint)
+        print(f"  ✓ Modelo cargado")
+    
     model.eval()
-    print(f"  ✓ Modelo cargado (época {checkpoint['epoch']})")
     
     # Create output dir
     OUTPUT_DIR.mkdir(exist_ok=True)
