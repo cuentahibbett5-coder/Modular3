@@ -68,9 +68,22 @@ def sliding_window_inference(model, volume, patch_size=96, overlap=16):
     output = np.zeros_like(volume)
     counts = np.zeros_like(volume)
     
-    for z in range(0, D - patch_size + 1, stride):
-        for y in range(0, H - patch_size + 1, stride):
-            for x in range(0, W - patch_size + 1, stride):
+    # Ensure we cover the entire volume by adjusting end positions
+    z_positions = list(range(0, D - patch_size + 1, stride))
+    if z_positions[-1] + patch_size < D:
+        z_positions.append(D - patch_size)
+    
+    y_positions = list(range(0, H - patch_size + 1, stride))
+    if y_positions[-1] + patch_size < H:
+        y_positions.append(H - patch_size)
+    
+    x_positions = list(range(0, W - patch_size + 1, stride))
+    if x_positions[-1] + patch_size < W:
+        x_positions.append(W - patch_size)
+    
+    for z in z_positions:
+        for y in y_positions:
+            for x in x_positions:
                 patch = volume[z:z+patch_size, y:y+patch_size, x:x+patch_size]
                 patch_tensor = torch.from_numpy(patch).unsqueeze(0).unsqueeze(0).float().to(device)
                 
