@@ -60,41 +60,58 @@ class ResidualUNet3D(torch.nn.Module):
         return x + residual
 
 def sliding_window_inference(model, volume, patch_size=96, overlap=16):
-    """Sliding window inference with overlap averaging"""
+    """
+    Sliding window inference with overlap weighting (same as evaluate_model.py)
+    Better quality than simple averaging at patch boundaries.
+    """
     device = next(model.parameters()).device
-    D, H, W = volume.shape
-    stride = patch_size - overlap
+    model.eval()
     
-    output = np.zeros_like(volume)
-    counts = np.zeros_like(volume)
+    z, y, x = volume.shape
+    step = patch_size - overlap
     
-    # Ensure we cover the entire volume by adjusting end positions
-    z_positions = list(range(0, D - patch_size + 1, stride))
-    if z_positions[-1] + patch_size < D:
-        z_positions.append(D - patch_size)
+    # Pad volume to be divisible by step
+    pad_z = (step - (z % step)) % step
+    pad_y = (step - (y % step)) % step
+    pad_x = (step - (x % step)) % step
     
-    y_positions = list(range(0, H - patch_size + 1, stride))
-    if y_positions[-1] + patch_size < H:
-        y_positions.append(H - patch_size)
+    padded = np.pad(volume, ((0, pad_z), (0, pad_y), (0, pad_x)), mode='constant')
+    pz, py, px = padded.shape
     
-    x_positions = list(range(0, W - patch_size + 1, stride))
-    if x_positions[-1] + patch_size < W:
-        x_positions.append(W - patch_size)
+    output = np.zeros_like(padded)
+    weight_map = np.zeros_like(padded)
     
-    for z in z_positions:
-        for y in y_positions:
-            for x in x_positions:
-                patch = volume[z:z+patch_size, y:y+patch_size, x:x+patch_size]
-                patch_tensor = torch.from_numpy(patch).unsqueeze(0).unsqueeze(0).float().to(device)
-                
-                with torch.no_grad():
+    # Weight window (more weight at center, less at edges)
+    w = np.ones((patch_size, patch_size, patch_size), dtype=np.float32)
+    margin = overlap // 2
+    if margin > 0:
+        for i in range(margin):
+            fade = (i + 1) / margin
+            w[i, :, :] *= fade
+            w[-(i+1), :, :] *= fade
+            w[:, i, :] *= fade
+            w[:, -(i+1), :] *= fade
+            w[:, :, i] *= fade
+            w[:, :, -(i+1)] *= fade
+    
+    with torch.no_grad():
+        for zs in range(0, pz - patch_size + 1, step):
+            for ys in range(0, py - patch_size + 1, step):
+                for xs in range(0, px - patch_size + 1, step):
+                    patch = padded[zs:zs+patch_size, ys:ys+patch_size, xs:xs+patch_size]
+                    patch_tensor = torch.from_numpy(patch).unsqueeze(0).unsqueeze(0).float().to(device)
+                    
                     pred_patch = model(patch_tensor).squeeze().cpu().numpy()
-                
-                output[z:z+patch_size, y:y+patch_size, x:x+patch_size] += pred_patch
-                counts[z:z+patch_size, y:y+patch_size, x:x+patch_size] += 1
+                    
+                    output[zs:zs+patch_size, ys:ys+patch_size, xs:xs+patch_size] += pred_patch * w
+                    weight_map[zs:zs+patch_size, ys:ys+patch_size, xs:xs+patch_size] += w
     
-    output = output / np.maximum(counts, 1)
-    return output
+    # Normalize by weights
+    weight_map = np.maximum(weight_map, 1e-8)
+    output = output / weight_map
+    
+    # Remove padding
+    return output[:z, :y, :x]
 
 # ============================================================================
 # MAIN
