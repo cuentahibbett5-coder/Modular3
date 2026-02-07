@@ -78,9 +78,9 @@ def analyze_prediction(pair_name, level):
     print(f"✓ Plot saved: pred_{prefix}_z{z_mid}.png")
     plt.close()
     
-    # 3 cortes de la predicción
-    z_levels = [z_size // 4, z_size // 2, 3 * z_size // 4]
-    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+    # Cortes en z = 0, 5, 10, 15
+    z_levels = [0, 5, 10, 15]
+    fig, axes = plt.subplots(1, 4, figsize=(20, 5))
     
     for idx, z in enumerate(z_levels):
         im = axes[idx].imshow(pred_vol[z], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
@@ -90,8 +90,8 @@ def analyze_prediction(pair_name, level):
     
     fig.suptitle(f'Prediction - {pair_name} {level}', fontsize=14, fontweight='bold')
     plt.tight_layout()
-    plt.savefig(EXPORTS_DIR / f"pred_{prefix}_3slices.png", dpi=150, bbox_inches='tight')
-    print(f"✓ Plot saved: pred_{prefix}_3slices.png")
+    plt.savefig(EXPORTS_DIR / f"pred_{prefix}_slices.png", dpi=150, bbox_inches='tight')
+    print(f"✓ Plot saved: pred_{prefix}_slices.png")
     plt.close()
 
 def main():
