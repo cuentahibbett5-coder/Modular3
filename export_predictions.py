@@ -124,11 +124,19 @@ def main():
     model = UNet3D(base_channels=16).to(device)
     checkpoint = torch.load(MODEL_PATH, map_location=device)
     
-    # Handle both checkpoint formats
-    if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
-        model.load_state_dict(checkpoint['model_state_dict'])
-        epoch = checkpoint.get('epoch', '?')
-        print(f"  ✓ Modelo cargado (época {epoch})")
+    # Handle different checkpoint formats
+    if isinstance(checkpoint, dict):
+        if 'model_state' in checkpoint:
+            model.load_state_dict(checkpoint['model_state'])
+            epoch = checkpoint.get('epoch', '?')
+            print(f"  ✓ Modelo cargado (época {epoch})")
+        elif 'model_state_dict' in checkpoint:
+            model.load_state_dict(checkpoint['model_state_dict'])
+            epoch = checkpoint.get('epoch', '?')
+            print(f"  ✓ Modelo cargado (época {epoch})")
+        else:
+            model.load_state_dict(checkpoint)
+            print(f"  ✓ Modelo cargado")
     else:
         model.load_state_dict(checkpoint)
         print(f"  ✓ Modelo cargado")
