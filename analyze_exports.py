@@ -62,51 +62,36 @@ def analyze_prediction(pair_name, level):
     print(f"\n✓ Plot saved: analysis_{prefix}.png")
     plt.close()
     
-    # Central slice comparison
+    # Central slice - SOLO PREDICCIÓN
     z_mid = z_size // 2
-    fig, axes = plt.subplots(2, 3, figsize=(15, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 8))
     
-    vmax = target_vol.max()
+    vmax = pred_vol.max()
     
-    im0 = axes[0, 0].imshow(input_vol[z_mid], cmap='hot', vmin=0, vmax=vmax)
-    axes[0, 0].set_title(f'Input {level}')
-    plt.colorbar(im0, ax=axes[0, 0])
+    im = ax.imshow(pred_vol[z_mid], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
+    ax.set_title(f'Prediction - {pair_name} {level} (z={z_mid})', fontsize=14)
+    ax.axis('off')
+    plt.colorbar(im, ax=ax, fraction=0.046)
     
-    im1 = axes[0, 1].imshow(pred_vol[z_mid], cmap='hot', vmin=0, vmax=vmax)
-    axes[0, 1].set_title('Prediction')
-    plt.colorbar(im1, ax=axes[0, 1])
-    
-    im2 = axes[0, 2].imshow(target_vol[z_mid], cmap='hot', vmin=0, vmax=vmax)
-    axes[0, 2].set_title('Ground Truth')
-    plt.colorbar(im2, ax=axes[0, 2])
-    
-    diff_input = np.abs(input_vol[z_mid] - target_vol[z_mid])
-    diff_pred = np.abs(pred_vol[z_mid] - target_vol[z_mid])
-    
-    im3 = axes[1, 0].imshow(diff_input, cmap='viridis')
-    axes[1, 0].set_title('|Input - GT|')
-    plt.colorbar(im3, ax=axes[1, 0])
-    
-    im4 = axes[1, 1].imshow(diff_pred, cmap='viridis')
-    axes[1, 1].set_title('|Pred - GT|')
-    plt.colorbar(im4, ax=axes[1, 1])
-    
-    mask = target_vol[z_mid] > 0.01 * vmax
-    rel_err = np.zeros_like(target_vol[z_mid])
-    if mask.any():
-        rel_err[mask] = np.abs(pred_vol[z_mid][mask] - target_vol[z_mid][mask]) / target_vol[z_mid][mask] * 100
-    
-    im5 = axes[1, 2].imshow(rel_err, cmap='RdYlGn_r', vmin=0, vmax=50)
-    axes[1, 2].set_title('Relative Error %')
-    plt.colorbar(im5, ax=axes[1, 2])
-    
-    for ax in axes.flat:
-        ax.axis('off')
-    
-    fig.suptitle(f'{pair_name} {level} - Central Slice (z={z_mid})', fontsize=14)
     plt.tight_layout()
-    plt.savefig(EXPORTS_DIR / f"slice_{prefix}.png", dpi=150)
-    print(f"✓ Plot saved: slice_{prefix}.png")
+    plt.savefig(EXPORTS_DIR / f"pred_{prefix}_z{z_mid}.png", dpi=150, bbox_inches='tight')
+    print(f"✓ Plot saved: pred_{prefix}_z{z_mid}.png")
+    plt.close()
+    
+    # 3 cortes de la predicción
+    z_levels = [z_size // 4, z_size // 2, 3 * z_size // 4]
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+    
+    for idx, z in enumerate(z_levels):
+        im = axes[idx].imshow(pred_vol[z], cmap='hot', vmin=0, vmax=vmax, aspect='auto')
+        axes[idx].set_title(f'z = {z}', fontsize=12)
+        axes[idx].axis('off')
+        plt.colorbar(im, ax=axes[idx], fraction=0.046)
+    
+    fig.suptitle(f'Prediction - {pair_name} {level}', fontsize=14, fontweight='bold')
+    plt.tight_layout()
+    plt.savefig(EXPORTS_DIR / f"pred_{prefix}_3slices.png", dpi=150, bbox_inches='tight')
+    print(f"✓ Plot saved: pred_{prefix}_3slices.png")
     plt.close()
 
 def main():
