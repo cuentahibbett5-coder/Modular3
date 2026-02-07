@@ -121,16 +121,16 @@ class ExponentialWeightedLoss(nn.Module):
         self.alpha = alpha
 
     def forward(self, pred_norm, target_norm, pred_abs, target_abs):
-        # Máscara: solo donde target_abs > 0 (ignora 96% vacío)
-        mask = target_abs > 0
+        # Máscara: solo donde target_abs > 5% del máximo
+        # Esto evita que voxels de muy baja dosis colapsen los pesos W
+        max_dose = target_abs.max().detach()
+        mask = target_abs > 0.05 * max_dose
         n_active = mask.sum()
         
         if n_active == 0:
             return torch.tensor(0.0, device=pred_norm.device, requires_grad=True), {
                 'total': 0, 'n_active': 0, 'w_mean': 0, 'w_max': 0, 'w_min': 0
             }
-        
-        max_dose = target_abs.max().detach()
         
         # W(Y) = exp[-α * (1 - 0.5*(Ŷ_abs + Y_abs) / max(Y_abs))]
         # Los pesos se calculan con datos ABSOLUTOS para magnitudes correctas
