@@ -408,6 +408,94 @@ def plot_pdd_comparison(input_vol, pred_vol, target_vol, save_path, pair_name, l
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.close()
 
+def plot_input_vs_pred_quality(input_vol, pred_vol, target_vol, pair_name, level, eval_dir):
+    """Gráficas comparativas específicas: Input vs Predicción"""
+    
+    # 1. MEJORA EN ERRORES PDD
+    z_size = target_vol.shape[0]
+    pdd_input = np.array([input_vol[z].max() for z in range(z_size)])
+    pdd_pred = np.array([pred_vol[z].max() for z in range(z_size)])
+    pdd_target = np.array([target_vol[z].max() for z in range(z_size)])
+    
+    err_input = np.abs(pdd_input - pdd_target) / (pdd_target + 1e-8) * 100
+    err_pred = np.abs(pdd_pred - pdd_target) / (pdd_target + 1e-8) * 100
+    
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+    
+    # Curvas PDD
+    axes[0].plot(pdd_target, 'k-', linewidth=3, label='Ground Truth', alpha=0.8)
+    axes[0].plot(pdd_input, 'r--', linewidth=2, label=f'Input ({level})', alpha=0.7)
+    axes[0].plot(pdd_pred, 'b-', linewidth=2, label='Predicción IA', alpha=0.8)
+    axes[0].set_xlabel('Profundidad Z')
+    axes[0].set_ylabel('Dosis Máxima')
+    axes[0].set_title('Curvas PDD Comparativas')
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.3)
+    
+    # Errores comparativos
+    axes[1].plot(err_input, 'r--', linewidth=2, label='Error Input', alpha=0.7)
+    axes[1].plot(err_pred, 'b-', linewidth=2, label='Error Predicción', alpha=0.8)
+    axes[1].set_xlabel('Profundidad Z')
+    axes[1].set_ylabel('Error Relativo (%)')
+    axes[1].set_title('Errores PDD Comparativos')
+    axes[1].legend()
+    axes[1].grid(True, alpha=0.3)
+    axes[1].set_yscale('log')
+    
+    # Estadísticas
+    input_mae = np.mean(err_input)
+    pred_mae = np.mean(err_pred)
+    improvement = input_mae / pred_mae if pred_mae > 0 else 1
+    
+    fig.suptitle(f'{pair_name} {level} - PDD Quality Analysis\n'
+                f'Error promedio: Input={input_mae:.1f}%, IA={pred_mae:.1f}% (mejora {improvement:.1f}×)', 
+                fontsize=14, fontweight='bold')
+    
+    plt.tight_layout()
+    plt.savefig(eval_dir / f'{pair_name}_{level}_pdd_quality.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    
+    # 2. CORRELACIÓN SCATTER
+    mask = target_vol > 0.05 * target_vol.max()
+    target_flat = target_vol[mask]
+    input_flat = input_vol[mask]
+    pred_flat = pred_vol[mask]
+    
+    # Submuestreo para visualización
+    n_sample = min(5000, len(target_flat))
+    if n_sample > 0:
+        idx = np.random.choice(len(target_flat), n_sample, replace=False)
+        
+        fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+        
+        # Input vs Target
+        axes[0].scatter(target_flat[idx], input_flat[idx], alpha=0.6, s=2, c='red')
+        axes[0].plot([0, target_vol.max()], [0, target_vol.max()], 'k--', alpha=0.8)
+        corr_input = np.corrcoef(target_flat, input_flat)[0, 1]
+        axes[0].set_xlabel('Ground Truth')
+        axes[0].set_ylabel('Input')  
+        axes[0].set_title(f'Input vs GT (r={corr_input:.4f})')
+        axes[0].grid(True, alpha=0.3)
+        
+        # Pred vs Target  
+        axes[1].scatter(target_flat[idx], pred_flat[idx], alpha=0.6, s=2, c='blue')
+        axes[1].plot([0, target_vol.max()], [0, target_vol.max()], 'k--', alpha=0.8)
+        corr_pred = np.corrcoef(target_flat, pred_flat)[0, 1]
+        axes[1].set_xlabel('Ground Truth')
+        axes[1].set_ylabel('Predicción')
+        axes[1].set_title(f'Predicción vs GT (r={corr_pred:.4f})')
+        axes[1].grid(True, alpha=0.3)
+        
+        fig.suptitle(f'{pair_name} {level} - Correlation Analysis\n'
+                    f'Mejora correlación: r={corr_input:.4f} → r={corr_pred:.4f}', 
+                    fontsize=14, fontweight='bold')
+        
+        plt.tight_layout()
+        plt.savefig(eval_dir / f'{pair_name}_{level}_correlation.png', dpi=150, bbox_inches='tight')
+        plt.close()
+    
+    print(f"      ✓ Quality comparison plots saved")
+
 # ============================================================================
 # MAIN
 # ============================================================================
@@ -516,6 +604,9 @@ def main():
             # PDD
             pdd_path = EVAL_DIR / f"{key}_pdd.png"
             plot_pdd_comparison(input_vol, pred_vol, target_vol, pdd_path, pair_dir.name, level)
+            
+            # Quality comparison plots
+            plot_input_vs_pred_quality(input_vol, pred_vol, target_vol, pair_dir.name, level, EVAL_DIR)
     
     # Guardar métricas
     metrics_path = EVAL_DIR / "metrics.json"
