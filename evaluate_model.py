@@ -45,7 +45,7 @@ print(f"✓ Output: {EVAL_DIR}")
 # 3D U-NET RESIDUAL (idéntica al training v2)
 # ============================================================================
 class ResidualUNet3D(nn.Module):
-    def __init__(self, in_channels=1, out_channels=1, base_channels=32):
+    def __init__(self, in_channels=1, out_channels=1, base_channels=16):
         super().__init__()
         self.enc1 = self._conv_block(in_channels, base_channels)
         self.pool1 = nn.MaxPool3d(2)
