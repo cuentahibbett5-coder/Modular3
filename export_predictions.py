@@ -187,8 +187,10 @@ def main():
             input_sitk = sitk.ReadImage(str(input_path))
             input_vol = sitk.GetArrayFromImage(input_sitk)
             
-            # Predict
-            pred_vol = sliding_window_inference(model, input_vol, PATCH_SIZE, OVERLAP)
+            # Normalizar → inferencia → desnormalizar (como en evaluate_model.py)
+            input_norm = input_vol / (max_dose + 1e-8)
+            pred_norm = sliding_window_inference(model, input_norm, PATCH_SIZE, OVERLAP)
+            pred_vol = pred_norm * max_dose  # Desnormalizar
             
             # Save as .npy
             output_name = f"{pair_name}_{level}"
